@@ -340,7 +340,7 @@ const style = {
     backgroundImage: `url(${inputfield})`,
     backgroundSize: '100% 100%',
     '&>div': { padding: '20px' },
-    '&>div>input': { background: 'transparent', color: 'white', padding: '20px 10px', paddingLeft: '72px' },
+    '&>div>input': { background: '', color: 'white', padding: '20px', paddingLeft: '72px' },
     '&>div>div>button>svg': { mr: '20px' },
   },
   inputfield2: {
