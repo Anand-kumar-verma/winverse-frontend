@@ -1,6 +1,6 @@
 // export const domain = "https://winverse-timer.onrender.com"
-export const domain = "http://localhost:9002"
-export const domain_ovi_node = "http://localhost:9002";
+export const domain = "http://192.168.1.5:9002"
+export const domain_ovi_node = "http://192.168.1.5:9002";
 
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
@@ -63,7 +63,7 @@ export const endpoint = {
   team_data: `${baseUrl}/api/get_all`,
   view_paying_api: `${baseUrl}/api/view_paying_api`,
   update_profile_pic: `${baseUrl}/api/update_profile_pic`,
-  win_list_last: `${baseUrl}/api/win_list_last`,
+  win_list_last: `${domain}/last-trade-top-winners`,
 
   payin_status: `${baseUrl}/api/payin_api`,
   swnl_pay_in_api: `${baseUrl}/api/insert_fund_request_vapayout`,
