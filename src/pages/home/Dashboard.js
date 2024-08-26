@@ -71,8 +71,8 @@ function Dashboard() {
     retryOnMount: false,
     refetchOnWindowFocus: false,
   });
-
-  const res = data?.data?.earning || [];
+  console.log(data);
+  const res = data?.data?.data || [];
 
   console.log(data, "HJH")
   const { data: Trade } = useQuery(["last_trade"], () => LastTrade(), {
@@ -82,7 +82,9 @@ function Dashboard() {
     retryOnMount: false,
     refetchOnWindowFocus: false,
   });
-  const trade = Trade?.data?.earning || [];
+
+
+  const trade = Trade?.data?.data || [];
 
   const TopWinner = async () => {
     try {

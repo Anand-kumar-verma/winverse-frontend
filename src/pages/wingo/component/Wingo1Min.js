@@ -84,7 +84,7 @@ function Wingo1Min() {
   };
   const fk = useFormik({
     initialValues: initialValue,
-    onSubmit: () => { },
+    onSubmit: () => {},
   });
 
   React.useEffect(() => {

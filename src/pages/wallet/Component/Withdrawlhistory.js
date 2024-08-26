@@ -131,23 +131,6 @@ function Withdrawlhistory() {
         </Stack>
       </Box>
       <CustomCircularProgress isLoading={isLoading} />
-      {/* <Stack sx={{ padding: 1 }}>
-        <Box sx={{ width: "100%" }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">All</InputLabel>
-            <Select
-              value={transection}
-              label="All"
-              onChange={handleChangeTransection}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <Box sx={{ width: "100%", mt: 1 }}></Box>
-      </Stack> */}
       {visibleData?.map((i, index) => {
         return (
           <Box

@@ -27,7 +27,6 @@ import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import ImageSelectorModal from "./ImageSelectorModal";
 import CustomDate from "../../shared/CustomiztionDate/CustomDate";
 import theme from "../../utils/theme";
-
 function Account() {
   const or_m_user_type = localStorage.getItem("or_m_user_type");
   const location = useLocation();
@@ -69,7 +68,7 @@ function Account() {
   );
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
 
-  const { data: update_pic } = useQuery(
+ useQuery(
     ["Update_pic", selectedImages],
     () => Update_ProfileFn(selectedImages, client),
     {

@@ -121,7 +121,6 @@ function Wingo5Min() {
       ) {
         client.refetchQueries("gamehistory_3min");
         client.refetchQueries("wallet_amount");
-        // client.refetchQueries("gamehistory_chart");
         client.refetchQueries("myAllhistory");
         dispatch(dummycounterFun());
         fk.setFieldValue("openTimerDialog", false);

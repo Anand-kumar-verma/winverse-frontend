@@ -1,4 +1,3 @@
-import D5lotre from "../pages/5DLotre/D5lotre";
 import Contactus from "../pages/Contact/Contactus";
 import ServiceCollections from "../pages/Contact/component/ServiceCollection";
 import SupportPage from "../pages/Contact/component/SupportPage";
@@ -6,9 +5,7 @@ import Account from "../pages/account/Account";
 import RiskDisclosureAgreement from "../pages/auth/Component/RiskDisclosureAgreement";
 import ComingSoon from "../pages/comingsoon/ComingSoon";
 import Dashboard from "../pages/home/Dashboard";
-import K3 from "../pages/k3lotre/K3";
 import Promotion from "../pages/promotion/Promotion";
-import TRX from "../pages/trx/TRX";
 import AddBankAccount from "../pages/wallet/Component/AddBankAccount";
 import Bankaccount from "../pages/wallet/Component/Bankaccount";
 import Depositehistory from "../pages/wallet/Component/Depositehistory";
@@ -18,18 +15,14 @@ import Wallet from "../pages/wallet/Wallet";
 import Wingo from "../pages/wingo/Wingo";
 import Activity from "../pages/activity/Activity";
 import Deposite from "../pages/wallet/Component/Deposite";
-import TronScanPage from "../pages/trx/component/TronScanPage";
 import BankDetails from "../pages/bank/BankDetails";
 import Banks from "../pages/bank/Banks";
 import UPIDetails from "../pages/upi/UPIDetails";
-import ICOToken from "../pages/ioctoken/ICOToken";
 import FundMain from "../pages/fund/FundMain";
 import FundReport from "../pages/fund/FundReport";
 import FundTransfer from "../pages/fund/FundTransfer";
 import FundRecieve from "../pages/fund/FundRecive";
 import ViewSalaryIncome from "../pages/salaryIncome/ViewSalaryIncome";
-import UPIDepositToken from "../pages/upiDepositToken/UPIDepositToken";
-import ZupeeterTokenReport from "../pages/zupeeterToken/ZupeeterTokenReport";
 import RegistrationBonus from "../pages/income/incomeSubSection/RegistrationBonus";
 import MainPageOFIncome from "../pages/income/MainPageOFIncome";
 import ReferralBonus from "../pages/income/incomeSubSection/ReferralBonus";
@@ -105,18 +98,6 @@ export const routes = [
         element:<Wingo />
     },
     {
-        path:"/trx",
-        element:<TRX />
-    },
-    {
-        path:"/k3",
-        element:<K3 />
-    },
-    {
-        path:"/D5lotre",
-        element:<D5lotre />
-    },
-    {
         path:"/CustomerService",
         element:<Contactus />
     },
@@ -141,10 +122,6 @@ export const routes = [
         element:<Deposite />
     },
     {
-        path:"/trx/tron-scan",
-        element:<TronScanPage />
-    },
-    {
         path:"/bank",
         element:<BankDetails />
     },
@@ -155,10 +132,6 @@ export const routes = [
     {
         path:"/banks-upi",
         element:<UPIDetails />
-    },
-    {
-        path:"/ico-token",
-        element:<ICOToken />
     },
     {
         path:"/fund-main",
@@ -179,14 +152,6 @@ export const routes = [
     {
         path:"/view-salary-income",
         element:<ViewSalaryIncome />
-    },
-    {
-        path:"/upi-deposit-token",
-        element:<UPIDepositToken />
-    },
-    {
-        path:"/zupeeter-token",
-        element:<ZupeeterTokenReport />
     },
     {
         path:"/account/income-main/registration-bonus",

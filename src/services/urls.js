@@ -1,17 +1,12 @@
-// export const domain = "https://zupeeter-timer.onrender.com/";
-// export const domain = "https://zupeeter-game-timer.onrender.com/";
-export const domain = "https://zupeeter-timer-27jp.onrender.com/"
-export const domain_ovi_node = "https://api.zupeeter.com";
-// export const domain_ovi_node = "https://zupeegame.info"
-// export const domain_ovi_node = "http://192.168.85.149:8000"
-// export const newdomain1 = "http://192.168.18.183:9002";
+// export const domain = "https://winverse-timer.onrender.com"
+export const domain = "http://localhost:9002"
+export const domain_ovi_node = "http://localhost:9002";
+
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
 
-// export const baseUrl = "min.righttime.fun";
-// export const baseUrl = "https://webs.ferryinfotech.in";
-export const baseUrl = "https://admin.zupeeter.com/public";
-export const front_end_domain = "https://zupeeter.com";
+export const baseUrl = "https://admin.zupeegame.info";
+export const front_end_domain = "https://winversegame.com";
 export const usdt_base_url = "https://zupeegame.info";
 export const download_app_url = "https://zupeeter.com/ZUPEETER.pdf";
 
@@ -20,8 +15,8 @@ export const endpoint = {
   newlogin: `${baseUrl}/api/newlogin`,
   register_candidate_mobile: `${baseUrl}/api/register_candidate`,
   register_candidate_email: `${baseUrl}/api/register_candidate_new`,
-  game_history: `${baseUrl}/api/color_result`,
-  bet_placed: `${baseUrl}/api/betnew_color`,
+  // game_history: `${baseUrl}/api/color_result`,
+  // bet_placed: `${baseUrl}/api/betnew_color`,
   my_history: `${baseUrl}/api/one_min_myhistory`,
   get_balance: `${baseUrl}/api/get_balance`,
   total_withdrawal_bet: `${baseUrl}/api/total_withdrawal_bet`,
@@ -42,7 +37,6 @@ export const endpoint = {
   view_ico_purchaseing: `${baseUrl}/api/view_ico_purchaseing`,
   insert_ico_purchase: `${baseUrl}/api/insert_ico_purchase`,
   view_withdrwal_new_inr: `${baseUrl}/api/view_withdrwal_new_inr`,
-  win_list_top: `${baseUrl}/api/win_list_top`,
   wallet_deposit_history: `${baseUrl}/api/wallet_deposit`,
   wallet_deposit: `${baseUrl}/api/wallet_deposit_insert`,
   wallet_withdrawl: `${baseUrl}/api/insert_withdrawal_request_inr_new`,
@@ -54,8 +48,7 @@ export const endpoint = {
 
   indian_insert_deposite: `${baseUrl}/api/indian_insert_deposite`,
   // trx apis
-
-  // trx_bet_placed: `${baseUrl}/api/Trx_bet`, //////////// done in node js
+  bet_placed: `${domain_ovi_node}/bid-placing-wingo`, //////////// done in node js
   trx_my_history: `${baseUrl}/api/trx_one_min_myhistory`, /// done  in node js
   // trx_my_history_new: `${baseUrl}/api/trx_one_min_myhistory_new`, /// done  in node js
 
@@ -75,17 +68,13 @@ export const endpoint = {
   payin_status: `${baseUrl}/api/payin_api`,
   swnl_pay_in_api: `${baseUrl}/api/insert_fund_request_vapayout`,
 
-  /////////////// laravel
-
-  // trx_bet_placed_node: `${baseUrl}/api/Trx_bet`,
-  // trx_game_history: `${baseUrl}/api/trx_result`, //////// done in node js
-  // trx_my_history_new: `${baseUrl}/api/trx_one_min_myhistory_new`, /// done  in node js
-
   // ovi panel api's
   trx_bet_placed_node: `${domain_ovi_node}/bid-placed-node`,
   trx_game_history: `${domain_ovi_node}/trx_result-node`, //////// done in node js
   trx_my_history_new: `${domain_ovi_node}/trx-my-history-node`, /// done  in node js
 
-  //////// testing only
-  // trx_testing: `${domain_ovi_node}/trx_result-node-test`,
+////////////////// wingo api //////////////////
+  game_history:`${domain_ovi_node}/wingo-result`,
+  win_list_top: `${domain_ovi_node}/top-winners`,
+
 };

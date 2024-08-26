@@ -39,6 +39,7 @@ const GameHistory = ({ gid }) => {
     [page, rowsPerPage, game_history_data]
   );
 
+  
   if (isLoading)
     return (
       <div className="!w-full flex justify-center">
