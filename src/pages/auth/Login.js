@@ -65,7 +65,7 @@ function Login() {
         password: fk.values.password,
       };
       if (!reqBody.password || !reqBody.email)
-        return toast("Plese enter all fields");
+        return toast("Plese enter all fields", {id:1});
       loginSubmit(reqBody);
     },
   });
@@ -76,16 +76,16 @@ function Login() {
       console.log(res);
       if (res?.data?.success === "200") {
         storeCookies();
-        toast(res?.data?.message);
+        toast(res?.data?.message ,{id:1});
         localStorage.setItem("user_id", res?.data?.data?.or_user_id);
         localStorage.setItem("or_m_user_type", res?.data?.data?.or_m_user_type);
         window.location.reload();
         navigate("/before-login");
       } else {
-        toast(res?.data?.msg);
+        toast(res?.data?.msg ,{id:1});
       }
     } catch (e) {
-      toast(e?.response?.data?.message);
+      toast(e?.response?.data?.message ,{id:1});
     }
   }
 
@@ -146,7 +146,7 @@ function Login() {
               </Box>
             }
           />
-          <Tab
+          {/* <Tab
             sx={{ width: "50%" }}
             value="two"
             label={
@@ -162,7 +162,7 @@ function Login() {
 
               </Box>
             }
-          />
+          /> */}
         </Tabs>
       </Box>
       <Box sx={{ width: "92%", margin: "auto", mt: 3 }}>

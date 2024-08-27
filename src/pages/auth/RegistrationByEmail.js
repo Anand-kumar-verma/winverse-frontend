@@ -17,6 +17,7 @@ import axios from "axios";
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
+import phoneaa from "../../assets/images/phoneaa.png";
 import toast from "react-hot-toast";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import invite from "../../assets/images/invite.png";
@@ -45,6 +46,7 @@ const RegistrationByEmail = () => {
     confirmed_password: "",
     invite_code: inviteid || "",
     name: "",
+    mobile:"",
   };
   const fk = useFormik({
     initialValues: initialValue,
@@ -56,7 +58,7 @@ const RegistrationByEmail = () => {
         txtintroducer_id: fk.values.invite_code,
         txtintroducer_name: username,
         txtemail: fk.values.email,
-        txtmobile: "",
+        txtmobile: fk.values.mobile,
         txtpassword: fk.values.password,
       };
       if (fk.values.password !== fk.values.confirmed_password)
@@ -146,6 +148,43 @@ const RegistrationByEmail = () => {
             )}
           </FormControl>
         </Box>
+        <Stack direction="row" alignItems="center" className="!mt-2">
+          <Box
+            component="img"
+            src={phoneaa}
+            sx={{ width: "25px", mr: 1, filter: 'hue-rotate(60deg)', }}
+          ></Box>
+          <Typography
+            variant="body1"
+            color="initial"
+            sx={{ fontSize: "15px", fontWeight: "500", color: "white" }}
+          >
+            Phone number
+          </Typography>
+        </Stack>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Box sx={{ width: "100%" }}>
+            <FormControl fullWidth sx={{ ...style.inputfield }}>
+              <TextField
+                id="mobile"
+                name="mobile"
+                onChange={fk.handleChange}
+                value={fk.values.mobile}
+                label=""
+                placeholder=" Enter number"
+                fullWidth
+                type="number"
+              />
+              {fk.touched.mobile && fk.errors.mobile && (
+                <div className="error">{fk.errors.mobile}</div>
+              )}
+            </FormControl>
+          </Box>
+        </Stack>
         <Box mt={2}>
           <Stack direction="row" alignItems="center">
             <HowToRegIcon sx={{ width: "25px", mr: 1, }} />

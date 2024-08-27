@@ -244,6 +244,28 @@ export const TopWinner = async () => {
     console.log(e);
   }
 };
+export const BankListDetails = async () => {
+  try {
+    const response = await axios.get(
+      `${endpoint.get_bank_list}`
+    );
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
+export const BankUPIDetails = async () => {
+  try {
+    const response = await axios.get(
+      `${endpoint.get_upi_list}`
+    );
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
 
 export const LastTrade = async () => {
   try {

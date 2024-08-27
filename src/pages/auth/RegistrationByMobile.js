@@ -23,6 +23,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import invite from "../../assets/images/invite.png";
 import password from "../../assets/images/password.png";
 import phoneaa from "../../assets/images/phoneaa.png";
+import logemaildeactive from "../../assets/images/logemaildeactive.png";
 import { storeCookies } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -52,6 +53,7 @@ const RegistrationByMobile = () => {
     confirmed_password: "",
     mobile: "",
     name: "",
+    email :""
   };
 
   const fk = useFormik({
@@ -64,7 +66,7 @@ const RegistrationByMobile = () => {
         txtname: fk.values.name,
         txtintroducer_id: fk.values.invite_code,
         txtintroducer_name: username,
-        txtemail: "",
+        txtemail: fk.values.email,
         txtmobile: fk.values.mobile,
         txtpassword: fk.values.password,
       };
@@ -161,6 +163,43 @@ const RegistrationByMobile = () => {
               />
               {fk.touched.mobile && fk.errors.mobile && (
                 <div className="error">{fk.errors.mobile}</div>
+              )}
+            </FormControl>
+          </Box>
+        </Stack>
+        <Stack direction="row" alignItems="center" className="!mt-2">
+          <Box
+            component="img"
+            src={logemaildeactive}
+            sx={{ width: "25px", mr: 1, filter: 'hue-rotate(60deg)', }}
+          ></Box>
+          <Typography
+            variant="body1"
+            color="initial"
+            sx={{ fontSize: "15px", fontWeight: "500", color: "white" }}
+          >
+           Email
+          </Typography>
+        </Stack>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Box sx={{ width: "100%" }}>
+            <FormControl fullWidth sx={{ ...style.inputfield }}>
+              <TextField
+                id="email"
+                name="email"
+                onChange={fk.handleChange}
+                value={fk.values.email}
+                label=""
+                placeholder=" Enter email"
+                fullWidth
+                type="number"
+              />
+              {fk.touched.email && fk.errors.email && (
+                <div className="error">{fk.errors.email}</div>
               )}
             </FormControl>
           </Box>
