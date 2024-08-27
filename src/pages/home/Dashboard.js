@@ -395,7 +395,7 @@ function Dashboard() {
                 >
                   <p className="!flex !flex-col" style={{ color: 'white' }}>
                     <span>{i?.or_m_user_id?.substring(0, 7) + '***'}</span>
-                    <span>{i?.or_m_name?.substring(0, 7) + '***'}</span>
+                    <span>{i?.or_m_email?.substring(0, 7) + '***'}</span>
                   </p>
                 </Typography>
                 <Box sx={style.winnerbannerouter}>
@@ -412,7 +412,7 @@ function Dashboard() {
 
                     sx={style.winneramout || 0}
                   >
-                    Receive ₹{i?.max_tr_pv}
+                    Receive ₹{i?.tr_income}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -465,14 +465,15 @@ function Dashboard() {
                 ></Box>
                 <Box sx={style.winner2amt}>
                   <Typography variant="body1" >
-                    {"**"}
+               
+                 {res?.[1]?.or_m_email?.substring(0, 7) + '***'}
                   </Typography>
                   <Typography
                     variant="body1"
 
                     sx={style.winningamount}
                   >
-                    ₹{res?.[1]?.max_tr_pv}
+                    ₹{res?.[1]?.tr_income}
                   </Typography>
                 </Box>
               </Box>
@@ -503,14 +504,14 @@ function Dashboard() {
                 ></Box>
                 <Box sx={style.winner2amt}>
                   <Typography variant="body1" >
-                    {"**"}
+                  {res?.[0]?.or_m_email?.substring(0, 7) + '***'}
                   </Typography>
                   <Typography
                     variant="body1"
 
                     sx={style.winningamount}
                   >
-                    ₹{res?.[0]?.max_tr_pv}
+                    ₹{res?.[0]?.tr_income}
                   </Typography>
                 </Box>
               </Box>
@@ -541,14 +542,14 @@ function Dashboard() {
                 ></Box>
                 <Box sx={style.winner2amt}>
                   <Typography variant="body1" >
-                    {"**"}
+                  {res?.[2]?.or_m_email?.substring(0, 7) + '***'}
                   </Typography>
                   <Typography
                     variant="body1"
 
                     sx={style.winningamount}
                   >
-                    ₹{res?.[2]?.max_tr_pv}
+                    ₹{res?.[2]?.tr_income}
                   </Typography>
                 </Box>
               </Box>
@@ -581,7 +582,7 @@ function Dashboard() {
                 >
                   <p className="!flex !flex-col" style={{ color: 'white' }}>
                     <span>{i?.or_m_user_id?.substring(0, 7) + '***'}</span>
-                    <span>{i?.or_m_name?.substring(0, 7) + '***'}</span>
+                    <span>{i?.or_m_email?.substring(0, 7) + '***'}</span>
                   </p>
                 </Typography>
                 <Box sx={style.winnerbannerouter}>
@@ -598,7 +599,7 @@ function Dashboard() {
 
                     sx={style.winneramout || 0}
                   >
-                    Receive ₹{i?.max_tr_pv}
+                    Receive ₹{i?.tr_income}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -663,7 +664,7 @@ function Dashboard() {
                 >
                   <p className="!flex !flex-col" style={{ color: 'white' }}>
                     <span>{i?.or_m_user_id?.substring(0, 7) + '***'}</span>
-                    <span>{i?.or_m_name?.substring(0, 7) + '***'}</span>
+                    <span>{i?.or_m_email?.substring(0, 7) + '***'}</span>
                   </p>
                 </Typography>
                 <Box sx={style.winnerbannerouter}>
@@ -680,7 +681,7 @@ function Dashboard() {
 
                     sx={style.winneramout || 0}
                   >
-                    Receive ₹{i?.max_tr_pv}
+                    Receive ₹{i?.tr_income}
                   </Typography>
                   <Typography
                     variant="body1"
