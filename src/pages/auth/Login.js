@@ -1,13 +1,10 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
   Box,
-  Button,
-  Checkbox,
   Container,
   FilledInput,
   FormControl,
-  FormControlLabel,
-  FormGroup,
   IconButton,
   InputAdornment,
   Stack,
@@ -22,16 +19,14 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
 import custom from "../../assets/images/custom.png";
-import inputfield from "../../assets/images/inputfield.png";
-import logo from '../../assets/images/logo.png';
-import logbg from '../../assets/images/logbg.jpg';
 import email from '../../assets/images/email (1).png';
+import inputfield from "../../assets/images/inputfield.png";
+import logbg from '../../assets/images/logbg.jpg';
+import logo from '../../assets/images/logo.png';
 import password from "../../assets/images/password.png";
 import phoneaa from "../../assets/images/phoneaa.png";
 import { storeCookies } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
-import theme from "../../utils/theme";
 function Login() {
   const [value, setValue] = useState("one");
   const user_id = localStorage.getItem("user_id");
