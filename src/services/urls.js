@@ -1,7 +1,7 @@
 // export const domain = "https://winverse-timer.onrender.com"
 export const domain1 = "https://adminew.winversegame.com"
-export const domain_ovi_node = "http://192.168.1.5:9002";
-export const domain = "http://192.168.1.5:9002";
+export const domain_ovi_node = "http://localhost:9002";
+export const domain = "http://localhost:9002";
 
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
