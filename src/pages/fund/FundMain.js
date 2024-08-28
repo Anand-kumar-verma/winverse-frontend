@@ -1,4 +1,4 @@
-import { CurrencyFrancSharp } from "@mui/icons-material";
+import { CurrencyFrancSharp, CurrencyLiraRounded } from "@mui/icons-material";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import { Box, Container } from "@mui/material";
@@ -24,7 +24,7 @@ function FundMain() {
     },
     {
       to: "/fund-transfer",
-      name: "Fund Transfer",
+      name: "P2P Transfer",
       logo: (
         <CurrencyExchangeIcon
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"
@@ -32,11 +32,22 @@ function FundMain() {
         />
       ),
     },
+
     {
       to: "/fund-recieve",
       name: "Fund Recieve",
       logo: (
         <CurrencyFrancSharp
+          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          color="#8f5206"
+        />
+      ),
+    },
+    {
+      to: "/p2p",
+      name: "P2P TopUp",
+      logo: (
+        <CurrencyLiraRounded
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"
           color="#8f5206"
         />

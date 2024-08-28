@@ -42,10 +42,9 @@ function Deposite() {
   const [isAllValue, setIsAllValue] = useState(false);
   const [visibleData, setvisibleData] = useState([]);
   const [amount, setBalance] = useState("");
+  const [loading, setIsLoading] = React.useState(false);
   const audioRefMusic = React.useRef(null);
   const [loding, setloding] = useState(false);
-  const [show_time, set_show_time] = React.useState("0_0");
-  const [deposit_req_data, setDeposit_req_data] = React.useState();
   const { isLoading: history, data } = useQuery(
     ["deposit_history"],
     () => depositHistoryFunction(),
@@ -78,57 +77,46 @@ function Deposite() {
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
 
   const initialValue = {
-    payment_method: "Select Method",
-    token_address: "",
-    token_qnt: "",
-    price: "",
-    transaction_id: "",
-    hash_number: "",
+    deposit_type: "Select Method",
+    req_amount: "",
+    req_curr_type: "",
+    file: "",
   };
 
   const fk = useFormik({
     initialValues: initialValue,
     enableReinitialize: true,
     onSubmit: () => {
-      const fd = new FormData();
-     
-      if (fk.values.payment_method === "Bank") {
-        if (Number(wallet_amount_data || 0) < Number(amount || 0)) {
-          toast("Insufficient balance");
-          return;
-        }
-      }
-      
-     fd.append("userid", user_id); 
-      fd.append(
-        "txtmethod",
-        fk.values.payment_method === "Bank"
-          ? "1"
-          : fk.values.payment_method === "UPI"
-          && "2" 
-      ); 
-      fd.append("txtprice", amount); // price
-      fd.append("txtbatchid", fk.values.hash_number); // hash no
-      fd.append("txttreid", fk.values.transaction_id); // transation id
-      fd.append("txttoken", fk.values.token_qnt); // token no of token
-      fd.append("txtwa", fk.values.token_address); // token address
-      fd.append("txtfd", receipt); // receipt
-      insertFundFn(fd);
+      const reqBody = {
+        user_id: user_id,
+        deposit_type: fk.values.deposit_type === "UPI" ? "1" : "2",
+        req_amount: fk.values.req_amount,
+        req_curr_type: fk.values.req_curr_type,
+        file: receipt, 
+      };
+      insertFundFn(reqBody);
     },
   });
-  async function insertFundFn(fd) {
+  async function insertFundFn(reqBody) {
     try {
-      const res = await axios.post(endpoint?.insert_ico_purchase, fd);
-      toast(res?.data?.earning?.msg);
-      // setIsLoading(false);
-      // if ("ICO purchase recorded successfully." === res?.data?.earning?.msg)
-      //   fk.handleReset();
+      const res = await axios.post(endpoint?.deposite_request, reqBody);
+      toast(res?.data?.msg);
+      setIsLoading(false);
+      if ("Request Successfully Done" === res?.data?.msg)
+        fk.handleReset();
     } catch (e) {
       console.log(e);
     }
     client.refetchQueries("wallet_amount");
   }
-
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
   const functionTOCopy = (value) => {
     copy(value);
     toast.success("Copied to clipboard!");
@@ -141,32 +129,6 @@ function Deposite() {
   React.useEffect(() => {
     handlePlaySound();
   }, []);
-
-  React.useEffect(() => {
-    if (deposit_req_data) {
-      let min = 0;
-      let sec = 59;
-      const interval = setInterval(() => {
-        set_show_time(`${min}_${sec}`);
-
-        sec--;
-
-        if (sec < 0) {
-          sec = 59;
-          min--;
-
-          if (min < 0) {
-            sec = 59;
-            min = 0;
-            clearInterval(interval);
-            setDeposit_req_data();
-            set_show_time("0_0");
-            setloding(false);
-          }
-        }
-      }, 1000);
-    }
-  }, [deposit_req_data]);
 
   const handlePlaySound = async () => {
     try {
@@ -204,7 +166,7 @@ function Deposite() {
   const upidata = upi?.data?.data;
 
   const selectedUPIDetails = upidata?.find(
-    (item) => item?.m37_id === fk.values.upi_name
+    (item) => item?.m37_id === fk.values.req_curr_type
   );
 
   const audio = React.useMemo(() => {
@@ -215,12 +177,8 @@ function Deposite() {
     );
   }, []);
 
-  if (deposit_req_data) {
-    return (
-      <QRScreen deposit_req_data={deposit_req_data} show_time={show_time} />
-    );
-  }
-
+ 
+  if (loading) return <CustomCircularProgress isLoading={loading} />;
   return (
     <Container sx={{ background: theme.palette.secondary.main, }}>
       {audio}
@@ -300,18 +258,18 @@ function Deposite() {
           </Stack>
         </Box>
       </Box>
-      <div className="grid grid-cols-2 gap-1 items-center w-[400px] p-5 !text-white">
+      <div className="grid grid-cols-2 gap-1 items-center p-5 !text-white">
         <span className="col-span-2 justify-end">
           <div className="flex justify-between">
             <span className="font-bold">Fund Transfer</span>
           </div>
         </span>
-        <span className="!text-white !text-sm">Select Payment Method*</span>
+        <span className="!text-white !text-sm">Select Payment *</span>
         <TextField
        
-          id="payment_method"
-          name="payment_method"
-          value={fk.values.payment_method}
+          id="deposit_type"
+          name="deposit_type"
+          value={fk.values.deposit_type}
           onChange={fk.handleChange}
           className="!w-[100%] !bg-white !mt-5"
           select
@@ -321,13 +279,13 @@ function Deposite() {
           <MenuItem value={"Bank"}>Bank</MenuItem>
           <MenuItem value={"UPI"}>UPI</MenuItem>
         </TextField>
-        {fk.values.payment_method === "Bank" && (
+        {fk.values.deposit_type === "Bank" && (
           <>
             <span className="!text-white !text-sm">Select Bank *</span>
             <TextField
-              id="bank"
-              name="bank"
-              value={fk.values.bank_name}
+              id="req_curr_type"
+              name="req_curr_type"
+              value={fk.values.req_curr_type}
               onChange={fk.handleChange}
               placeholder="Select Bank"
               className="!w-[100%] !bg-white !mt-5"
@@ -345,13 +303,13 @@ function Deposite() {
             </TextField>
           </>
         )}
-        {fk.values.payment_method === "UPI" && (
+        {fk.values.deposit_type === "UPI" && (
           <>
             <span className="!text-white !text-sm">Select UPI *</span>
             <TextField
-              id="upi_name"
-              name="upi_name"
-              value={fk.values.upi_name}
+              id="req_curr_type"
+              name="req_curr_type"
+              value={fk.values.req_curr_type}
               onChange={fk.handleChange}
               placeholder="Select UPI"
               className="!w-[100%] !bg-white !mt-5"
@@ -393,31 +351,31 @@ function Deposite() {
         )}
         <span className="!text-white !text-sm ">Amount*</span>
         <TextField
-          id="amount"
-          name="amount"
-          value={amount || 0}
-          // onChange={fk.handleChange}
-          placeholder="amount"
-          className="!w-[100%] !bg-white !mt-5"
-        />
-
-        <span className="!text-white !text-sm">Transaction Id*</span>
-        <TextField
-          id="transaction_password"
-          name="transaction_password"
-          placeholder="Transaction"
-          value={fk.values.transaction_password}
+          id="req_amount"
+          name="req_amount"
+          value={fk.values.req_amount}
           onChange={fk.handleChange}
+          placeholder="amount"
           className="!w-[100%] !bg-white !mt-5"
         />
 
         <span className="!text-white !text-sm ">Receipt*</span>
         <input
           type="file"
-          id="myfile"
-          name="myfile"
+          id="file"
+          name="file"
           className="!text-sm !mt-5"
-          onChange={(e) => setReceipt(e.target.files[0])}
+          onChange={async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+              try {
+                const base64 = await fileToBase64(file);
+                setReceipt(base64); // Store the base64 string in state
+              } catch (error) {
+                console.error("Error converting file to base64:", error);
+              }
+            }
+          }}
           required
         />
 
@@ -425,13 +383,13 @@ function Deposite() {
         <div className="col-span-2 flex justify-end gap-2 mt-8">
           <Button
             className="!bg-[#FD565C] !text-white"
-            // onClick={() => fk.handleReset()}
+            onClick={() => fk.handleReset()}
           >
             Cancel
           </Button>
           <Button
             className="!bg-[#BF6DFE] !text-white"
-            // onClick={() => fk.handleReset()}
+            onClick={fk.handleSubmit}
           >
             Submit
           </Button>

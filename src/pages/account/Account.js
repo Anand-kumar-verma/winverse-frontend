@@ -190,10 +190,10 @@ function Account() {
                 <Typography sx={{ color: 'white' }}>Withdraw</Typography>
               </Box>
               <Box className="flex flex-col justify-center cursor-pointer items-center"
-                onClick={() => document.location.href = `https://zupeegame.info/?user_id=${user_id}`}
+                onClick={() =>  navigate('/p2p')}
               >
                 <Typography><img src={trx} alt="" className="w-8" style={{ filter: 'hue-rotate(310deg)' }} /></Typography>
-                <Typography sx={{ color: 'white' }} className="">USDT</Typography>
+                <Typography sx={{ color: 'white' }} className="">P2P</Typography>
               </Box>
             </Box>
           </Box>

@@ -46,6 +46,8 @@ import ChangePassword from "../pages/password/ChangePassword";
 import AccountPassword from "../pages/password/AccountPassword";
 import TransactionPassword from "../pages/password/TransactionPassword";
 import Soon from "../pages/comingsoon/Soon";
+import WithdrawalAccount from "../pages/wallet/Component/WithdrawalAccount";
+import P2PTransfer from "../pages/wallet/Component/P2PTransfer";
 
 
 export const routes = [
@@ -113,9 +115,17 @@ export const routes = [
         path:"/comingsoonavaitor",
         element:<Soon />
     },
+    // {
+    //     path:"/withdraw",
+    //     element:<Withdraval />
+    // },
     {
         path:"/withdraw",
-        element:<Withdraval />
+        element:<WithdrawalAccount />
+    },
+    {
+        path:"/p2p",
+        element:<P2PTransfer />
     },
     {
         path:"/deposit",

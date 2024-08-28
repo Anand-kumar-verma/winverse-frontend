@@ -1,20 +1,21 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, MenuItem, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
-import Layout from "../../component/layout/Layout";
 import {
   ProfileDataFunction,
   getBalanceFunction,
-} from "../../services/apiCallings";
-import { endpoint } from "../../services/urls";
-import theme from "../../utils/theme";
+} from "../../../services/apiCallings";
+import { endpoint } from "../../../services/urls";
+import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
+import theme from "../../../utils/theme";
+import Layout from "../../../component/layout/Layout";
 import { NavLink } from "react-router-dom";
-import { ArrowBackIos } from "@mui/icons-material";
+import { ArrowBackIos, BackHandSharp } from "@mui/icons-material";
 
-const FundTransfer = () => {
+const P2PTransfer = () => {
   const [username, setusername] = useState("");
   const [balance, setsetBalance] = useState("");
   const client = useQueryClient();
@@ -102,7 +103,8 @@ const FundTransfer = () => {
     getBalanceFunction(setsetBalance);
   }, []);
   return (
-    <Layout header={false}
+
+<Layout header={false}
 > <Container
   sx={{
     width: "100%",
@@ -114,22 +116,12 @@ const FundTransfer = () => {
      
       <Box component={NavLink} to="/fund-main"><ArrowBackIos className="!text-white"/></Box>
       <Typography variant="" color="initial"  className="!text-white !font-bold !py-2">
-      P2P User Transfer
+     P2P TopUp
       </Typography>
       <Box></Box>
     </Box>
     <div className=" items-center !text-white !font-bold p-5 mt-5 ">
-          
-          <span>Wallet*</span>
-          <TextField
-            id="wallet"
-            name="wallet"
-            value={fk.values.wallet}
-            placeholder="Select Bank"
-            className="!w-[100%] !bg-white !my-2 !rounded "
-          ></TextField>
-
-          <span>Transfer Id*</span>
+    <span>User Id*</span>
           <div>
             <TextField
               id="userid"
@@ -147,6 +139,16 @@ const FundTransfer = () => {
               <p className="!text-[10px] !text-red-500 pl-2">{username}</p>
             )}
           </div>
+          <span>P2P Wallet Available Balance*</span>
+          <TextField
+            id="wallet"
+            name="wallet"
+            value={fk.values.wallet}
+            placeholder="Select Bank"
+            className="!w-[100%] !bg-white !my-2 !rounded "
+          ></TextField>
+
+          
 
           <span>Transfer Amount*</span>
           <TextField
@@ -157,7 +159,25 @@ const FundTransfer = () => {
             onChange={fk.handleChange}
             className="!w-[100%] !bg-white !my-2 !rounded "
           />
-          <span>Transaction Password*</span>
+           <span>TopUp Amount*</span>
+          <TextField
+            id="transfer_amount"
+            name="transfer_amount"
+            placeholder="Enter Amount"
+            value={fk.values.transfer_amount}
+            onChange={fk.handleChange}
+            className="!w-[100%] !bg-white !my-2 !rounded "
+          />
+            <span>P2P Wallet*</span>
+          <TextField
+            id="transfer_amount"
+            name="transfer_amount"
+            placeholder="Enter Amount"
+            value={fk.values.transfer_amount}
+            onChange={fk.handleChange}
+            className="!w-[100%] !bg-white !my-2 !rounded "
+          />
+          <span>Request Amount*</span>
           <TextField
             type="password"
             id="transaction_password"
@@ -167,7 +187,21 @@ const FundTransfer = () => {
             onChange={fk.handleChange}
             className="!w-[100%] !bg-white !my-2 !rounded "
           />
-        
+                 <span className="!text-white !text-sm">Select Deposit Type *</span>
+                    <TextField
+                        id="w_type"
+                        name="w_type"
+                        value={fk.values.w_type}
+                        onChange={fk.handleChange}
+                        className="!w-[100%] !bg-white !mt-5"
+                        select
+                        size="small"
+                    >
+                        <MenuItem value={"Select Type"}>Select Type</MenuItem>
+                        <MenuItem value={"Bank"}>Bank Type</MenuItem>
+                        <MenuItem value={"UPI"}>UPI Type</MenuItem>
+                    </TextField>
+                   
           <div className="col-span-2 flex gap-2 mt-4">
             <Button
               className="!bg-[#FD565C] !text-white"
@@ -192,7 +226,7 @@ const FundTransfer = () => {
   );
 };
 
-export default FundTransfer;
+export default P2PTransfer;
 const style = {
   header: {
     padding: 1,
