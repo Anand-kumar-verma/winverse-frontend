@@ -48,6 +48,7 @@ import TransactionPassword from "../pages/password/TransactionPassword";
 import Soon from "../pages/comingsoon/Soon";
 import WithdrawalAccount from "../pages/wallet/Component/WithdrawalAccount";
 import P2PTransfer from "../pages/wallet/Component/P2PTransfer";
+import P2Pmoney from "../pages/fund/P2Pmoney";
 
 
 export const routes = [
@@ -127,6 +128,7 @@ export const routes = [
         path:"/p2p",
         element:<P2PTransfer />
     },
+    
     {
         path:"/deposit",
         element:<Deposite />
@@ -146,6 +148,10 @@ export const routes = [
     {
         path:"/fund-main",
         element:<FundMain />
+    },
+    {
+        path:"/addmoneyp2p",
+        element:<P2Pmoney />
     },
     {
         path:"/fund-report",

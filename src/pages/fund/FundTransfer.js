@@ -13,11 +13,15 @@ import { endpoint } from "../../services/urls";
 import theme from "../../utils/theme";
 import { NavLink } from "react-router-dom";
 import { ArrowBackIos } from "@mui/icons-material";
+import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 
 const FundTransfer = () => {
   const [username, setusername] = useState("");
   const [balance, setsetBalance] = useState("");
+  const [Loading, setLoading] = useState(false);
+
   const client = useQueryClient();
+  const user_id = localStorage.getItem("user_id");
 
   const { data } = useQuery(
     ["profile"],
@@ -33,11 +37,8 @@ const FundTransfer = () => {
   const profile = data?.data?.earning || [];
 
   const initialValue = {
-    wallet: balance || "",
-    userid: "",
-    transferid: "",
-    transfer_amount: "",
-    transaction_password: "",
+    amount: "",
+    transfer_id: "",
   };
 
   const fk = useFormik({
@@ -45,41 +46,37 @@ const FundTransfer = () => {
     enableReinitialize: true,
     onSubmit: () => {
       const reqBody = {
-        userid: profile?.rec?.Login_Id,
-        txtpassword: fk.values.transaction_password,
-        txtamount: fk.values.transfer_amount,
-        txtuserid: fk.values.userid,
-        txtwallet: fk.values.wallet,
+        userid: user_id,
+        amount: fk.values.amount,
+        transfer_id: fk.values.transfer_id,
       }; 
-      if (reqBody.userid === reqBody.txtuserid) {
-        return toast("Can not send fund to yourself");
-      }
+      // if (reqBody.userid === reqBody.transfer_id) {
+      //   return toast("Can not send fund to yourself");
+      // }
       if (
-        !reqBody.userid ||
-        !reqBody.txtpassword ||
-        !reqBody.txtamount ||
-        !reqBody.txtuserid ||
-        !reqBody.txtwallet
+        !reqBody.amount ||
+        !reqBody.transfer_id 
       )
         return toast("Plese enter all data");
       insertFundFn(reqBody);
     },
   });
 
-  const fees = Number(fk.values.transfer_amount || 0) * 0.03;
-  const payableAmount = fees + Number(fk.values.transfer_amount || 0);
 
   async function insertFundFn(reqBody) {
+  
     try {
+      setLoading(true)
       const res = await axios.post(endpoint?.insert_fund_transfer, reqBody);
-      toast(res?.data?.message);
+      toast(res?.data?.msg);
       fk.handleReset();
-      client.refetchQueries("fund_transfer_history_details");
-      client.refetchQueries("fund_recive_details");
+      setLoading(false)
+      client.refetchQueries("wallet_amount");
+      
     } catch (e) {
       console.log(e);
     }
-    // client.refetchQueries("bank_details");
+   
   }
   async function getIntroFn() {
     console.log("Function is hit now");
@@ -124,46 +121,38 @@ const FundTransfer = () => {
           <TextField
             id="wallet"
             name="wallet"
-            value={fk.values.wallet}
-            placeholder="Select Bank"
+            value={balance}
+        
             className="!w-[100%] !bg-white !my-2 !rounded "
           ></TextField>
 
           <span>Transfer Id*</span>
           <div>
             <TextField
-              id="userid"
-              name="userid"
-              value={fk.values.userid}
-              onChange={(e) => {
-                fk.handleChange(e);
-                if (e.target.value === profile?.rec?.Login_Id) {
-                 return toast("Can not send fund to yourself ");
-                } 
-              }}
+              id="transfer_id"
+              name="transfer_id"
+              value={fk.values.transfer_id}
+               onChange={fk.handleChange}
+               placeholder="Transfer ID"
+              // onChange={(e) => {
+              //   fk.handleChange(e);
+              //   if (e.target.value === profile?.rec?.Login_Id) {
+              //    return toast("Can not send fund to yourself ");
+              //   } 
+              // }}
               className="!w-[100%] !bg-white !my-2 !rounded "
             />
-            {username && username !== "false" && (
+            {/* {username && username !== "false" && (
               <p className="!text-[10px] !text-red-500 pl-2">{username}</p>
-            )}
+            )} */}
           </div>
 
           <span>Transfer Amount*</span>
           <TextField
-            id="transfer_amount"
-            name="transfer_amount"
+            id="amount"
+            name="amount"
             placeholder="Enter Amount"
-            value={fk.values.transfer_amount}
-            onChange={fk.handleChange}
-            className="!w-[100%] !bg-white !my-2 !rounded "
-          />
-          <span>Transaction Password*</span>
-          <TextField
-            type="password"
-            id="transaction_password"
-            name="transaction_password"
-            placeholder="Enter password"
-            value={fk.values.transaction_password}
+            value={fk.values.amount}
             onChange={fk.handleChange}
             className="!w-[100%] !bg-white !my-2 !rounded "
           />
@@ -181,6 +170,8 @@ const FundTransfer = () => {
             >
               Submit
             </Button>
+            {Loading && (
+                <CustomCircularProgress isLoading={Loading} />)}
           </div>
         </div>
   

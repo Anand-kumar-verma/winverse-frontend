@@ -1,19 +1,19 @@
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import { History } from "@mui/icons-material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import {
     Box,
     Button,
     Container,
-    IconButton,
     MenuItem,
     Stack,
     TextField,
-    Typography,
+    Typography
 } from "@mui/material";
-import InputBase from "@mui/material/InputBase";
-import Paper from "@mui/material/Paper";
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useFormik } from "formik";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useQuery, useQueryClient } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import atm from "../../../assets/images/atm.png";
 import atmchip from "../../../assets/images/atmchip.png";
@@ -23,62 +23,56 @@ import bankicon from "../../../assets/images/bankicon.png";
 import cip from "../../../assets/images/cip.png";
 import refresh from "../../../assets/images/refwhite.png";
 import trx from "../../../assets/images/trx.png";
-import withdravalhistory from "../../../assets/images/withdrawalhistory.png";
-import theme from "../../../utils/theme";
+import withdrawol_voice from "../../../assets/images/withdrawol_voice.mp3";
 import {
     BankDetailsFUnction,
     getBalanceFunction,
     getBetFunction,
-    UPIDetailsFUnction,
-    withdrawlHistoryFunction,
+    UPIDetailsFUnction
 } from "../../../services/apiCallings";
-import { useQuery, useQueryClient } from "react-query";
-import moment from "moment";
-import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
-import withdrawol_voice from "../../../assets/images/withdrawol_voice.mp3";
-import { useFormik } from "formik";
-import toast from "react-hot-toast";
-import axios from "axios";
 import { endpoint } from "../../../services/urls";
+import { withdraw_amount_validation_schema } from "../../../services/validation";
+import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
+import theme from "../../../utils/theme";
 
 function WithdrawalAccount() {
     const client = useQueryClient();
     const user_id = localStorage.getItem("user_id");
     const audioRefMusic = React.useRef(null);
-    const [isAllValue, setIsAllValue] = useState(false);
-    const [visibleData, setvisibleData] = useState([]);
     const [balance, setBalance] = useState("");
     const [bet, setBet] = useState("");
     const navigate = useNavigate();
-    const [loding, setloding] = useState(false);
-    const [status, setStatus] = useState({});
+    const [Loading, setLoading] = useState(false);
+
     const initialValue = {
-        m_w_amount: "",
-        w_type:"Withdrawal Type",
+        amount: "",
+        type: "",
     };
 
     const fk = useFormik({
         initialValues: initialValue,
+        validationSchema: withdraw_amount_validation_schema,
         enableReinitialize: true,
         onSubmit: () => {
-            if (Number(fk.values.amount) > 10000)
-                return toast("Amount should be less 10,000");
+
             const reqBody = {
-                user_id: user_id,
-                m_w_amount: fk.values.m_w_amount,
-                w_type : fk.values.w_type ==="UPI" ? "1" : "2",
+                userid: user_id,
+                amount: fk.values.amount,
+                type: fk.values.type === "UPI" ? "1" : "2",
             };
             // console.log(reqBody);
-           
             withdraolFunction(reqBody);
         },
     });
 
     async function withdraolFunction(reqBody) {
-        setloding(true);
+        setLoading(true);
         try {
             const res = await axios.post(endpoint?.wallet_withdrawl, reqBody);
-            toast(res?.data?.earning?.msg);
+            toast(res?.data?.message);
+            setLoading(false);
+            if ("Withdrawal Request Placed Successfully" === res?.data?.message)
+                fk.handleReset();
             client.refetchQueries("wallet_amount");
             client.refetchQueries("withdrawl_history");
             client.refetchQueries("wallet_amount_amount");
@@ -88,7 +82,7 @@ function WithdrawalAccount() {
         } catch (e) {
             console.log(e);
         }
-        setloding(false);
+        setLoading(false);
     }
 
     const goBack = () => {
@@ -99,17 +93,17 @@ function WithdrawalAccount() {
         ["upi_details"],
         () => UPIDetailsFUnction(),
         {
-          refetchOnMount: false,
-          refetchOnReconnect: false,
-          retry: false,
-          retryOnMount: false,
-          refetchOnWindowFocus: false
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+            retry: false,
+            retryOnMount: false,
+            refetchOnWindowFocus: false
         }
-      );
+    );
 
-      const upidata = React.useMemo(
+    const upidata = React.useMemo(
         () => upi_detail?.data?.earning?.bank_details,
-      );
+    );
 
     const { isLoading: getbalance, data: wallet_amount } = useQuery(
         ["wallet_amount"],
@@ -137,21 +131,7 @@ function WithdrawalAccount() {
     );
     const total_bet = total_bet_amount?.data?.earning || 0;
 
-    const { isLoading, data } = useQuery(
-        ["withdrawl_history"],
-        () => withdrawlHistoryFunction(),
-        {
-            refetchOnMount: false,
-            refetchOnReconnect: false,
-            retry: false,
-            retryOnMount: false,
-            refetchOnWindowFocus: false
-        }
-    );
-
-    const res = data?.data?.earning?.info || [];
-
-    const {data: game_history } = useQuery(
+    const { data: game_history } = useQuery(
         ["bank_details"],
         () => BankDetailsFUnction(),
         {
@@ -169,9 +149,6 @@ function WithdrawalAccount() {
         [game_history?.data?.earning?.bank_details]
     );
 
-    useEffect(() => {
-        isAllValue ? setvisibleData(res) : setvisibleData(res?.slice(0, 3));
-    }, [isAllValue, res]);
 
     React.useEffect(() => {
         handlePlaySound();
@@ -198,23 +175,12 @@ function WithdrawalAccount() {
         );
     }, []);
 
-    useEffect(() => {
-        getStatus();
-    }, []);
 
-    const getStatus = async () => {
-        try {
-            const res = await axios.get(endpoint.withdrawl_status);
-            setStatus(res?.data?.earning);
-        } catch (e) {
-            console.log(e);
-        }
-    };
 
     return (
         <Container sx={{ background: "#0D0335" }}>
             {audio}
-            <CustomCircularProgress isLoading={isLoading || getbalance || loding} />
+
             <Box
                 sx={{
                     background:
@@ -246,7 +212,7 @@ function WithdrawalAccount() {
                             variant="body1"
                             sx={{ fontSize: "11px", color: "white" }}
                         >
-                            Withdrawal history
+                            <History className="!text-white" />
                         </Typography>
                     </NavLink>
                 </Stack>
@@ -349,7 +315,7 @@ function WithdrawalAccount() {
                                 mt: 1,
                             }}
                         >
-                            USDT
+                            UPI
                         </Typography>
                     </Stack>
                 </Stack>
@@ -377,7 +343,7 @@ function WithdrawalAccount() {
                             variant="body1"
                             sx={{ fontSize: "15px", fontWeight: "500", mt: 1, color: 'white' }}
                         >
-                            {game_history_data?.BANKNAME?.substring(0, 8) + "****"}
+                            {game_history_data?.Associate_Name?.substring(0, 8) + "****"}
                         </Typography>
                     </Box>
                     <Stack
@@ -390,7 +356,7 @@ function WithdrawalAccount() {
                             variant="body1"
                             sx={{ fontSize: "13px", fontWeight: "600", color: 'white' }}
                         >
-                            {game_history_data?.account_number?.substring(0, 5) + "****"}
+                            {game_history_data?.AcNo?.substring(0, 5) + "****"}
                         </Typography>
                         <KeyboardArrowRightIcon sx={{ color: 'white' }} />
                     </Stack>
@@ -410,79 +376,86 @@ function WithdrawalAccount() {
                 <div className="grid grid-cols-2 gap-1 items-center  p-5 !text-white">
                     <span className="!text-white !text-sm ">Amount*</span>
                     <TextField
-                        id="m_w_amount"
-                        name="m_w_amount"
-                          value={fk.values.m_w_amount}
+                        id="amount"
+                        name="amount"
+                        value={fk.values.amount}
                         onChange={fk.handleChange}
                         placeholder="Amount"
                         className="!w-[100%] !bg-white !mt-5"
                     />
+                    {fk.touched.amount && fk.errors.amount && (
+                        <div className="error">{fk.errors.amount}</div>
+                    )}
 
                     <span className="!text-white !text-sm">Withdrawal Type *</span>
                     <TextField
-                        id="w_type"
-                        name="w_type"
-                        value={fk.values.w_type}
+                        id="type"
+                        name="type"
+                        value={fk.values.type}
                         onChange={fk.handleChange}
                         className="!w-[100%] !bg-white !mt-5"
                         select
                         size="small"
                     >
-                        <MenuItem value={"Withdrawal Type"}>Withdrawal Type</MenuItem>
                         <MenuItem value={"Bank"}>Bank Type</MenuItem>
                         <MenuItem value={"UPI"}>UPI Type</MenuItem>
                     </TextField>
-                    {fk.values.w_type === "Bank" && (
-                        <>
-                        {bank_data?.map((item)=>{
-                            return<>
-                            <span className="!text-white !text-sm "> Bank Name*</span>
-                            <TextField
-                              value={item?.bank_name}
-                                className="!w-[100%] !bg-white !mt-5"
-                            /> 
-                              <span className="!text-white !text-sm "> Account Holder Name*</span>
-                            <TextField
-                             value={item?.Associate_Name}
-                           className="!w-[100%] !bg-white !mt-5"
-                            /> 
-                             <span className="!text-white !text-sm "> Account Number*</span>
-                           
-                            <TextField
-                             value={item?.AcNo  }
-                           className="!w-[100%] !bg-white !mt-5"
-                            /> 
-                                <span className="!text-white !text-sm "> IFSC Code *</span>
-                                <TextField
-                             value={item?.ifsc_code || 0}
-                           className="!w-[100%] !bg-white !mt-5"
-                            /> 
-                            </>
-                        })}
-                     </>
+                    {fk.touched.type && fk.errors.type && (
+                        <div className="error">{fk.errors.type}</div>
                     )}
-                    {fk.values.w_type === "UPI" && (
+
+
+                    {fk.values.type === "Bank" && (
                         <>
-                         {upidata?.map((item)=>{
-                            return<> 
-                             <span className="!text-white !text-sm ">UPI ID*</span>
-                            <TextField
-                               value={item?.Branch}
-                                className="!w-[100%] !bg-white !mt-5"
-                            />
-                             <span className="!text-white !text-sm ">UPI Number*</span>
-                            <TextField
-                               value={item?.AcNo}
-                               className="!w-[100%] !bg-white !mt-5"
-                            />
-                              <span className="!text-white !text-sm ">UPI Type*</span>
-                            <TextField
-                              value={item?.Ifsc}
-                                className="!w-[100%] !bg-white !mt-5"
-                            />
-                            </>
-                         })}
-                       </>
+                            {bank_data?.map((item) => {
+                                return <>
+                                    <span className="!text-white !text-sm "> Bank Name*</span>
+                                    <TextField
+                                        value={item?.bank_name}
+                                        className="!w-[100%] !bg-white !mt-5"
+                                    />
+                                    <span className="!text-white !text-sm "> Account Holder Name*</span>
+                                    <TextField
+                                        value={item?.Associate_Name}
+                                        className="!w-[100%] !bg-white !mt-5"
+                                    />
+                                    <span className="!text-white !text-sm "> Account Number*</span>
+
+                                    <TextField
+                                        value={item?.AcNo}
+                                        className="!w-[100%] !bg-white !mt-5"
+                                    />
+                                    <span className="!text-white !text-sm "> IFSC Code *</span>
+                                    <TextField
+                                        value={item?.ifsc_code || 0}
+                                        className="!w-[100%] !bg-white !mt-5"
+                                    />
+                                </>
+                            })}
+                        </>
+                    )}
+                    {fk.values.type === "UPI" && (
+                        <>
+                            {upidata?.map((item) => {
+                                return <>
+                                    <span className="!text-white !text-sm ">UPI ID*</span>
+                                    <TextField
+                                        value={item?.Branch}
+                                        className="!w-[100%] !bg-white !mt-5"
+                                    />
+                                    <span className="!text-white !text-sm ">UPI Number*</span>
+                                    <TextField
+                                        value={item?.AcNo}
+                                        className="!w-[100%] !bg-white !mt-5"
+                                    />
+                                    <span className="!text-white !text-sm ">UPI Type*</span>
+                                    <TextField
+                                        value={item?.Ifsc}
+                                        className="!w-[100%] !bg-white !mt-5"
+                                    />
+                                </>
+                            })}
+                        </>
                     )}
                 </div>
                 <Button
@@ -495,6 +468,8 @@ function WithdrawalAccount() {
                 >
                     Withdrawal
                 </Button>
+                {Loading && (
+                    <CustomCircularProgress isLoading={Loading} />)}
                 <Stack
                     direction="row"
                     alignItems="center"
@@ -664,184 +639,7 @@ function WithdrawalAccount() {
                 </Box>
             </Box>
 
-            <Stack direction="row" sx={{ alignItems: "center", margin: "20px" }}>
-                <Box component="img" src={withdravalhistory} width={30} sx={{ filter: 'hue-rotate(45deg)' }}></Box>
-                <Typography
-                    variant="body1"
-                    sx={{
-                        fontSize: "15px ",
-                        color: "white",
-                        ml: "10px",
-                        fontWeight: "600",
-                    }}
-                >
-                    Withdrawal history
-                </Typography>
-            </Stack>
 
-            {
-                visibleData?.map((i, index) => {
-                    return (
-                        <Box
-                            key={index}
-                            sx={{
-                                mb: 2,
-                                padding: "10px",
-                                borderRadius: "10px",
-                                background: "#fff",
-                                width: "92%",
-                                margin: "auto",
-                                mt: 2,
-                            }}
-                        >
-                            <Stack
-                                direction="row"
-                                sx={{
-                                    paddingBottom: "10px",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    borderBottom: "1px solid #efefef",
-                                }}
-                            >
-                                <Box>
-                                    <Typography className="!text-white rounded px-2 py-1 " sx={{ background: theme.palette.primary.main }}>
-                                        Withdrawal
-                                    </Typography>
-                                </Box>
-                                <Box
-                                    sx={{
-                                        color: "#888",
-                                        textTransform: "capitalize",
-                                        fontSize: "14px",
-                                        fontWeight: "600",
-                                    }}
-                                >
-                                    {i?.call_back_status}
-                                </Box>
-                            </Stack>
-                            <Stack
-                                direction="row"
-                                sx={{
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    "&>p:nth-child(1)": {
-                                        color: "#888",
-                                        fontSize: "13px",
-                                        fontWeight: "600",
-                                        py: 1,
-                                    },
-                                    "&>p:nth-child(2)": {
-                                        color: theme.palette.primary.main,
-                                        fontSize: "13px",
-                                        fontWeight: "600",
-                                        py: 1,
-                                    },
-                                }}
-                            >
-                                <Typography variant="body1">
-                                    Balance
-                                </Typography>
-                                <Typography variant="body1">₹ {i?.amount}</Typography>
-                            </Stack>
-                            <Stack
-                                direction="row"
-                                sx={{
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    "&>p": {
-                                        color: "#888",
-                                        fontSize: "13px",
-                                        fontWeight: "600",
-                                        py: 1,
-                                    },
-                                }}
-                            >
-                                <Typography variant="body1">
-                                    Type
-                                </Typography>
-                                <Typography variant="body1">
-                                    {i?.w_type}
-                                </Typography>
-                            </Stack>
-                            <Stack
-                                direction="row"
-                                sx={{
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    "&>p": {
-                                        color: "#888",
-                                        fontSize: "13px",
-                                        fontWeight: "600",
-                                        py: 1,
-                                    },
-                                }}
-                            >
-                                <Typography variant="body1">
-                                    Time
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    className="!text-green-500"
-                                >
-                                    {moment(i?.response_date)?.format("DD-MM-YYYY HH:mm:ss")}
-                                </Typography>
-                            </Stack>
-                            <Stack
-                                direction="row"
-                                sx={{
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    "&>p": {
-                                        color: "#888",
-                                        fontSize: "13px",
-                                        fontWeight: "600",
-                                        py: 1,
-                                    },
-                                }}
-                            >
-                                <Typography variant="body1">
-                                    Order number
-                                </Typography>
-                                <Stack
-                                    direction="row"
-                                    sx={{
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        "&>p:nth-child(1)": {
-                                            color: "#888",
-                                            fontSize: "13px",
-                                            fontWeight: "600",
-                                            py: 1,
-                                        },
-                                        "&>p:nth-child(2)": {
-                                            color: theme.palette.primary.main,
-                                            fontSize: "13px",
-                                            fontWeight: "600",
-                                        },
-                                    }}
-                                >
-                                    <Typography variant="body1">
-                                        {i?.transaction_no}
-                                    </Typography>
-                                    <IconButton sx={{ padding: 0 }}>
-                                        <ContentCopyIcon
-                                            sx={{ color: "#888", width: "15px", ml: 1 }}
-                                        />
-                                    </IconButton>
-                                </Stack>
-                            </Stack>
-                        </Box>
-                    );
-                })
-            }
-
-            <Button
-                sx={style.paytmbtntwo}
-                variant="outlined"
-                onClick={() => setIsAllValue(!isAllValue)}
-            >
-                {isAllValue ? "Show Less" : " All history"}
-            </Button>
         </Container >
     );
 }

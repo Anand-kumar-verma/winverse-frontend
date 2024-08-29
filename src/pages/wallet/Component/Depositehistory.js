@@ -14,10 +14,9 @@ import { depositHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from '../../../utils/theme';
 
-
 function Depositehistory() {
   const [isAllValue, setIsAllValue] = useState(false);
-  const [visibleData, setvisibleData] = useState([]);
+  const [visibleData, setVisibleData] = useState([]);
 
   const { isLoading, data } = useQuery(
     ["deposit_history"],
@@ -33,21 +32,33 @@ function Depositehistory() {
 
   const res = data?.data?.earning?.rid || [];
 
+  const [value, setValue] = useState(1);
+
   useEffect(() => {
-    isAllValue ? setvisibleData(res) : setvisibleData(res?.slice(0, 3));
-  }, [isAllValue, res]);
+    let filteredData = [];
+
+    if (value === 1) {
+      // Show all data
+      filteredData = res;
+    } else if (value === 2) {
+      // Filter by Bank Card
+      filteredData = res.filter(i => i.tr15_type === 'Wallet Transfer');
+    } else if (value === 3) {
+      // Filter by UPI
+      filteredData = res.filter(i => i.tr15_type === 'API');
+    }
+
+    setVisibleData(isAllValue ? filteredData : filteredData.slice(0, 3));
+  }, [isAllValue, value, res]);
 
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
-  const [value, setValue] = useState(1);
-
   const handleChange = (newValue) => {
     setValue(newValue);
   };
-
 
   return (
     <Container sx={{ background: theme.palette.secondary.main }}>
@@ -55,22 +66,17 @@ function Depositehistory() {
       <Box sx={{ background: theme.palette.primary.main, padding: 1 }}>
         <Stack direction='row' sx={{ alignItems: 'end', justifyContent: 'space-between', position: 'relative' }}>
           <NavLink onClick={goBack}>
-            <Box component='img' src={backbtn} width={25}>
-            </Box>
+            <Box component='img' src={backbtn} width={25}></Box>
           </NavLink>
           <Box sx={{ position: 'absolute', left: '30%', top: '10%' }}>
             <Typography variant="body1" sx={{ color: 'white', fontSize: '16px', fontWeight: '600' }}>Deposit history</Typography>
           </Box>
-          <NavLink >
-          </NavLink>
         </Stack>
       </Box>
       <Box sx={{ padding: 1 }}>
         <Stack direction="row" justifyContent="space-between" mt={2}>
           <Button
-            className={
-              value === 1 ? " gametableactive gametable" : " gametable"
-            }
+            className={value === 1 ? " gametableactive gametable" : " gametable"}
             onClick={() => handleChange(1)}
           >
             {value === 1 ?
@@ -81,89 +87,154 @@ function Depositehistory() {
             All
           </Button>
           <Button
-            className={
-              value === 2 ? " gametableactive gametable" : " gametable"
-            }
+            className={value === 2 ? " gametableactive gametable" : " gametable"}
             onClick={() => handleChange(2)}
           >
             {value === 2 ?
-              <Box component='img' src={bankcardinactive} width={20} mr={1}></Box>
-              :
               <Box component='img' src={bankcardactive} width={20} mr={1}></Box>
+              :
+              <Box component='img' src={bankcardinactive} width={20} mr={1}></Box>
             }
             BANK CARD
           </Button>
           <Button
-            className={
-              value === 3 ? " gametableactive gametable" : " gametable"
-            }
+            className={value === 3 ? " gametableactive gametable" : " gametable"}
             onClick={() => handleChange(3)}
           >
             <Box component='img' src={trx} width={20} mr={1}></Box>
-            USDT 0
+            UPI
           </Button>
         </Stack>
       </Box>
 
-      {/* <Stack sx={{ padding: 1 }} >
-        <Box sx={{ width: '100%' }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">All</InputLabel>
-            <Select
-              value={transection}
-              label="All"
-              onChange={handleChangeTransection}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <Box sx={{ width: '100%', mt: 1 }}>
-        </Box>
-      </Stack> */}
-      {visibleData?.map((i, index) => {
-        return (
-          <Box
-            key={index}
+      {visibleData?.map((i, index) => (
+        <Box
+          key={index}
+          sx={{
+            mb: 2,
+            padding: "10px",
+            borderRadius: "10px",
+            background: "#fff",
+            width: "92%",
+            margin: "auto",
+            mt: 2,
+          }}
+        >
+          <Stack
+            direction="row"
             sx={{
-              mb: 2,
-              padding: "10px",
-              borderRadius: "10px",
-              background: "#fff",
-              width: "92%",
-              margin: "auto",
-              mt: 2,
+              paddingBottom: "10px",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottom: "1px solid #efefef",
             }}
           >
-            <Stack
-              direction="row"
-              sx={{
-                paddingBottom: "10px",
-                alignItems: "center",
-                justifyContent: "space-between",
-                borderBottom: "1px solid #efefef",
-              }}
-            >
-              <Box>
-                <Typography
-                  className=" !text-white rounded px-2 py-1 !flex justify-center " sx={{ background: theme.palette.primary.main }}
-                >
-                  Deposit
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  color: "#888",
-                  textTransform: "capitalize",
-                  fontSize: "14px",
-                  fontWeight: "600",
-                }}
+            <Box>
+              <Typography
+                className=" !text-white rounded px-2 py-1 !flex justify-center " sx={{ background: theme.palette.primary.main }}
               >
-                {i?.tr15_status}
-              </Box>
-            </Stack>
+                Deposit
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                color: "#888",
+                textTransform: "capitalize",
+                fontSize: "14px",
+                fontWeight: "600",
+              }}
+              className={`${i?.tr15_status==="Success"
+                ? "!text-green-500"
+                : "!text-red-500"
+              }`}
+            >
+              {i?.tr15_status}
+            </Box>
+          </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p:nth-child(1)": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+              "&>p:nth-child(2)": {
+                color: theme.palette.primary.main,
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Balance
+            </Typography>
+            <Typography variant="body1">₹ {i?.tr15_amt}</Typography>
+          </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Type
+            </Typography>
+            <Typography variant="body1" color="initial">
+              {i?.tr15_type}
+            </Typography>
+          </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Time
+            </Typography>
+            <Typography
+              variant="body1"
+              color="initial"
+              className="!text-green-500"
+            >
+              {moment(i?.tr15_date)?.format("DD-MM-YYYY HH:mm:ss")}
+            </Typography>
+          </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Order number
+            </Typography>
             <Stack
               direction="row"
               sx={{
@@ -179,117 +250,35 @@ function Depositehistory() {
                   color: theme.palette.primary.main,
                   fontSize: "13px",
                   fontWeight: "600",
-                  py: 1,
                 },
               }}
             >
               <Typography variant="body1" color="initial">
-                Balance
+                {i?.tr15_trans}
               </Typography>
-              <Typography variant="body1">₹ {i?.tr15_amt}</Typography>
+              <IconButton sx={{ padding: 0 }}>
+                <ContentCopyIcon
+                  sx={{ color: "#888", width: "15px", ml: 1 }}
+                />
+              </IconButton>
             </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Type
-              </Typography>
-              <Typography variant="body1" color="initial">
-                {i?.tr15_type}
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Time
-              </Typography>
-              <Typography
-                variant="body1"
-                color="initial"
-                className="!text-green-500"
-              >
-                {moment(i?.tr15_date)?.format("DD-MM-YYYY HH:mm:ss")}
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Order number
-              </Typography>
-              <Stack
-                direction="row"
-                sx={{
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  "&>p:nth-child(1)": {
-                    color: "#888",
-                    fontSize: "13px",
-                    fontWeight: "600",
-                    py: 1,
-                  },
-                  "&>p:nth-child(2)": {
-                    color: theme.palette.primary.main,
-                    fontSize: "13px",
-                    fontWeight: "600",
-                  },
-                }}
-              >
-                <Typography variant="body1" color="initial">
-                  {i?.tr15_trans}
-                </Typography>
-                <IconButton sx={{ padding: 0 }}>
-                  <ContentCopyIcon
-                    sx={{ color: "#888", width: "15px", ml: 1 }}
-                  />
-                </IconButton>
-              </Stack>
-            </Stack>
-          </Box>
-        );
-      })}
+          </Stack>
+        </Box>
+      ))}
 
       <Button
-        sx={style.paytmbtntwo}
+        sx={{ marginTop: 2, margin:5, borderColor: theme.palette.primary.main, color: theme.palette.primary.main }}
         variant="outlined"
         onClick={() => setIsAllValue(!isAllValue)}
       >
-        {isAllValue ? "Show Less" : " All history"}
+        {isAllValue ? "Show Less" : "Show All"}
       </Button>
-    </Container>);
+    </Container>
+  );
 }
+
 export default Depositehistory;
+
 
 
 const style = {

@@ -268,15 +268,16 @@ function Promotion() {
           <Box
             sx={style.invitebutton}
             className="invitebutton"
-            onClick={() => {
-              or_m_user_type === "Dummy User"
-                ? toast("Dummy User")
-                : functionTOCopy(
-                  `${front_end_domain}/register/?inviteid=${profile?.rec?.Login_Id}`
-                );
-            }}
+          
           >
-            <Box sx={style.invitbox} className={"!cursor-pointer"}>
+            <Box sx={style.invitbox} className={"!cursor-pointer"}
+              onClick={() => {
+                or_m_user_type === "Dummy User"
+                  ? toast("Dummy User")
+                  : functionTOCopy(
+                    `${front_end_domain}/register/?inviteid=${profile?.rec?.Login_Id}`
+                  );
+              }}>
               <Stack direction="row">
                 <Box component="img" src={copyinvitationcode} sx={{ filter: 'hue-rotate(45deg)' }}></Box>
                 <Typography variant="body1" color="initial">

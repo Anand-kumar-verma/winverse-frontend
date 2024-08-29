@@ -21,7 +21,7 @@ import wal from "../../assets/images/wal.png";
 import wih from "../../assets/images/with.png";
 import wit from "../../assets/images/witt.png";
 import Layout from "../../component/layout/Layout";
-import { ProfileDataFunction, Update_ProfileFn, getBalanceFunction, logOutFunction, showRank } from "../../services/apiCallings";
+import { ProfileDataFunction, Update_ProfileFn, getBalanceFunction, logOutFunction, showRank, withdrawalFn } from "../../services/apiCallings";
 import { endpoint, front_end_domain } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import ImageSelectorModal from "./ImageSelectorModal";
@@ -67,7 +67,7 @@ function Account() {
     }
   );
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
-
+  
  useQuery(
     ["Update_pic", selectedImages],
     () => Update_ProfileFn(selectedImages, client),
@@ -146,18 +146,21 @@ function Account() {
                 <Typography className="text-white !text-xs">{profile?.rec?.Login_Id} <CopyAll fontSize="small" /> </Typography>
               </Box>
 
-              {profile?.rec?.Club !== 0 &&
-                <Box className="  realtive !left-36 flex gap-3 justify-center">
-                  <Typography className="text-white !text-sm">Rank: </Typography>
-                  <Typography className="text-white !text-sm">{showRank(profile?.rec?.Club)}</Typography>
-                </Box>}
-              <CustomDate />
             </Box>
           </Box>
           <Box sx={{ background: 'rgb(26 28 40 / 95%)', }} className=" shadow-xl rounded-lg py-5 relative top-8">
-            <Typography sx={{ color: 'white' }} className=" px-3">Total Balance</Typography>
-            <Typography sx={{ color: 'white' }} className="!font-bold px-3"> ₹ {Number(wallet_amount_data || 0)?.toFixed(2)}
+            <div className="flex">
+           <div>
+           <Typography sx={{ color: 'white' }} className=" px-3">Total Balance</Typography>
+            <Typography sx={{ color: 'white' }} className="!font-bold px-3"> ₹ {Number(wallet_amount_data?.wallet || 0)?.toFixed(2)}
             </Typography>
+            </div>
+           <div>
+           <Typography sx={{ color: 'white' }} className=" px-3">P2P Balance</Typography>
+            <Typography sx={{ color: 'white' }} className="!font-bold px-3"> ₹ {Number(wallet_amount_data?.p2pwallet || 0)?.toFixed(2)}
+            </Typography>
+           </div>
+            </div>
             <Box className="flex justify-center gap-8 pt-5">
               <NavLink to="/wallet">
                 <Box className="flex flex-col justify-center items-center">

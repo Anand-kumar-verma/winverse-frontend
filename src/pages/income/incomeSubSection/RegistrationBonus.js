@@ -23,7 +23,7 @@ function RegistrationBonus() {
 
   const { isLoading, data } = useQuery(
     ["registration_bonus"],
-    () => registrationBonusFn("9"),
+    () => registrationBonusFn(""),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,

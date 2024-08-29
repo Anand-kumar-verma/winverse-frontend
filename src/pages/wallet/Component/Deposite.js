@@ -1,19 +1,16 @@
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   Box,
   Button,
   Container,
-  IconButton,
   MenuItem,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import copy from "clipboard-copy";
 import axios from "axios";
+import copy from "clipboard-copy";
 import { useFormik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -24,46 +21,25 @@ import audiovoice from "../../../assets/images/bankvoice.mp3";
 import cip from "../../../assets/images/cip.png";
 import user from "../../../assets/images/instruction.png";
 import refresh from "../../../assets/images/refwhite.png";
-import withdravalhistory from "../../../assets/images/withdrawalhistory.png";
 import {
   BankListDetails,
   BankUPIDetails,
-  depositHistoryFunction,
   getBalanceFunction,
 } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
-
+import { History } from "@mui/icons-material";
 import { endpoint } from "../../../services/urls";
-import QRScreen from "./QRScreen";
+
 function Deposite() {
   const [receipt, setReceipt] = React.useState();
   const user_id = localStorage.getItem("user_id");
-  const [isAllValue, setIsAllValue] = useState(false);
-  const [visibleData, setvisibleData] = useState([]);
   const [amount, setBalance] = useState("");
-  const [loading, setIsLoading] = React.useState(false);
+  const [Loading, setLoading] = useState(false);
   const audioRefMusic = React.useRef(null);
-  const [loding, setloding] = useState(false);
-  const { isLoading: history, data } = useQuery(
-    ["deposit_history"],
-    () => depositHistoryFunction(),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
   const client = useQueryClient();
 
-  const res = data?.data?.earning?.rid || [];
-  useEffect(() => {
-    isAllValue ? setvisibleData(res) : setvisibleData(res?.slice(0, 3));
-  }, [isAllValue, res]);
-
-  const { isLoading, data: wallet_amount } = useQuery(
+  const { data: wallet_amount } = useQuery(
     ["wallet_amount"],
     () => getBalanceFunction(setBalance),
     {
@@ -81,41 +57,50 @@ function Deposite() {
     req_amount: "",
     req_curr_type: "",
     file: "",
+    transaction_no: ""
   };
 
   const fk = useFormik({
     initialValues: initialValue,
     enableReinitialize: true,
     onSubmit: () => {
+      setLoading(true);
       const reqBody = {
         user_id: user_id,
         deposit_type: fk.values.deposit_type === "UPI" ? "1" : "2",
         req_amount: fk.values.req_amount,
         req_curr_type: fk.values.req_curr_type,
-        file: receipt, 
+        file: receipt,
+        transaction_no: fk.values.transaction_no
       };
       insertFundFn(reqBody);
     },
+
   });
   async function insertFundFn(reqBody) {
     try {
       const res = await axios.post(endpoint?.deposite_request, reqBody);
       toast(res?.data?.msg);
-      setIsLoading(false);
-      if ("Request Successfully Done" === res?.data?.msg)
+      setLoading(false);
+      if ("Request Successfully Done" === res?.data?.msg) {
         fk.handleReset();
+        setReceipt(null);
+        
+      }
     } catch (e) {
       console.log(e);
     }
     client.refetchQueries("wallet_amount");
   }
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
       const reader = new FileReader();
+      reader.onloadend = () => {
+        setReceipt(reader.result);
+      };
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
+    }
   };
   const functionTOCopy = (value) => {
     copy(value);
@@ -177,12 +162,9 @@ function Deposite() {
     );
   }, []);
 
- 
-  if (loading) return <CustomCircularProgress isLoading={loading} />;
   return (
     <Container sx={{ background: theme.palette.secondary.main, }}>
       {audio}
-      <CustomCircularProgress isLoading={isLoading || loding || history} />
       <Box
         sx={{
           background: theme.palette.primary.main,
@@ -214,7 +196,7 @@ function Deposite() {
               color="initial"
               sx={{ fontSize: "11px", color: "white" }}
             >
-              Deposit history
+            <History className="!text-white"/>
             </Typography>
           </NavLink>
         </Stack>
@@ -266,7 +248,7 @@ function Deposite() {
         </span>
         <span className="!text-white !text-sm">Select Payment *</span>
         <TextField
-       
+
           id="deposit_type"
           name="deposit_type"
           value={fk.values.deposit_type}
@@ -351,6 +333,7 @@ function Deposite() {
         )}
         <span className="!text-white !text-sm ">Amount*</span>
         <TextField
+          type="text"
           id="req_amount"
           name="req_amount"
           value={fk.values.req_amount}
@@ -358,24 +341,24 @@ function Deposite() {
           placeholder="amount"
           className="!w-[100%] !bg-white !mt-5"
         />
-
+        <span className="!text-white !text-sm ">Transaction Id*</span>
+        <TextField
+          type="text"
+          id="transaction_no"
+          name="transaction_no"
+          value={fk.values.transaction_no}
+          onChange={fk.handleChange}
+          placeholder="Transaction"
+          className="!w-[100%] !bg-white !mt-5"
+        />
         <span className="!text-white !text-sm ">Receipt*</span>
         <input
           type="file"
           id="file"
           name="file"
+
           className="!text-sm !mt-5"
-          onChange={async (e) => {
-            const file = e.target.files[0];
-            if (file) {
-              try {
-                const base64 = await fileToBase64(file);
-                setReceipt(base64); // Store the base64 string in state
-              } catch (error) {
-                console.error("Error converting file to base64:", error);
-              }
-            }
-          }}
+          onChange={handleFileChange}
           required
         />
 
@@ -393,6 +376,8 @@ function Deposite() {
           >
             Submit
           </Button>
+          {Loading && (
+            <CustomCircularProgress isLoading={Loading} />)}
         </div>
       </div>
       <Box
@@ -490,184 +475,7 @@ function Deposite() {
         </Box>
       </Box>
 
-      <Stack direction="row" sx={{ alignItems: "center", margin: "20px" }}>
-        <Box component="img" src={withdravalhistory} width={30} sx={{ filter: 'hue-rotate(45deg)' }}></Box>
-        <Typography
-          variant="body1"
-          color="initial"
-          sx={{
-            fontSize: "15px ",
-            color: "#888",
-            ml: "10px",
-            fontWeight: "600",
-          }}
-        >
-          Deposite history
-        </Typography>
-      </Stack>
 
-      {visibleData?.map((i, index) => {
-        return (
-          <Box
-            key={index}
-            sx={{
-              mb: 2,
-              padding: "10px",
-              borderRadius: "10px",
-              background: "#fff",
-              width: "92%",
-              margin: "auto",
-              mt: 2,
-            }}
-          >
-            <Stack
-              direction="row"
-              sx={{
-                paddingBottom: "10px",
-                alignItems: "center",
-                justifyContent: "space-between",
-                borderBottom: "1px solid #efefef",
-              }}
-            >
-              <Box>
-                <Typography className=" !text-white rounded px-2 py-1 !flex justify-center" sx={{ background: '#63BA0E' }}>
-                  Deposit
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  color: "#888",
-                  textTransform: "capitalize",
-                  fontSize: "14px",
-                  fontWeight: "600",
-                }}
-              >
-                {i?.tr15_status}
-              </Box>
-            </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p:nth-child(1)": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-                "&>p:nth-child(2)": {
-                  color: theme.palette.primary.main,
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Balance
-              </Typography>
-              <Typography variant="body1">₹ {i?.tr15_amt}</Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Type
-              </Typography>
-              <Typography variant="body1" color="initial">
-                {i?.tr15_type}
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Time
-              </Typography>
-              <Typography
-                variant="body1"
-                color="initial"
-                className="!text-green-500"
-              >
-                {moment(i?.tr15_date)?.format("DD-MM-YYYY HH:mm:ss")}
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Order number
-              </Typography>
-              <Stack
-                direction="row"
-                sx={{
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  "&>p:nth-child(1)": {
-                    color: "#888",
-                    fontSize: "13px",
-                    fontWeight: "600",
-                    py: 1,
-                  },
-                  "&>p:nth-child(2)": {
-                    color: theme.palette.primary.main,
-                    fontSize: "13px",
-                    fontWeight: "600",
-                  },
-                }}
-              >
-                <Typography variant="body1" color="initial">
-                  {i?.tr15_trans}
-                </Typography>
-                <IconButton sx={{ padding: 0 }}>
-                  <ContentCopyIcon
-                    sx={{ color: "#888", width: "15px", ml: 1 }}
-                  />
-                </IconButton>
-              </Stack>
-            </Stack>
-          </Box>
-        );
-      })}
-
-      <Button
-        sx={style.paytmbtntwo}
-        variant="outlined"
-        onClick={() => setIsAllValue(!isAllValue)}
-      >
-        {isAllValue ? "Show Less" : " All history"}
-      </Button>
     </Container>
   );
 }

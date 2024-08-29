@@ -48,7 +48,7 @@ function TeamBettingBonus() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p>Team Betting Bonus</p>
+            <p>Level Income</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -72,7 +72,7 @@ function TeamBettingBonus() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Team Betting Bonus</p>
+          <p>Level Income</p>
         </Box>
         <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {

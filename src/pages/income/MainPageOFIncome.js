@@ -30,7 +30,7 @@ function MainPageOFIncome() {
     // },
     {
       to: "/account/income-main/referral-bonus",
-      name: "Referral Bonus",
+      name: "Direct Income",
       logo: (
         <RedeemIcon
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"
@@ -40,7 +40,7 @@ function MainPageOFIncome() {
     },
     {
       to: "/account/income-main/team-betting-bonus",
-      name: "Team Betting Bonus",
+      name: "LeveL Income",
       logo: (
         <LocalConvenienceStoreIcon
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"

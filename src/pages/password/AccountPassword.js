@@ -1,17 +1,20 @@
-import { Button, Container, TextField } from "@mui/material";
+import { Box, Button, Container, TextField } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Layout from "../../component/layout/Layout";
 import { endpoint } from "../../services/urls";
+import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
+import theme from "../../utils/theme";
 
 const AccountPassword = () => {
+  const [Loading, setLoading] = useState(false);
   const user_id = localStorage.getItem("user_id");
   const initialValue = {
-    old_pass: "",
-    new_pass: "",
-    confirm_pass: "",
+    oldpassword: "",
+    newpassword: "",
+    confirmpassword: "",
   };
 
   const fk = useFormik({
@@ -19,18 +22,18 @@ const AccountPassword = () => {
     enableReinitialize: true,
     onSubmit: () => {
       const reqBody = {
-        user_id: user_id,
-        txtpassword: fk.values.new_pass,
-        txtcpassword: fk.values.confirm_pass,
-        txtopassword: fk.values.old_pass,
+        userid: user_id,
+        newpassword: fk.values.newpassword,
+        confirmpassword: fk.values.confirmpassword,
+        oldpassword: fk.values.oldpassword,
       };
       if (
-        !reqBody.txtpassword ||
-        !reqBody.txtcpassword ||
-        !reqBody.txtopassword
+        !reqBody.newpassword ||
+        !reqBody.confirmpassword ||
+        !reqBody.oldpassword
       )
         return toast("Plese enter all data");
-      if (!reqBody.txtcpassword !== !reqBody.txtpassword)
+      if (!reqBody.confirmpassword !== !reqBody.newpassword)
         return toast("New password and Confirm Password should be same");
       changePasswordFn(reqBody);
     },
@@ -38,12 +41,15 @@ const AccountPassword = () => {
 
   async function changePasswordFn(reqBody) {
     try {
+      setLoading(true)
       const res = await axios.post(endpoint?.update_password, reqBody);
-      toast(res?.data?.earning?.mag);
+      toast(res?.data?.msg);
+      if ("Password Changed Successfully" === res?.data?.msg)
+        fk.handleReset();
+      setLoading(false)
     } catch (e) {
       console.log(e);
     }
-    // client.refetchQueries("bank_details");
   }
 
   return (
@@ -57,54 +63,60 @@ const AccountPassword = () => {
         }}
         className="no-scrollbar"
       >
-        <div className="grid grid-cols-2 gap-1 items-center w-[400px] p-5">
-          <span className="col-span-2 justify-end">
-            <div className="flex justify-between">
-              <span className="font-bold">Change Password</span>
-            </div>
-          </span>
+        <Box
+        sx={{
+          background: theme.palette.primary.main,
+          width: "100%",
+          height: "100vh",
+        }}>
+          <div className="font-bold !text-center  !pt-5">Change Password</div>
+        <div className="!m-5  !text-white !font-bold">
           <span>Old Password*</span>
-          <TextField
-            id="old_pass"
-            name="old_pass"
-            value={fk.values.old_pass}
-            onChange={fk.handleChange}
-            placeholder="Enter Old Password"
-            className="!w-[100%]"
-          ></TextField>
-          <span>New Password*</span>
-          <TextField
-            id="new_pass"
-            name="new_pass"
-            value={fk.values.new_pass}
-            placeholder="Enter New Password"
-            onChange={fk.handleChange}
-            className="!w-[100%]"
-          />
-          <span>Confirm Password*</span>
-          <TextField
-            id="confirm_pass"
-            name="confirm_pass"
-            placeholder="Enter Confirm Password"
-            value={fk.values.confirm_pass}
-            onChange={fk.handleChange}
-            className="!w-[100%]"
-          />
-          <div className="col-span-2 flex gap-2 mt-4">
-            <Button
-              className="!bg-[#FD565C] !text-white"
-              onClick={() => fk.handleReset()}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="!bg-[#BF6DFE] !text-white"
-              onClick={() => fk.handleSubmit()}
-            >
-              Submit
-            </Button>
+            <TextField
+              id="oldpassword"
+              name="oldpassword"
+              value={fk.values.oldpassword}
+              onChange={fk.handleChange}
+              placeholder="Enter Old Password"
+              className="!w-[100%] !bg-white !mb-5 !rounded"
+            ></TextField>
+            <span className="!my-2">New Password*</span>
+            <TextField
+              id="newpassword"
+              name="newpassword"
+              value={fk.values.newpassword}
+              placeholder="Enter New Password"
+              onChange={fk.handleChange}
+              className="!w-[100%] !bg-white !mb-5 !rounded" 
+            />
+            <span className="!my-2">Confirm Password*</span>
+            <TextField
+              id="confirmpassword"
+              name="confirmpassword"
+              placeholder="Enter Confirm Password"
+              value={fk.values.confirmpassword}
+              onChange={fk.handleChange}
+              className="!w-[100%] !bg-white !rounded"
+            />
           </div>
-        </div>
+            <div className="col-span-2 flex gap-2 mt-4 m-4">
+              <Button
+                className="!bg-[#FD565C] !text-white"
+                onClick={() => fk.handleReset()}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="!bg-[#BF6DFE] !text-white"
+                onClick={() => fk.handleSubmit()}
+              >
+                Submit
+              </Button>
+              {Loading && (
+                <CustomCircularProgress isLoading={Loading} />)}
+            </div>
+        </Box>
+
       </Container>
     </Layout>
   );

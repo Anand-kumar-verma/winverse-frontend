@@ -1,4 +1,4 @@
-import { CurrencyFrancSharp, CurrencyLiraRounded } from "@mui/icons-material";
+import { CurrencyFrancSharp, CurrencyLiraRounded, MoneyOffCsred } from "@mui/icons-material";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import { Box, Container } from "@mui/material";
@@ -48,6 +48,16 @@ function FundMain() {
       name: "P2P TopUp",
       logo: (
         <CurrencyLiraRounded
+          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          color="#8f5206"
+        />
+      ),
+    },
+    {
+      to: "/addmoneyp2p",
+      name: "Add Money To P2P",
+      logo: (
+        <MoneyOffCsred
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"
           color="#8f5206"
         />
