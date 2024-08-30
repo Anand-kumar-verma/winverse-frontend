@@ -1,5 +1,15 @@
 import * as Yup from "yup";
 
+export const loginSchema = Yup.object().shape({
+  mobile: Yup.string()
+    .matches(
+      /^[0-9]{10}$/,
+      "Invalid mobile number format. It must be a 10-digit number."
+    )
+    .required("Mobile number is required"),
+   
+});
+
 export const signupSchemaValidataon = Yup.object().shape({
   invite_code: Yup.string().required("Referral Code is required"),
   password: Yup.string()
@@ -34,12 +44,7 @@ export const signupSchemaValidataonEmail = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address format")
     .required("Email is required"),
-    mobile: Yup.string()
-    .matches(
-      /^[0-9]{10}$/,
-      "Invalid mobile number format. It must be a 10-digit number."
-    )
-    .required("Mobile number is required"),
+   
 });
 
 export const withdraw_amount_validation_schema = Yup.object().shape({

@@ -11,19 +11,19 @@ import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 import Layout from "../../../component/layout/Layout";
 
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
-import { registrationBonusFn } from "../../../services/apiCallings";
+import { reportIncomeFn } from "../../../services/apiCallings";
 const zubgback = "#63BA0E"
 const zubgmid = "#63BA0E"
 const zubgbackgrad = "#63BA0E"
-function TeamSalaryBonus() {
+function FundLevelCommission() {
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
   const { isLoading, data } = useQuery(
-    ["team_salary_bonus"],
-    () => registrationBonusFn("8"),
+    ["Fund_level"],
+    () => reportIncomeFn("6"),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -48,7 +48,7 @@ function TeamSalaryBonus() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p>Team Salary Bonus</p>
+            <p>Fund Level Commission</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -72,7 +72,7 @@ function TeamSalaryBonus() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Team Salary Bonus</p>
+          <p>Fund Level Commission</p>
         </Box>
         <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {
@@ -87,15 +87,11 @@ function TeamSalaryBonus() {
                 <div className="!w-full !flex !justify-between">
                   <span className="!text-white">{i?.LEDGER_TRANSID}</span>
                   <span className="!text-white  !text-[12px]">
-                    {moment(i?.LEDGER_DATE)?.format("DD-MM-YYYY")}{" "}
-                    {moment(i?.LEDGER_DATE)?.format("HH:mm:ss")}
+                  {moment(i?.LEDGER_DATETIME)?.format("DD-MM-YYYY")}{" "}
+                  {moment(i?.LEDGER_DATETIME1)?.format("HH:mm:ss")}
                   </span>
                 </div>
-                <div className="!w-full !flex !justify-between">
-                  <span className="!text-white !text-[12px]">
-                    {i?.LEDGER_LEDGERID}
-                  </span>
-                </div>
+               
               </div>
             );
           })}
@@ -105,7 +101,7 @@ function TeamSalaryBonus() {
   );
 }
 
-export default TeamSalaryBonus;
+export default FundLevelCommission;
 
 const style = {
   header: {
@@ -192,5 +188,3 @@ const style = {
     "&>p": { marginLeft: "10px", color: "white !important", fontSize: "14px" },
   },
 };
-
-

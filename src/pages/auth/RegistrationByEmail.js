@@ -46,7 +46,7 @@ const RegistrationByEmail = () => {
     confirmed_password: "",
     invite_code: inviteid || "",
     name: "",
-    mobile:"",
+    // mobile:"",
   };
   const fk = useFormik({
     initialValues: initialValue,
@@ -58,7 +58,7 @@ const RegistrationByEmail = () => {
         txtintroducer_id: fk.values.invite_code,
         txtintroducer_name: username,
         txtemail: fk.values.email,
-        txtmobile: fk.values.mobile,
+        txtmobile: "",
         txtpassword: fk.values.password,
       };
       if (fk.values.password !== fk.values.confirmed_password)
@@ -148,7 +148,7 @@ const RegistrationByEmail = () => {
             )}
           </FormControl>
         </Box>
-        <Stack direction="row" alignItems="center" className="!mt-2">
+        {/* <Stack direction="row" alignItems="center" className="!mt-2">
           <Box
             component="img"
             src={phoneaa}
@@ -184,7 +184,7 @@ const RegistrationByEmail = () => {
               )}
             </FormControl>
           </Box>
-        </Stack>
+        </Stack> */}
         <Box mt={2}>
           <Stack direction="row" alignItems="center">
             <HowToRegIcon sx={{ width: "25px", mr: 1, }} />

@@ -11,19 +11,19 @@ import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 import Layout from "../../../component/layout/Layout";
 
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
-import { registrationBonusFn } from "../../../services/apiCallings";
+import { reportIncomeFn } from "../../../services/apiCallings";
 const zubgback = "#63BA0E"
 const zubgmid = "#63BA0E"
 const zubgbackgrad = "#63BA0E"
-function ReferralBonus() {
+function DirectIncome() {
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
   const { isLoading, data } = useQuery(
-    ["referral_bonus"],
-    () => registrationBonusFn("3"),
+    ["direct_income"],
+    () => reportIncomeFn("3"),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -87,15 +87,11 @@ function ReferralBonus() {
                 <div className="!w-full !flex !justify-between">
                   <span className="!text-white">{i?.LEDGER_TRANSID}</span>
                   <span className="!text-white  !text-[12px]">
-                    {moment(i?.LEDGER_DATE)?.format("DD-MM-YYYY")}{" "}
-                    {moment(i?.LEDGER_DATE)?.format("HH:mm:ss")}
+                  {moment(i?.LEDGER_DATETIME)?.format("DD-MM-YYYY")}{" "}
+                  {moment(i?.LEDGER_DATETIME1)?.format("HH:mm:ss")}
                   </span>
                 </div>
-                <div className="!w-full !flex !justify-between">
-                  <span className="!text-white !text-[12px]">
-                    {i?.LEDGER_LEDGERID}
-                  </span>
-                </div>
+               
               </div>
             );
           })}
@@ -105,7 +101,7 @@ function ReferralBonus() {
   );
 }
 
-export default ReferralBonus;
+export default DirectIncome;
 
 const style = {
   header: {

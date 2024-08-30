@@ -179,6 +179,22 @@ export const registrationBonusFn = async (type , start , end) => {
     console.log(e);
   }
 };
+
+export const reportIncomeFn = async (type , start , end) => {
+  try {
+    const reqBody = {
+      userid: localStorage.getItem("user_id"),
+      type: type,
+      start:start,
+      end:end,
+    };
+    const response = await axios.post(endpoint.report_income, reqBody);
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
 export const BankDetailsFUnction = async () => {
   try {
     const reqBody = {

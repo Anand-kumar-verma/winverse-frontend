@@ -24,8 +24,6 @@ export const endpoint = {
   newlogin: `${baseUrl}/api/newlogin`,
   register_candidate_mobile: `${baseUrl}/api/register_candidate`,
   register_candidate_email: `${baseUrl}/api/register_candidate_new`,
-  // game_history: `${baseUrl}/api/color_result`,
-  // bet_placed: `${baseUrl}/api/betnew_color`,
   my_history: `${baseUrl}/api/one_min_myhistory`,
   get_balance: `${baseUrl}/api/withdrawal_wallet`,
   total_withdrawal_bet: `${baseUrl}/api/total_withdrawal_bet`,
@@ -55,7 +53,7 @@ export const endpoint = {
   payin_response_ico_token_akash: `${baseUrl}/api/payin_response_upi_token`,
 
   indian_insert_deposite: `${baseUrl}/api/indian_insert_deposite`,
-  // trx apis
+ 
   bet_placed: `${domain_ovi_node}/bid-placing-wingo`, //////////// done in node js
   trx_my_history: `${baseUrl}/api/trx_one_min_myhistory`, /// done  in node js
   // trx_my_history_new: `${baseUrl}/api/trx_one_min_myhistory_new`, /// done  in node js

@@ -225,7 +225,7 @@ function Deposite() {
               variant="body1"
               sx={{ color: "white", fontSize: "24px", fontWeight: "500" }}
             >
-              ₹ {wallet_amount_data || 0}
+              ₹ {wallet_amount_data?.wallet || 0}
             </Typography>
             <Box
               component="img"

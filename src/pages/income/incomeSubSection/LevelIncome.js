@@ -11,19 +11,19 @@ import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 import Layout from "../../../component/layout/Layout";
 
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
-import { registrationBonusFn } from "../../../services/apiCallings";
+import { reportIncomeFn } from "../../../services/apiCallings";
 const zubgback = "#63BA0E"
 const zubgmid = "#63BA0E"
 const zubgbackgrad = "#63BA0E"
-function RegistrationBonus() {
+function LevelIncome() {
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
   const { isLoading, data } = useQuery(
-    ["registration_bonus"],
-    () => registrationBonusFn(""),
+    ["level_income"],
+    () => reportIncomeFn("4"),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -48,7 +48,7 @@ function RegistrationBonus() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p>Registration Bonus</p>
+            <p>Level Income</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -72,9 +72,9 @@ function RegistrationBonus() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Registration Bonus</p>
+          <p>Level Income</p>
         </Box>
-        <div className="no-scrollbar !mb-10">
+        <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {
             return (
               <div className="!w-full !flex !flex-col  !bg-[#63BA0E]  !p-2 !rounded-lg !mt-2">
@@ -105,7 +105,7 @@ function RegistrationBonus() {
   );
 }
 
-export default RegistrationBonus;
+export default LevelIncome;
 
 const style = {
   header: {

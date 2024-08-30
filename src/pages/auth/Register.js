@@ -1,24 +1,15 @@
 import {
   Box,
-  Container,
-  Typography
+  Container
 } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import backbtn from "../../assets/images/backBtn.png";
-import logemailactive from "../../assets/images/logemailactive.png";
-import logemaildeactive from "../../assets/images/logemaildeactive.png";
-import logphoneactive from "../../assets/images/logphoneactive.png";
-import logphonedeactive from "../../assets/images/logphonedeactive.png";
-import { signupSchemaValidataon } from "../../services/validation";
-import RegistrationByEmail from "./RegistrationByEmail";
-import RegistrationByMobile from "./RegistrationByMobile";
-import theme from "../../utils/theme";
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/logo.png';
 import logbg from '../../assets/images/output-onlinepngtools.png';
+import { signupSchemaValidataon } from "../../services/validation";
+import RegistrationByMobile from "./RegistrationByMobile";
 
 
 function Login() {
@@ -64,82 +55,32 @@ function Login() {
             }}
           ></Box>
         </Box>
-        <Tabs value={value} onChange={handleChange}>
+        <Tabs value={value} >
           <Tab
             sx={{ width: "50%" }}
             value="one"
             label={
               <Box>
-                {value === "one" ? (
-                  // <Box
-                  //   component="img"
-                  //   src={logphoneactive}
-                  //   sx={{
-                  //     margin: "auto",
-                  //     width: "25px",
-                  //     mb: "10px !important",
-                  //     filter: 'hue-rotate(60deg)',
-                  //   }}
-                  // ></Box>
-                  <></>
-                ) : (
-                  // <Box
-                  //   component="img"
-                  //   src={logphonedeactive}
-                  //   sx={{
-                  //     margin: "auto",
-                  //     width: "25px",
-                  //     mb: "10px !important",
-                  //     filter: 'brightness(2)',
-                  //   }}
-                  // ></Box>
-                  <></>
-                )}
-                {value === "one" ? <p>Register your phone</p> : <p style={{ color: 'white' }}>Register your phone</p>}
+
+               <p style={{ color: 'white' }}>Register your phone</p>
 
               </Box>
             }
           />
           <Tab
             sx={{ width: "50%" }}
-            value="two"
+            value=""
             label={
               <Box>
-                {value === "two" ? (
-                  // <Box
-                  //   component="img"
-                  //   src={logemaildeactive}
-                  //   sx={{
-
-                  //     margin: "auto",
-                  //     width: "25px",
-                  //     mb: "10px !important",
-                  //     filter: 'hue-rotate(60deg)',
-                  //   }}
-                  // ></Box>
-                  <></>
-                ) : (
-                  // <Box
-                  //   component="img"
-                  //   src={logemailactive}
-                  //   sx={{
-                  //     margin: "auto",
-                  //     width: "25px",
-                  //     mb: "10px !important",
-                  //     filter: 'brightness(2)',
-                  //   }}
-                  // ></Box>
-                  <></>
-                )}
-                {value === "two" ? <p>      email registration</p> : <p style={{ color: 'white' }}>      email registration</p>}
+               
               </Box>
             }
           />
         </Tabs>
       </Box>
       <Box sx={{ width: "92%", margin: "auto", mt: 3 }}>
-        {value === "one" && <RegistrationByMobile />}
-        {value === "two" && <RegistrationByEmail />}
+        <RegistrationByMobile />
+       
       </Box>
     </Container>
   );

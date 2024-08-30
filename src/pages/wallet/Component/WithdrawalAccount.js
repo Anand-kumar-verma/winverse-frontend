@@ -105,7 +105,7 @@ function WithdrawalAccount() {
         () => upi_detail?.data?.earning?.bank_details,
     );
 
-    const { isLoading: getbalance, data: wallet_amount } = useQuery(
+    const {  data: wallet_amount } = useQuery(
         ["wallet_amount"],
         () => getBalanceFunction(setBalance),
         {
@@ -241,7 +241,7 @@ function WithdrawalAccount() {
                             variant="body1"
                             sx={{ color: "white", fontSize: "24px", fontWeight: "500" }}
                         >
-                            ₹ {wallet_amount_data || 0}
+                            ₹ {wallet_amount_data ?.wallet || 0}
                         </Typography>
                         <Box
                             component="img"
@@ -491,7 +491,7 @@ function WithdrawalAccount() {
                                 ml: 1,
                             }}
                         >
-                            ₹{wallet_amount_data || 0}
+                            {/* ₹{wallet_amount_data?. || 0} */}
                         </Typography>
                     </Stack>
 

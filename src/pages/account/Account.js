@@ -171,32 +171,23 @@ function Account() {
 
 
               <Box className="flex cursor-pointer flex-col justify-center items-center"
-                onClick={() => {
-                  if (or_m_user_type === "Dummy User") {
-                    toast("Dummy User");
-                  } else {
-                    navigate('/deposit');
-                  }
-                }}>
+                onClick={() =>
+                    navigate('/deposit')}>
                 <Typography> <img src={dep} alt="" className="w-8" style={{ filter: 'hue-rotate(57deg)' }} /> </Typography>
                 <Typography sx={{ color: 'white' }}> Deposit</Typography>
               </Box>
               <Box className="flex cursor-pointer flex-col justify-center items-center"
-                onClick={() => {
-                  if (or_m_user_type === "Dummy User") {
-                    toast("Dummy User");
-                  } else {
-                    navigate('/withdraw');
-                  }
-                }}>
+                onClick={() =>
+                    navigate('/withdraw')
+               }>
                 <Typography><img src={wih} alt="" className="w-8" style={{ filter: 'hue-rotate(263deg)' }} /></Typography>
                 <Typography sx={{ color: 'white' }}>Withdraw</Typography>
               </Box>
               <Box className="flex flex-col justify-center cursor-pointer items-center"
-                onClick={() =>  navigate('/p2p')}
+                // onClick={() =>  navigate('/p2p')}
               >
                 <Typography><img src={trx} alt="" className="w-8" style={{ filter: 'hue-rotate(310deg)' }} /></Typography>
-                <Typography sx={{ color: 'white' }} className="">P2P</Typography>
+                <Typography sx={{ color: 'white' }} className="">USDT</Typography>
               </Box>
             </Box>
           </Box>
