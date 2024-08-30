@@ -1,43 +1,31 @@
+import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Button, Container, MenuItem, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import copy from "clipboard-copy";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
+import { NavLink } from "react-router-dom";
+import Layout from "../../../component/layout/Layout";
 import {
   BankListDetails,
   BankUPIDetails,
-  ProfileDataFunction,
   getBalanceFunction,
 } from "../../../services/apiCallings";
 import { endpoint } from "../../../services/urls";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
-import Layout from "../../../component/layout/Layout";
-import { NavLink } from "react-router-dom";
-import { ArrowBackIos, BackHandSharp } from "@mui/icons-material";
-import copy from "clipboard-copy";
+import { topup } from "../../../services/validation";
 
 const P2PTransfer = () => {
-  const [username, setusername] = useState("");
   const [receipt, setReceipt] = React.useState();
   const user_id = localStorage.getItem("user_id");
   const [Loading, setLoading] = useState(false);
-
-
-  const { data } = useQuery(
-    ["profile"],
-    () => ProfileDataFunction(),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false
-    }
-  );
-  const profile = data?.data?.earning || [];
-
+  const [balance, setBalance] = useState();
+  
+  const client = useQueryClient()
+  
   const initialValue = {
     deposit_type: "",
     txtfile: "",
@@ -47,12 +35,15 @@ const P2PTransfer = () => {
     transfer_id: "",
     txtupi: "",
     txtbank: "",
+    p2pamount:""
   };
 
   const fk = useFormik({
     initialValues: initialValue,
+    validationSchema:topup,
     enableReinitialize: true,
     onSubmit: () => {
+    
       const reqBody = {
         userid: user_id,
         deposit_type: fk.values.deposit_type === "UPI" ? "1" : "2",
@@ -63,16 +54,18 @@ const P2PTransfer = () => {
         transfer_id: fk.values.transfer_id,
         txtupi: fk.values.txtupi,
         txtbank: fk.values.txtbank,
+        p2pamount:fk.values.p2pamount
       };
-      // if (reqBody.userid === reqBody.txtuserid) {
-      //   return toast("Can not send fund to yourself");
-      // }
+      
       // if (
-      //   !reqBody.userid ||
-      //   !reqBody.txtpassword ||
-      //   !reqBody.txtamount ||
-      //   !reqBody.txtuserid ||
-      //   !reqBody.txtwallet
+      //   !reqBody.deposit_type ||
+      //   !reqBody.txtfile ||
+      //   !reqBody.amount ||
+      //   !reqBody.txtbank ||
+      //   !reqBody.transaction_id ||
+      //   !reqBody.transfer_id ||
+      //   !reqBody.txt_req_amt ||
+      //   !reqBody.txtupi
       // )
       // return toast("Plese enter all data");
       P2PFundFn(reqBody);
@@ -85,12 +78,11 @@ const P2PTransfer = () => {
       toast(res?.data?.message);
       setLoading(false)
       fk.handleReset();
-      // client.refetchQueries("fund_transfer_history_details");
+      client.refetchQueries("wallet_amount_amount");
       // client.refetchQueries("fund_recive_details");
     } catch (e) {
       console.log(e);
     }
-    // client.refetchQueries("bank_details");
   }
 
   const { data: bank } = useQuery(
@@ -118,7 +110,7 @@ const P2PTransfer = () => {
   const upidata = upi?.data?.data;
 
   const selectedUPIDetails = upidata?.find(
-    (item) => item?.m37_id === fk.values.txtupi
+    (item) => item?.m37_id === fk?.values?.txtupi
   );
 
 
@@ -139,18 +131,47 @@ const P2PTransfer = () => {
   };
   const { data: wallet_amount } = useQuery(
     ["wallet_amount_amount"],
-    () => getBalanceFunction(),
+    () => getBalanceFunction(setBalance),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retry: false,
       retryOnMount: false,
       refetchOnWindowFocus: false
     }
   );
-  const wallet_amount_data = wallet_amount?.data?.earning?.p2pwallet || 0;
-  return (
+  const wallet_amount_data = wallet_amount?.data?.earning || 0;
 
+  // useEffect(() => {
+  //   if (wallet_amount_data?.p2pwallet && fk.values.amount) {
+  //     const p2pAmount = Math.floor(fk.values.amount * 0.6);
+  //     const reqAmount = Math.floor(fk.values.amount * 0.4);
+  //     fk.setFieldValue("p2pamount", p2pAmount);
+  //     fk.setFieldValue("txt_req_amt", reqAmount);
+  //   }
+  // }, [wallet_amount_data?.p2pwallet, fk.values.amount]);
+
+  useEffect(() => {
+    if (wallet_amount_data?.p2pwallet && fk.values?.amount) {
+      const p2pwalletAmount = wallet_amount_data?.p2pwallet;
+      const topUpAmount = fk?.values?.amount;
+      
+      if (p2pwalletAmount < topUpAmount) {
+        const p2pAmount = p2pwalletAmount; 
+        const reqAmount = Math?.floor(topUpAmount - p2pAmount); 
+        fk.setFieldValue("p2pamount", p2pAmount);
+        fk.setFieldValue("txt_req_amt", reqAmount);
+      } else {
+    //  case1
+        const p2pAmount = Math?.floor(topUpAmount * 0.6); 
+        const reqAmount = Math?.floor(topUpAmount * 0.4); 
+        fk.setFieldValue("p2pamount", p2pAmount);
+        fk.setFieldValue("txt_req_amt", reqAmount);
+      }
+    }
+  }, [wallet_amount_data?.p2pwallet, fk.values?.amount])
+
+ 
+  return (
     <Layout header={false}
     > <Container
       sx={{
@@ -180,10 +201,9 @@ const P2PTransfer = () => {
           />
           <div className="mt-5">P2P Wallet Available Balance*</div>
           <TextField
-            id="wallet"
-            name="wallet"
-            value={wallet_amount_data}
-            placeholder=""
+           
+            value={wallet_amount_data?.p2pwallet}
+          
             className="!w-[100%] !bg-white !my-2 !rounded "
           ></TextField>
           <div className="mt-5">TopUp Amount*</div>
@@ -195,7 +215,19 @@ const P2PTransfer = () => {
             onChange={fk.handleChange}
             className="!w-[100%] !bg-white !my-2 !rounded "
           />
+             {fk.touched.amount && fk.errors.amount && (
+                        <div className="error">{fk.errors.amount}</div>
+                    )}
 
+         <div className="mt-5">P2P Amount*</div>
+          <TextField
+            id="p2pamount"
+            name="p2pamount"
+            placeholder="Enter Amount"
+            value={fk.values.p2pamount}
+            onChange={fk.handleChange}
+            className="!w-[100%] !bg-white !my-2 !rounded "
+          />
 
           <div className="mt-5">Request Amount*</div>
           <TextField
@@ -310,9 +342,7 @@ const P2PTransfer = () => {
             onChange={handleFileChange}
             required
           />
-
-
-          <div className="col-div-2 flex justify-end gap-2 my-8">
+            <div className="col-div-2 flex justify-end gap-2 my-8">
             <Button
               className="!bg-[#FD565C] !text-white"
               onClick={() => fk.handleReset()}
@@ -329,16 +359,13 @@ const P2PTransfer = () => {
               <CustomCircularProgress isLoading={Loading} />)}
           </div>
         </div>
-
-
-      </Container>
-
-
-    </Layout>
+ </Container>
+ </Layout>
   );
 };
 
 export default P2PTransfer;
+
 const style = {
   header: {
     padding: 1,

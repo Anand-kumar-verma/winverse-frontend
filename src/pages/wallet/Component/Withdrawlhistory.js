@@ -24,7 +24,7 @@ import theme from "../../../utils/theme";
 function Withdrawlhistory() {
   const [isAllValue, setIsAllValue] = useState(false);
   const [visibleData, setVisibleData] = useState([]);
-  const [value, setValue] = useState(1); // 1 = All, 2 = Bank Card, 3 = UPI
+  const [value, setValue] = useState(1); 
 
   const { isLoading, data } = useQuery(
     ["withdrawl_history"],
@@ -38,7 +38,7 @@ function Withdrawlhistory() {
     }
   );
 
-  const res = data?.data?.earning?.info || [];
+  const res = data?.data?.earning?.withdrawal || [];
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -55,9 +55,9 @@ function Withdrawlhistory() {
     if (value === 1) {
       filteredData = res;
     } else if (value === 2) {
-      filteredData = res.filter(i => i.withdrawal_type === 'BANK');
+      filteredData = res.filter(i => i.m_w_type === 'BANK');
     } else if (value === 3) {
-      filteredData = res.filter(i => i.withdrawal_type === 'UPI');
+      filteredData = res.filter(i => i.m_w_type === 'UPI');
     }
 
     setVisibleData(isAllValue ? filteredData : filteredData.slice(0, 3));
@@ -154,12 +154,12 @@ function Withdrawlhistory() {
                 fontSize: "14px",
                 fontWeight: "600",
               }}
-              className={`${i?.call_back_status === "Success"
+              className={`${i?.m_w_status === "Success"
                 ? "!text-green-500"
                 : "!text-red-500"
                 }`}
             >
-              {i?.call_back_status}
+              {i?.m_w_status}
             </Box>
           </Stack>
           <Stack
@@ -184,7 +184,7 @@ function Withdrawlhistory() {
             <Typography variant="body1" color="initial">
               Balance
             </Typography>
-            <Typography variant="body1">₹ {i?.amount}</Typography>
+            <Typography variant="body1">₹ {i?.m_w_amount}</Typography>
           </Stack>
           <Stack
             direction="row"
@@ -203,7 +203,7 @@ function Withdrawlhistory() {
               Type
             </Typography>
             <Typography variant="body1" color="initial">
-              {i?.withdrawal_type}
+              {i?.m_w_type}
             </Typography>
           </Stack>
           <Stack
@@ -227,7 +227,7 @@ function Withdrawlhistory() {
               color="initial"
               className="!text-green-500"
             >
-              {moment(i?.response_date)?.format("DD-MM-YYYY HH:mm:ss")}
+              {moment(i?.m_w_approvedate)?.format("DD-MM-YYYY HH:mm:ss")}
             </Typography>
           </Stack>
           <Stack
@@ -265,7 +265,7 @@ function Withdrawlhistory() {
               }}
             >
               <Typography variant="body1" color="initial">
-                {i?.transaction_no}
+                {i?.m_w_trans_id}
               </Typography>
               <IconButton sx={{ padding: 0 }}>
                 <ContentCopyIcon sx={{ color: "#888", width: "15px", ml: 1 }} />

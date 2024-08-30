@@ -54,3 +54,11 @@ export const withdraw_amount_validation_schema = Yup.object().shape({
     type : Yup.string().required("withdrawal type is required")
   
 });
+
+export const topup = Yup.object().shape({
+  amount: Yup.number()
+    .required("Amount is required")
+    .min(200, "Amount must be greater than or equal to 200"),
+    type : Yup.string().required("withdrawal type is required")
+  
+});

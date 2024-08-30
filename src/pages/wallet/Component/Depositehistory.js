@@ -10,7 +10,7 @@ import backbtn from '../../../assets/images/backBtn.png';
 import bankcardactive from '../../../assets/images/bankcardactive.png';
 import bankcardinactive from '../../../assets/images/bankcardinactive.png';
 import trx from '../../../assets/images/trx.png';
-import { depositHistoryFunction } from "../../../services/apiCallings";
+import { depositHistoryFunction, withdrawlHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from '../../../utils/theme';
 
@@ -19,8 +19,8 @@ function Depositehistory() {
   const [visibleData, setVisibleData] = useState([]);
 
   const { isLoading, data } = useQuery(
-    ["deposit_history"],
-    () => depositHistoryFunction(),
+    ["withdrawl_history"],
+    () => withdrawlHistoryFunction(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -30,7 +30,7 @@ function Depositehistory() {
     }
   );
 
-  const res = data?.data?.earning?.rid || [];
+  const res = data?.data?.earning?.recharge || [];
 
   const [value, setValue] = useState(1);
 
@@ -38,14 +38,11 @@ function Depositehistory() {
     let filteredData = [];
 
     if (value === 1) {
-      // Show all data
       filteredData = res;
     } else if (value === 2) {
-      // Filter by Bank Card
-      filteredData = res.filter(i => i.tr15_type === 'Wallet Transfer');
+      filteredData = res.filter(i => i.tr09_type === 'Wallet Transfer');
     } else if (value === 3) {
-      // Filter by UPI
-      filteredData = res.filter(i => i.tr15_type === 'API');
+      filteredData = res.filter(i => i.tr09_type === 'UPI');
     }
 
     setVisibleData(isAllValue ? filteredData : filteredData.slice(0, 3));
@@ -131,7 +128,8 @@ function Depositehistory() {
           >
             <Box>
               <Typography
-                className=" !text-white rounded px-2 py-1 !flex justify-center " sx={{ background: theme.palette.primary.main }}
+                className=" !text-white rounded px-2 py-1 !flex justify-center "
+                sx={{ background: theme.palette.primary.main }}
               >
                 Deposit
               </Typography>
@@ -143,12 +141,12 @@ function Depositehistory() {
                 fontSize: "14px",
                 fontWeight: "600",
               }}
-              className={`${i?.tr15_status==="Success"
+              className={`${i?.m_top_status === "Success"
                 ? "!text-green-500"
                 : "!text-red-500"
-              }`}
+                }`}
             >
-              {i?.tr15_status}
+              {i?.m_top_status}
             </Box>
           </Stack>
           <Stack
@@ -173,7 +171,7 @@ function Depositehistory() {
             <Typography variant="body1" color="initial">
               Balance
             </Typography>
-            <Typography variant="body1">₹ {i?.tr15_amt}</Typography>
+            <Typography variant="body1">₹ {i?.tr09_req_amount}</Typography>
           </Stack>
           <Stack
             direction="row"
@@ -192,7 +190,7 @@ function Depositehistory() {
               Type
             </Typography>
             <Typography variant="body1" color="initial">
-              {i?.tr15_type}
+              {i?.tr09_type}
             </Typography>
           </Stack>
           <Stack
@@ -216,7 +214,7 @@ function Depositehistory() {
               color="initial"
               className="!text-green-500"
             >
-              {moment(i?.tr15_date)?.format("DD-MM-YYYY HH:mm:ss")}
+              {moment(i?.m_top_reqdate)?.format("DD-MM-YYYY HH:mm:ss")}
             </Typography>
           </Stack>
           <Stack
@@ -254,12 +252,10 @@ function Depositehistory() {
               }}
             >
               <Typography variant="body1" color="initial">
-                {i?.tr15_trans}
+                {i?.tr09_req_trid}
               </Typography>
               <IconButton sx={{ padding: 0 }}>
-                <ContentCopyIcon
-                  sx={{ color: "#888", width: "15px", ml: 1 }}
-                />
+                <ContentCopyIcon sx={{ color: "#888", width: "15px", ml: 1 }} />
               </IconButton>
             </Stack>
           </Stack>

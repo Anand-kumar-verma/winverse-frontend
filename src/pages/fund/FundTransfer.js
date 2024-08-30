@@ -50,9 +50,7 @@ const FundTransfer = () => {
         amount: fk.values.amount,
         transfer_id: fk.values.transfer_id,
       }; 
-      // if (reqBody.userid === reqBody.transfer_id) {
-      //   return toast("Can not send fund to yourself");
-      // }
+     
       if (
         !reqBody.amount ||
         !reqBody.transfer_id 

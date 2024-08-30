@@ -1,7 +1,7 @@
-// export const domain = "https://winverse-timer.onrender.com"
+export const domain = "https://winverse-timer.onrender.com"
 export const domain1 = "https://adminew.winversegame.com"
 export const domain_ovi_node = "http://192.168.18.183:9002";
-export const domain = "http://192.168.18.183:9002";
+// export const domain = "http://192.168.18.183:9002";
 
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
@@ -43,7 +43,7 @@ export const endpoint = {
   pin_password: `${baseUrl}/api/update_pin_password`,
   view_ico_purchaseing: `${baseUrl}/api/view_ico_purchaseing`,
   insert_ico_purchase: `${baseUrl}/api/insert_ico_purchase`,
-  view_withdrwal_new_inr: `${baseUrl}/api/view_withdrwal_new_inr`,
+  view_withdrwal_new_inr: `${baseUrl}/api/wallet`,
   wallet_deposit_history: `${baseUrl}/api/wallet_deposit`,
   wallet_deposit: `${baseUrl}/api/wallet_deposit_insert`,
   withdrawl_status: `${baseUrl}/api/status`,
