@@ -6,6 +6,7 @@ export const domain_ovi_node = "http://192.168.18.183:9002";
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
 
+// export const baseUrl = "https://adminew.winversegame.com";
 export const baseUrl = "https://admin.zupeegame.info";
 export const front_end_domain = "https://winversegame.com";
 export const usdt_base_url = "https://zupeegame.info";
@@ -79,7 +80,7 @@ export const endpoint = {
   trx_game_history: `${domain_ovi_node}/trx_result-node`, //////// done in node js
   trx_my_history_new: `${domain_ovi_node}/trx-my-history-node`, /// done  in node js
 
-////////////////// wingo api //////////////////
+  ////////////////// wingo api //////////////////
   game_history:`${domain_ovi_node}/wingo-result`,
   win_list_top: `${domain_ovi_node}/top-winners`,
 
