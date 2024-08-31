@@ -17,10 +17,11 @@ import { endpoint } from "../../../services/urls";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
 import { topup } from "../../../services/validation";
+import { deCryptData } from "../../../shared/secret";
 
 const P2PTransfer = () => {
   const [receipt, setReceipt] = React.useState();
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const [Loading, setLoading] = useState(false);
   const [balance, setBalance] = useState();
   

@@ -30,10 +30,11 @@ import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress
 import theme from "../../../utils/theme";
 import { History } from "@mui/icons-material";
 import { endpoint } from "../../../services/urls";
+import { deCryptData } from "../../../shared/secret";
 
 function Deposite() {
   const [receipt, setReceipt] = React.useState();
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const [amount, setBalance] = useState("");
   const [Loading, setLoading] = useState(false);
   const audioRefMusic = React.useRef(null);

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { deCryptData } from "../../shared/secret";
 
 export const slice = createSlice({
   name: "aviator",
   initialState: {
     value: 0,
-    user_id:localStorage.getItem("user_id"),
+    user_id:deCryptData(localStorage.getItem("user_id")),
     // by user enabling and dissabling music and sound
     isEnableMusic: false,
     isEnableSound: false,

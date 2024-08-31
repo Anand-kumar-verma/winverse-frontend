@@ -1,7 +1,7 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
   Box,
-  Button,
   Checkbox,
   FilledInput,
   FormControl,
@@ -9,11 +9,9 @@ import {
   FormGroup,
   IconButton,
   InputAdornment,
-  MenuItem,
-  Select,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -21,19 +19,18 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import invite from "../../assets/images/invite.png";
+import logemaildeactive from "../../assets/images/logemaildeactive.png";
 import password from "../../assets/images/password.png";
 import phoneaa from "../../assets/images/phoneaa.png";
-import logemaildeactive from "../../assets/images/logemaildeactive.png";
 import { storeCookies } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { signupSchemaValidataon } from "../../services/validation";
-import theme from "../../utils/theme";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
+import { enCryptData } from "../../shared/secret";
+import theme from "../../utils/theme";
 const RegistrationByMobile = () => {
   const [username, setusername] = useState("");
   const [showPassword, setShowPassword] = React.useState(false);
-  const [country, setCountry] = React.useState("");
   const navigate = useNavigate();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [isLoading, setisLoding] = useState(false);
@@ -41,9 +38,6 @@ const RegistrationByMobile = () => {
     event.preventDefault();
   };
 
-  const handleChangesetCountry = (event) => {
-    setCountry(event.target.value);
-  };
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const inviteid = params.get("inviteid");
@@ -85,7 +79,7 @@ const RegistrationByMobile = () => {
       if (res?.data?.status === true) {
         storeCookies();
         toast(res?.data?.msg);
-        localStorage.setItem("user_id", res?.data?.userid);
+        localStorage.setItem("user_id",enCryptData(res?.data?.userid || null));
         navigate("/dashboard");
       } else {
         toast(res?.data?.msg);

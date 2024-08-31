@@ -39,6 +39,7 @@ import { endpoint } from "../../../services/urls";
 import axios from "axios";
 import toast from "react-hot-toast";
 import theme from "../../../utils/theme";
+import WinLossPopup from "../WinLossPopup";
 
 function Wingo3Min() {
   const socket = useSocket();
@@ -51,6 +52,7 @@ function Wingo3Min() {
   const [isImageChange, setIsImageChange] = useState("1_2_3_4_5");
   const next_step = useSelector((state) => state.aviator.next_step)
   const dispatch = useDispatch()
+  const [opendialogbox, setOpenDialogBox] = useState(false);
   const img1 = Number(isImageChange?.split("_")[0]);
   const img2 = Number(isImageChange?.split("_")[1]);
   const img3 = Number(isImageChange?.split("_")[2]);
@@ -132,8 +134,20 @@ function Wingo3Min() {
         client.refetchQueries("wallet_amount");
         // client.refetchQueries("gamehistory_chart");
         client.refetchQueries("myAllhistory");
-        dispatch(dummycounterFun());
+        // dispatch(dummycounterFun());
         fk.setFieldValue("openTimerDialog", false);
+
+        setTimeout(() => {
+          if (
+            localStorage.getItem("betApplied2")?.split("_")?.[1] === String(true)
+          ) {
+            setOpenDialogBox(true);
+            setTimeout(() => {
+              setOpenDialogBox(false);
+              localStorage.setItem("betApplied2", false);
+            }, 5000);
+          }
+        }, 1000);
       }
     };
 
@@ -433,100 +447,21 @@ function Wingo3Min() {
           </Button>
         </DialogActions>
       </Dialog>
+      {opendialogbox && (
+        <Dialog
+          open={opendialogbox}
+          PaperProps={{
+            style: {
+              backgroundColor: "transparent",
+              boxShadow: "none",
+            },
+          }}
+        >
+          <WinLossPopup gid={"2"} />
+        </Dialog>
+      )}
     </Box>
   );
 }
 
 export default Wingo3Min;
-
-const style = {
-  bacancebtn: {
-    backgroundColor: "#40AD72",
-    padding: "4px 13px",
-    borderRadius: "20px",
-    color: "white",
-    fontSize: "17px",
-    fontWeight: "500",
-    marginLeft: "5px",
-  },
-  bacancebtn2: {
-    backgroundColor: "#40AD72",
-    padding: "4px 13px",
-    borderRadius: "1px",
-    color: "white",
-    fontSize: "17px",
-    fontWeight: "500",
-    marginLeft: "5px",
-  },
-  bacancebtn3: {
-    backgroundColor: "#40AD72",
-    padding: "1px 5px",
-    borderRadius: "6px",
-    color: "white",
-    fontSize: "14px",
-    fontWeight: "500",
-    marginLeft: "5px",
-    display: "flex",
-    alignItems: "center",
-    height: "30px",
-    ["@media (max-width:340px)"]: { fontSize: "13px" },
-  },
-  addsumbtn: {
-    backgroundColor: "#40AD72",
-    padding: "4px 13px",
-    color: "white",
-    fontSize: "17px",
-    fontWeight: "500",
-    margin: "0px 5px",
-  },
-  cancelbtn: {
-    width: "100%",
-    borderRadius: "0px",
-    color: "white",
-    backgroundColor: "#25253C",
-    padding: 1,
-  },
-  submitbtn: {
-    width: "100%",
-    borderRadius: "0px",
-    color: "white",
-    backgroundColor: "#40AD72",
-    padding: 1,
-  },
-  bigbtn: {
-    width: "50%",
-    borderRadius: "20px 0px 0px 20px",
-    color: "white",
-    fontSize: "16px",
-    fontWeight: "500",
-  },
-  smlbtn: {
-    width: "50%",
-    borderRadius: "0px 20px 20px 0px",
-    color: "white",
-    fontSize: "16px",
-    fontWeight: "500",
-    background: "#6DA7F4",
-  },
-  linetable: {
-    "&>p": {
-      fontSize: "12px",
-      color: "gray",
-      border: "1px solid gray",
-      borderRadius: "50%",
-      width: "15px",
-      height: "15px",
-      textAlign: "center",
-      padding: "2px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    alignItems: "center",
-    justifyContent: "space-between",
-    "&>p:nth-last-child(1)": {
-      width: "20px !important",
-      height: "20px !important",
-    },
-  },
-};

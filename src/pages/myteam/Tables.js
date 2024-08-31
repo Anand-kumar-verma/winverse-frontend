@@ -18,10 +18,11 @@ import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
 import moment from "moment";
+import { deCryptData } from "../../shared/secret";
 
 export default function Tables() {
 
-  const userid = localStorage.getItem("user_id");
+  const userid = deCryptData(localStorage.getItem("user_id"));
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = React.useState(0);
   const tableRef = React.useRef(null);

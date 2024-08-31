@@ -34,10 +34,11 @@ import { endpoint } from "../../../services/urls";
 import { withdraw_amount_validation_schema } from "../../../services/validation";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
+import { deCryptData } from "../../../shared/secret";
 
 function WithdrawalAccount() {
     const client = useQueryClient();
-    const user_id = localStorage.getItem("user_id");
+    const user_id = deCryptData(localStorage.getItem("user_id"));
     const audioRefMusic = React.useRef(null);
     const [balance, setBalance] = useState("");
     const [bet, setBet] = useState("");

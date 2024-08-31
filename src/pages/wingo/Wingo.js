@@ -33,9 +33,9 @@ function Wingo() {
   const [musicicon, setmusicicon] = useState(true);
   const [value, setValue] = useState(1);
   const [getBalance, setBalance] = useState(0);
-  const [opendialogbox, setOpenDialogBox] = useState(false);
-  const isAppliedbet = localStorage.getItem("betApplied");
-  const dummycounter = useSelector((state) => state.aviator.dummycounter);
+  // const [opendialogbox, setOpenDialogBox] = useState(false);
+  // const isAppliedbet = localStorage.getItem("betApplied");
+  // const dummycounter = useSelector((state) => state.aviator.dummycounter);
   const wallet_amount_data = useSelector((state) => state.aviator.wallet_real_balance);
   const client = useQueryClient();
   const navigate = useNavigate();
@@ -43,17 +43,17 @@ function Wingo() {
     setValue(newValue);
   };
   const dispatch = useDispatch()
-  React.useEffect(() => {
-    setTimeout(() => {
-      if (isAppliedbet?.split("_")?.[1] === String(true)) {
-        setOpenDialogBox(true);
-        setTimeout(() => {
-          setOpenDialogBox(false);
-          localStorage.setItem("betApplied", false);
-        }, 5000);
-      }
-    }, 1000);
-  }, [dummycounter]);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     if (isAppliedbet?.split("_")?.[1] === String(true)) {
+  //       setOpenDialogBox(true);
+  //       setTimeout(() => {
+  //         setOpenDialogBox(false);
+  //         localStorage.setItem("betApplied", false);
+  //       }, 5000);
+  //     }
+  //   }, 1000);
+  // }, [dummycounter]);
 
   const { isLoading, data: wallet_amount } = useQuery(
     ["wallet_amount"],
@@ -285,7 +285,7 @@ function Wingo() {
       {value === 3 && <Wingo5Min />}
       {value === 4 && <Wingo10Min />}
       {/* opendialogbox */}
-      {opendialogbox && (
+      {/* {opendialogbox && (
         <Dialog
           open={opendialogbox}
           PaperProps={{
@@ -297,7 +297,7 @@ function Wingo() {
         >
           <WinLossPopup gid={isAppliedbet?.split("_")?.[0]} />
         </Dialog>
-      )}
+      )} */}
     </Container>
   );
 }

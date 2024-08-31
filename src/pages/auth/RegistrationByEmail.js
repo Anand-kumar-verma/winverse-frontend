@@ -28,6 +28,7 @@ import { endpoint } from "../../services/urls";
 import { signupSchemaValidataonEmail } from "../../services/validation";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
+import { enCryptData } from "../../shared/secret";
 const RegistrationByEmail = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [username, setusername] = useState("");
@@ -74,7 +75,7 @@ const RegistrationByEmail = () => {
       if (res?.data?.status === true) {
         storeCookies();
         toast(res?.data?.msg);
-        localStorage.setItem("user_id", res?.data?.userid);
+        localStorage.setItem("user_id", enCryptData(res?.data?.userid || null));
         navigate("/dashboard");
       } else {
         toast(res?.data?.msg);

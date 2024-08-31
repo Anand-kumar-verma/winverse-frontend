@@ -34,9 +34,10 @@ import SuccessCheck from "../../shared/check/SuccessCheck";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
 import Howtoplay from "./component/Howtoplay";
+import { deCryptData, enCryptData } from "../../shared/secret";
 
 const BetNumber = ({ timing, gid }) => {
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const [opend, setOpend] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectNumber, setSelectNumber] = useState("");
@@ -101,9 +102,11 @@ const BetNumber = ({ timing, gid }) => {
         Number(selectNumber) + 1,
       gameid: Number(gid),
     };
-
+    const encrypted_data = {
+      payload:enCryptData(reqBody)
+    };
     try {
-      const response = await axios.post(`${endpoint.bet_placed}`, reqBody);
+      const response = await axios.post(`${endpoint.bet_placed}`, encrypted_data);
       if (response?.data?.msg === "Bid Placed Successfully.") {
         const toastID = toast(
           <SuccessCheck
@@ -114,7 +117,7 @@ const BetNumber = ({ timing, gid }) => {
           }, 1000)
         );
         fk.setFieldValue("isSuccessPlaceBet", true);
-        localStorage.setItem("betApplied", `${gid}_true`);
+        localStorage.setItem(`betApplied${gid}`, `${gid}_true`);
         client.refetchQueries("wallet_amount");
         client.refetchQueries("myAllhistory");
 
@@ -150,25 +153,24 @@ const BetNumber = ({ timing, gid }) => {
   const generatenumber = (i) => {
     const randomBitNumber = Math.floor(Math.random() * 9) + 1;
     const elements = document.getElementsByClassName("rot");
-  
+
     Array.from(elements).forEach((e) => {
       e.classList.add("rotate_coins");
     });
-  
+
     // setLoding(true);
-  
+
     setTimeout(() => {
       // setLoding(false);
-        Array.from(elements).forEach((e) => {
+      Array.from(elements).forEach((e) => {
         e.classList.remove("rotate_coins");
       });
-  
+
       setRandomNumber(randomBitNumber);
       setSelectNumber(`${randomBitNumber}`);
       setOpen(true);
     }, 2000);
   };
-  
 
   if (loding) return <CustomCircularProgress isLoading={loding} />;
   return (
@@ -228,7 +230,6 @@ const BetNumber = ({ timing, gid }) => {
           }}
         >
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={zero}
@@ -239,7 +240,6 @@ const BetNumber = ({ timing, gid }) => {
             className="!cursor-pointer rot"
           ></Box>
           <Box
-            
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={one}
@@ -247,10 +247,9 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("1");
             }}
-            className="!cursor-pointer rot" 
+            className="!cursor-pointer rot"
           ></Box>
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={two}
@@ -261,7 +260,6 @@ const BetNumber = ({ timing, gid }) => {
             className="!cursor-pointer rot"
           ></Box>
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={three}
@@ -272,7 +270,6 @@ const BetNumber = ({ timing, gid }) => {
             className="!cursor-pointer rot"
           ></Box>
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={four}
@@ -283,7 +280,6 @@ const BetNumber = ({ timing, gid }) => {
             className="!cursor-pointer rot"
           ></Box>
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={five}
@@ -294,7 +290,6 @@ const BetNumber = ({ timing, gid }) => {
             className="!cursor-pointer rot"
           ></Box>
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={six}
@@ -305,7 +300,6 @@ const BetNumber = ({ timing, gid }) => {
             className="!cursor-pointer rot"
           ></Box>
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={seven}
@@ -316,7 +310,6 @@ const BetNumber = ({ timing, gid }) => {
             className="!cursor-pointer rot"
           ></Box>
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={eight}
@@ -327,7 +320,6 @@ const BetNumber = ({ timing, gid }) => {
             className="!cursor-pointer rot"
           ></Box>
           <Box
-           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={nine}

@@ -1,4 +1,5 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
   Box,
   Container,
@@ -26,14 +27,12 @@ import password from "../../assets/images/password.png";
 import phoneaa from "../../assets/images/phoneaa.png";
 import { storeCookies } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
-import theme from "../../utils/theme";
 import { loginSchema } from "../../services/validation";
+import { deCryptData, enCryptData } from "../../shared/secret";
 function Login() {
   const [value, setValue] = useState("one");
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const navigate = useNavigate();
-  const [country, setCountry] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -66,11 +65,10 @@ function Login() {
   async function loginSubmit(reqBody) {
     try {
       const res = await axios.post(endpoint.newlogin, reqBody);
-      console.log(res);
       if (res?.data?.success === "200") {
         storeCookies();
         toast(res?.data?.message ,{id:1});
-        localStorage.setItem("user_id", res?.data?.data?.or_user_id);
+        localStorage.setItem("user_id", enCryptData(res?.data?.data?.or_user_id || null));
         localStorage.setItem("or_m_user_type", res?.data?.data?.or_m_user_type);
         window.location.reload();
         navigate("/before-login");

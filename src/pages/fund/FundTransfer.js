@@ -14,6 +14,7 @@ import theme from "../../utils/theme";
 import { NavLink } from "react-router-dom";
 import { ArrowBackIos } from "@mui/icons-material";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
+import { deCryptData } from "../../shared/secret";
 
 const FundTransfer = () => {
   const [username, setusername] = useState("");
@@ -21,7 +22,7 @@ const FundTransfer = () => {
   const [Loading, setLoading] = useState(false);
 
   const client = useQueryClient();
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
 
   const { data } = useQuery(
     ["profile"],

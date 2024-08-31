@@ -7,10 +7,11 @@ import Layout from "../../component/layout/Layout";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
+import { deCryptData } from "../../shared/secret";
 
 const AccountPassword = () => {
   const [Loading, setLoading] = useState(false);
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const initialValue = {
     oldpassword: "",
     newpassword: "",

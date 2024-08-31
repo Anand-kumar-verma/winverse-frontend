@@ -97,6 +97,9 @@ function Dashboard() {
   };
 
   useEffect(() => {
+    localStorage.removeItem("betApplied1")
+    localStorage.removeItem("betApplied2")
+    localStorage.removeItem("betApplied3")
     if (!checkTokenValidity()) {
       localStorage.clear();
       sessionStorage.clear();

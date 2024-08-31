@@ -32,9 +32,10 @@ import theme from "../../utils/theme";
 import axios from "axios";
 import { endpoint } from "../../services/urls";
 import toast from "react-hot-toast";
+import { deCryptData } from "../../shared/secret";
 
 export default function Banks() {
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = React.useState(0);
   const tableRef = React.useRef(null);

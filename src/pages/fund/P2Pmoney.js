@@ -13,13 +13,14 @@ import {
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
+import { deCryptData } from "../../shared/secret";
 
 const P2Pmoney = () => {
 
     const [balance, setsetBalance] = useState("");
     const [Loading, setLoading] = useState(false);
     const client = useQueryClient();
-    const user_id = localStorage.getItem("user_id");
+    const user_id = deCryptData(localStorage.getItem("user_id"));
     const initialValue = {
         amount: "",
     };
