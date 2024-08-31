@@ -1,5 +1,4 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
   Box,
   Container,
@@ -27,6 +26,9 @@ import password from "../../assets/images/password.png";
 import phoneaa from "../../assets/images/phoneaa.png";
 import { storeCookies } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import theme from "../../utils/theme";
+import { loginSchema } from "../../services/validation";
 function Login() {
   const [value, setValue] = useState("one");
   const user_id = localStorage.getItem("user_id");
@@ -41,11 +43,6 @@ function Login() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const handleChangesetCountry = (event) => {
-    setCountry(event.target.value);
-  };
-
   const initialValue = {
     email: "",
     password: "",
@@ -54,6 +51,7 @@ function Login() {
 
   const fk = useFormik({
     initialValues: initialValue,
+    validationSchema :loginSchema,
     onSubmit: () => {
       const reqBody = {
         email: value === "one" ? String(fk.values.mobile) : fk.values.email,
@@ -186,6 +184,9 @@ function Login() {
                     type="number"
                   />
                 </FormControl>
+                {fk.touched.mobile && fk.errors.mobile && (
+                <div className="error">{fk.errors.mobile}</div>
+              )}
               </Box>
             </Stack>
             <Box mt={2}>
@@ -321,7 +322,7 @@ function Login() {
           </Typography>
         </Box>
       </Box>
-    </Container >
+    </Container>
   );
 }
 

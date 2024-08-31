@@ -53,7 +53,7 @@ const RegistrationByMobile = () => {
     confirmed_password: "",
     mobile: "",
     name: "",
-    email :""
+    // email :""
   };
 
   const fk = useFormik({
@@ -196,7 +196,7 @@ const RegistrationByMobile = () => {
                 label=""
                 placeholder=" Enter email"
                 fullWidth
-                type="number"
+              
               />
               {fk.touched.email && fk.errors.email && (
                 <div className="error">{fk.errors.email}</div>
@@ -341,11 +341,11 @@ const RegistrationByMobile = () => {
               type="text"
             />
             {username !== "false" ? (
-              <div className="no-error">{username}</div>
+              <div className="no-error !text-white">{username}</div>
             ) : (
               fk.touched.invite_code &&
               fk.errors.invite_code && (
-                <div className="error">{fk.errors.invite_code}</div>
+                <div className="error !text-white">{fk.errors.invite_code}</div>
               )
             )}
           </FormControl>

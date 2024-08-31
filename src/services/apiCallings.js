@@ -49,13 +49,30 @@ export const MyHistoryFn = async (gid) => {
     console.log(e);
   }
 };
+// export const getBalanceFunction = async (setBalance ) => {
+//   try {
+//     const reqBody = {
+//       userid: localStorage.getItem("user_id"),
+//     };
+//     const response = await axios.post(`${endpoint.get_balance}`, reqBody);
+//     setBalance(response?.data?.earning?.wallet);
+//     return response;
+//   } catch (e) {
+//     toast(e?.message);
+//     console.log(e);
+//   }
+// };
 export const getBalanceFunction = async (setBalance) => {
   try {
+    if (typeof setBalance !== 'function') {
+      throw new Error('setBalance is not a function');
+    }
+
     const reqBody = {
       userid: localStorage.getItem("user_id"),
     };
     const response = await axios.post(`${endpoint.get_balance}`, reqBody);
-    setBalance(response?.data?.earning);
+    setBalance(response?.data?.earning?.wallet);
     return response;
   } catch (e) {
     toast(e?.message);
@@ -106,6 +123,19 @@ export const My_All_TRX_HistoryFn = async (gid) => {
     console.log(e);
   }
 };
+export const withdrawalFn = async (gid) => {
+  try {
+    const reqBody = {
+      userid: localStorage.getItem("user_id"),
+    };
+    const response = await axios.post(`${endpoint.with_request}`, reqBody);
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
+
 export const My_All_TRX_HistoryFn_new = async (gid) => {
   try {
     const reqBody = {
@@ -124,12 +154,25 @@ export const My_All_TRX_HistoryFn_new = async (gid) => {
 };
 
 // /; INCOME
+// export const MyTeamLevel = async () => {
+//   try {
+//     const reqBody = {
+//       profile_id: localStorage.getItem("user_id"),
+//     };
+//     const response = await axios.post(endpoint.my_team_level, reqBody);
+//     return response;
+//   } catch (e) {
+//     toast(e?.message);
+//     console.log(e);
+//   }
+// };
+
 export const MyTeamLevel = async () => {
+  // const id = localStorage.getItem("user_id");
   try {
-    const reqBody = {
-      profile_id: localStorage.getItem("user_id"),
-    };
-    const response = await axios.post(endpoint.my_team_level, reqBody);
+    const response = await axios.get(
+      `${endpoint.my_team_level}`
+    );
     return response;
   } catch (e) {
     toast(e?.message);
@@ -137,13 +180,32 @@ export const MyTeamLevel = async () => {
   }
 };
 
-export const registrationBonusFn = async (type) => {
+
+export const registrationBonusFn = async (type , start , end) => {
   try {
     const reqBody = {
-      profile_id: localStorage.getItem("user_id"),
+      userid: localStorage.getItem("user_id"),
       type: type,
+      start:start,
+      end:end,
     };
-    const response = await axios.post(endpoint.registration_bonus, reqBody);
+    const response = await axios.post(endpoint.report_income, reqBody);
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
+
+export const reportIncomeFn = async (type , start , end) => {
+  try {
+    const reqBody = {
+      userid: localStorage.getItem("user_id"),
+      type: type,
+      start:start,
+      end:end,
+    };
+    const response = await axios.post(endpoint.report_income, reqBody);
     return response;
   } catch (e) {
     toast(e?.message);

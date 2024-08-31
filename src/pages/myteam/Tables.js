@@ -18,7 +18,9 @@ import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
 import moment from "moment";
+
 export default function Tables() {
+
   const userid = localStorage.getItem("user_id");
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = React.useState(0);
@@ -39,12 +41,9 @@ export default function Tables() {
   );
   const TeamLevelData = async (member_id) => {
     try {
-      const reqBody = {
-        userid: userid,
-      };
-      const response = await axios.post(
-        `${endpoint.my_team_level_report_indevidual}/${member_id}`,
-        reqBody
+     
+      const response = await axios.get(
+        `${endpoint.my_team_level_report_indevidual}/${member_id}`
       );
       return response;
     } catch (e) {
@@ -162,7 +161,7 @@ export default function Tables() {
             />
           </div>
         </div>
-        <Box>
+        <Box className="!mt-5">
           <TableContainer>
             <Table
               id="my-table"
@@ -182,37 +181,37 @@ export default function Tables() {
                 }}
               >
                 <TableRow>
-                  <TableCell className="!text-sm !text-center !pl-[2px] !pr-0 border-2 border-r border-white">
+                  <TableCell className="!text-xs !text-center !pl-[2px] !pr-0 border-2 border-r !px-2 border-white">
                     S.No.
                   </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                  <TableCell className="!text-xs !text-center  border-2 border-r !px-2 border-white">
                     User ID
                   </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                  <TableCell className="!text-xs !text-center  border-2 border-r !px-2 border-white">
                     Name
                   </TableCell>
                   {Number(member_id) === 1 && (
-                    <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                    <TableCell className="!text-xs !text-center  border-2 border-r !px-2 border-white">
                       Mobile
                     </TableCell>
                   )}
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                  <TableCell className="!text-xs !text-center  border-2 border-r !px-2 border-white">
                     Total Recharge
                   </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                  <TableCell className="!text-xs !text-center  border-2 border-r !px-2 border-white">
                     Total Bet
                   </TableCell>
 
                   {Number(member_id) === 1 ? (
-                    <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                    <TableCell className="!text-xs !text-center  border-2 border-r !px-2 border-white">
                       Total Active Team
                     </TableCell>
                   ) : (
-                    <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                    <TableCell className="!text-xs !text-center  border-2 border-r !px-2 border-white">
                       Total Deposit
                     </TableCell>
                   )}
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                  <TableCell className="!text-xs !text-center  border-2 border-r !px-2 border-white">
                     Act. Date
                   </TableCell>
                 </TableRow>

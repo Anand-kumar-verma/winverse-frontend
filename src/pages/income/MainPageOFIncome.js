@@ -1,6 +1,4 @@
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-import Diversity2Icon from "@mui/icons-material/Diversity2";
 import LocalConvenienceStoreIcon from "@mui/icons-material/LocalConvenienceStore";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import StoreIcon from "@mui/icons-material/Store";
@@ -18,19 +16,10 @@ function MainPageOFIncome() {
   };
 
   const data_array = [
-    // {
-    //   to: "/account/income-main/registration-bonus",
-    //   name: "Registration Bonus",
-    //   logo: (
-    //     <CurrencyExchangeIcon
-    //       className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-    //       color="#8f5206"
-    //     />
-    //   ),
-    // },
+  
     {
-      to: "/account/income-main/referral-bonus",
-      name: "Referral Bonus",
+      to: "/account/income-main/direct-income",
+      name: "Direct Income",
       logo: (
         <RedeemIcon
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"
@@ -39,8 +28,8 @@ function MainPageOFIncome() {
       ),
     },
     {
-      to: "/account/income-main/team-betting-bonus",
-      name: "Team Betting Bonus",
+      to: "/account/income-main/level-income",
+      name: "LeveL Income",
       logo: (
         <LocalConvenienceStoreIcon
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"
@@ -48,29 +37,9 @@ function MainPageOFIncome() {
         />
       ),
     },
-    // {
-    //   to: "/account/income-main/team-salary-bonus",
-    //   name: "Team Salary Bonus",
-    //   logo: (
-    //     <AccountBalanceIcon
-    //       className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-    //       color="#8f5206"
-    //     />
-    //   ),
-    // },
-    {
-      to: "/account/income-main/royality-bonus",
-      name: "Royality Bonus",
-      logo: (
-        <StoreIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
     {
       to: "/account/income-main/level-bonus",
-      name: "Level Bonus",
+      name: "Daily Cashback Bonus",
       logo: (
         <CardGiftcardIcon
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"
@@ -79,25 +48,20 @@ function MainPageOFIncome() {
       ),
     },
     {
-      to: "/account/income-main/ico-level-bonus",
-      name: "ICO Level Bonus",
+      to: "/account/income-main/fund-level",
+      name: "Fund Level Commission",
       logo: (
-        <Diversity2Icon
+        <StoreIcon
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"
           color="#8f5206"
         />
       ),
     },
-    {
-      to: "/account/income-main/betting-bonus",
-      name: "Betting Bonus",
-      logo: (
-        <AccountBalanceIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
+    
+   
+    
+  
+    
   ];
   return (
     <Layout>

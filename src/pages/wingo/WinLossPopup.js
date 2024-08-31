@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import Loss from "../../assets/images/loss.png";
 import win from "../../assets/images/winnner.png";
 import { endpoint } from "../../services/urls";
@@ -14,7 +14,7 @@ const WinLossPopup = ({ gid }) => {
   const [loding, setloding] = useState(false);
   const [status, setstatus] = useState("");
   const [newstatus, setstatusNew] = useState("");
-  const next_step = useSelector((state) => state.aviator.next_step);
+  // const next_step = useSelector((state) => state.aviator.next_step);
 
   const MyHistoryFn = async () => {
     setloding(true);
@@ -44,7 +44,6 @@ const WinLossPopup = ({ gid }) => {
           amount: amntAmnt,
         });
       }
-      console.log(response, firstId, winAmnt, amntAmnt);
     } catch (e) {
       toast(e?.message);
       console.log(e);

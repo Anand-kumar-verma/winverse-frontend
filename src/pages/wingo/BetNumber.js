@@ -149,14 +149,26 @@ const BetNumber = ({ timing, gid }) => {
   };
   const generatenumber = (i) => {
     const randomBitNumber = Math.floor(Math.random() * 9) + 1;
-    setLoding(true);
+    const elements = document.getElementsByClassName("rot");
+  
+    Array.from(elements).forEach((e) => {
+      e.classList.add("rotate_coins");
+    });
+  
+    // setLoding(true);
+  
     setTimeout(() => {
-      setLoding(false);
+      // setLoding(false);
+        Array.from(elements).forEach((e) => {
+        e.classList.remove("rotate_coins");
+      });
+  
       setRandomNumber(randomBitNumber);
       setSelectNumber(`${randomBitNumber}`);
       setOpen(true);
     }, 2000);
   };
+  
 
   if (loding) return <CustomCircularProgress isLoading={loding} />;
   return (
@@ -216,6 +228,7 @@ const BetNumber = ({ timing, gid }) => {
           }}
         >
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={zero}
@@ -223,9 +236,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("0");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
+            
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={one}
@@ -233,9 +247,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("1");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot" 
           ></Box>
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={two}
@@ -243,9 +258,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("2");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={three}
@@ -253,9 +269,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("3");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={four}
@@ -263,9 +280,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("4");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={five}
@@ -273,9 +291,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("5");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={six}
@@ -283,9 +302,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("6");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={seven}
@@ -293,9 +313,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("7");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={eight}
@@ -303,9 +324,10 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("8");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
+           
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={nine}
@@ -313,7 +335,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("9");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
         </Box>
         <Stack

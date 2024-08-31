@@ -1,4 +1,4 @@
-import { Button, Container, TextField } from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -10,11 +10,18 @@ import {
   getBalanceFunction,
 } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
+import theme from "../../utils/theme";
+import { NavLink } from "react-router-dom";
+import { ArrowBackIos } from "@mui/icons-material";
+import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 
 const FundTransfer = () => {
   const [username, setusername] = useState("");
   const [balance, setsetBalance] = useState("");
+  const [Loading, setLoading] = useState(false);
+
   const client = useQueryClient();
+  const user_id = localStorage.getItem("user_id");
 
   const { data } = useQuery(
     ["profile"],
@@ -30,11 +37,8 @@ const FundTransfer = () => {
   const profile = data?.data?.earning || [];
 
   const initialValue = {
-    wallet: balance || "",
-    userid: "",
-    transferid: "",
-    transfer_amount: "",
-    transaction_password: "",
+    amount: "",
+    transfer_id: "",
   };
 
   const fk = useFormik({
@@ -42,41 +46,35 @@ const FundTransfer = () => {
     enableReinitialize: true,
     onSubmit: () => {
       const reqBody = {
-        userid: profile?.rec?.Login_Id,
-        txtpassword: fk.values.transaction_password,
-        txtamount: fk.values.transfer_amount,
-        txtuserid: fk.values.userid,
-        txtwallet: fk.values.wallet,
+        userid: user_id,
+        amount: fk.values.amount,
+        transfer_id: fk.values.transfer_id,
       }; 
-      if (reqBody.userid === reqBody.txtuserid) {
-        return toast("Can not send fund to yourself");
-      }
+     
       if (
-        !reqBody.userid ||
-        !reqBody.txtpassword ||
-        !reqBody.txtamount ||
-        !reqBody.txtuserid ||
-        !reqBody.txtwallet
+        !reqBody.amount ||
+        !reqBody.transfer_id 
       )
         return toast("Plese enter all data");
       insertFundFn(reqBody);
     },
   });
 
-  const fees = Number(fk.values.transfer_amount || 0) * 0.03;
-  const payableAmount = fees + Number(fk.values.transfer_amount || 0);
 
   async function insertFundFn(reqBody) {
+  
     try {
+      setLoading(true)
       const res = await axios.post(endpoint?.insert_fund_transfer, reqBody);
-      toast(res?.data?.message);
+      toast(res?.data?.msg);
       fk.handleReset();
-      client.refetchQueries("fund_transfer_history_details");
-      client.refetchQueries("fund_recive_details");
+      setLoading(false)
+      client.refetchQueries("wallet_amount");
+      
     } catch (e) {
       console.log(e);
     }
-    // client.refetchQueries("bank_details");
+   
   }
   async function getIntroFn() {
     console.log("Function is hit now");
@@ -99,85 +97,64 @@ const FundTransfer = () => {
     getBalanceFunction(setsetBalance);
   }, []);
   return (
-    <Layout>
-      <Container
-        sx={{
-          width: "100%",
-          height: "100vh",
-          overflow: "auto",
-          mb: 5,
-        }}
-        className="no-scrollbar"
-      >
-        <div className="grid grid-cols-2 gap-1 items-center w-[400px] p-5">
-          <span className="col-span-2 justify-end">
-            <div className="flex justify-between">
-              <span className="font-bold">Fund Transfer</span>
-            </div>
-          </span>
+    <Layout header={false}
+> <Container
+  sx={{
+    width: "100%",
+    height: "100vh",
+    overflow: "auto",
+    background: theme.palette.secondary.main,
+  }}>
+    <Box sx={style.header} >
+     
+      <Box component={NavLink} to="/fund-main"><ArrowBackIos className="!text-white"/></Box>
+      <Typography variant="" color="initial"  className="!text-white !font-bold !py-2">
+      P2P User Transfer
+      </Typography>
+      <Box></Box>
+    </Box>
+    <div className=" items-center !text-white !font-bold p-5 mt-5 ">
+          
           <span>Wallet*</span>
           <TextField
             id="wallet"
             name="wallet"
-            value={fk.values.wallet}
-            placeholder="Select Bank"
-            className="!w-[100%]"
+            value={balance}
+        
+            className="!w-[100%] !bg-white !my-2 !rounded "
           ></TextField>
 
           <span>Transfer Id*</span>
           <div>
             <TextField
-              id="userid"
-              name="userid"
-              value={fk.values.userid}
-              onChange={(e) => {
-                fk.handleChange(e);
-                if (e.target.value === profile?.rec?.Login_Id) {
-                 return toast("Can not send fund to yourself ");
-                } 
-              }}
-              className="!w-[100%]"
+              id="transfer_id"
+              name="transfer_id"
+              value={fk.values.transfer_id}
+               onChange={fk.handleChange}
+               placeholder="Transfer ID"
+              // onChange={(e) => {
+              //   fk.handleChange(e);
+              //   if (e.target.value === profile?.rec?.Login_Id) {
+              //    return toast("Can not send fund to yourself ");
+              //   } 
+              // }}
+              className="!w-[100%] !bg-white !my-2 !rounded "
             />
-            {username && username !== "false" && (
+            {/* {username && username !== "false" && (
               <p className="!text-[10px] !text-red-500 pl-2">{username}</p>
-            )}
+            )} */}
           </div>
 
-          <span>Tranfer Amount*</span>
+          <span>Transfer Amount*</span>
           <TextField
-            id="transfer_amount"
-            name="transfer_amount"
+            id="amount"
+            name="amount"
             placeholder="Enter Amount"
-            value={fk.values.transfer_amount}
+            value={fk.values.amount}
             onChange={fk.handleChange}
-            className="!w-[100%]"
+            className="!w-[100%] !bg-white !my-2 !rounded "
           />
-          <span>Transaction Password*</span>
-          <TextField
-            type="password"
-            id="transaction_password"
-            name="transaction_password"
-            placeholder="Enter password"
-            value={fk.values.transaction_password}
-            onChange={fk.handleChange}
-            className="!w-[100%]"
-          />
-          <span>Fees*</span>
-          <TextField
-            id="transaction_password"
-            name="transaction_password"
-            value={fees}
-            // onChange={fk.handleChange}
-            className="!w-[100%]"
-          />
-          <span>Payable Amount*</span>
-          <TextField
-            id="payable_amount"
-            name="payable_amount"
-            value={payableAmount}
-            // onChange={fk.handleChange}
-            className="!w-[100%]"
-          />
+        
           <div className="col-span-2 flex gap-2 mt-4">
             <Button
               className="!bg-[#FD565C] !text-white"
@@ -191,11 +168,119 @@ const FundTransfer = () => {
             >
               Submit
             </Button>
+            {Loading && (
+                <CustomCircularProgress isLoading={Loading} />)}
           </div>
         </div>
-      </Container>
-    </Layout>
+  
+ 
+  </Container>
+
+
+</Layout>
   );
 };
 
 export default FundTransfer;
+const style = {
+  header: {
+    padding: 1,
+    background: theme.palette.primary.main,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    "& > p": {
+      fontSize: "20px",
+      fontWeight: "600",
+      textAlign: "center",
+      color: "white",
+    },
+  },
+  stack: {
+    width: "100%",
+    alignItems: "baseline",
+    justifyContent: "space-between",
+    marginTop: 3,
+  },
+  box: {
+    width: "23%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  innerBox: {
+    padding: 1,
+    background: "#ffffff",
+    boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+    borderRadius: "15px",
+  },
+  innerBoximg: {
+    width: 35,
+    filter: 'hue-rotate(45deg)',
+  },
+  typography: {
+    fontFamily: '"PT Serif", serif !important',
+    fontSize: "12px",
+    color: "gray",
+    marginTop: 1,
+    textAlign: "center",
+  },
+  mainButton: {
+    width: "100%",
+    height: "0.93333rem",
+    color: "#fff",
+    fontSize: "15px",
+    fontWeight: "700",
+    letterSpacing: "0.01333rem",
+    border: "none",
+    borderRadius: "20px",
+    background: "#63BA0E",
+    boxShadow: "0 3px #e74141",
+    padding: "20px 10px",
+    marginTop: 2,
+    "&:hover": {
+      color: "white",
+      background: "#63BA0E",
+    },
+  },
+  mainwallettrbutton: {
+    width: "100%",
+    height: "0.93333rem",
+    color: "#fff",
+    fontSize: "15px",
+    fontWeight: "700",
+    letterSpacing: "0.01333rem",
+    border: "none",
+    borderRadius: "20px",
+    background: "#63BA0E",
+    boxShadow: "0 3px #0D0335",
+    padding: "20px 10px",
+    mt: 2,
+    "&:hover": {
+      color: "white",
+      background: "#63BA0E",
+    },
+  },
+  fx: {
+    width: "31%",
+    height: "100px",
+    background: theme.palette.primary.main,
+    borderRadius: "10px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    mb: 1.5,
+  },
+  fxone: {
+    width: "31%",
+    height: "100px",
+    borderRadius: "10px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+    mb: 1.5,
+  },
+};

@@ -151,7 +151,7 @@ function Wingo() {
               fontSize="15px"
               fontWeight={600}
             >
-              ₹ {wallet_amount_data}{" "}
+              ₹ {wallet_amount_data?.wallet}{" "}
             </Typography>
             <div className="mx-1 rotate_refresh_image" id="refresh_button">
               <img

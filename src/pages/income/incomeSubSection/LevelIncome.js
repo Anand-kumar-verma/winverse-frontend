@@ -9,21 +9,20 @@ import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 import Layout from "../../../component/layout/Layout";
-
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
-import { registrationBonusFn } from "../../../services/apiCallings";
+import { reportIncomeFn } from "../../../services/apiCallings";
 const zubgback = "#63BA0E"
 const zubgmid = "#63BA0E"
 const zubgbackgrad = "#63BA0E"
-function ReferralBonus() {
+function LevelIncome() {
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
   const { isLoading, data } = useQuery(
-    ["referral_bonus"],
-    () => registrationBonusFn("3"),
+    ["level_income"],
+    () => reportIncomeFn("4"),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -48,7 +47,7 @@ function ReferralBonus() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p>Referral Bonus</p>
+            <p>Level Income</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -72,7 +71,7 @@ function ReferralBonus() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Referral Bonus</p>
+          <p>Level Income</p>
         </Box>
         <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {
@@ -105,7 +104,7 @@ function ReferralBonus() {
   );
 }
 
-export default ReferralBonus;
+export default LevelIncome;
 
 const style = {
   header: {

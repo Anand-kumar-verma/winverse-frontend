@@ -106,8 +106,8 @@ function Footer() {
               position: "absolute",
               width: "120px",
               top: "-40px",
-              left: "5px",
-              ml: '5px',
+              // left: "5px",
+              // ml: '5px',
             }}
           ></Box>
           <Typography
