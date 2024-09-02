@@ -10,7 +10,7 @@ import backbtn from '../../../assets/images/backBtn.png';
 import bankcardactive from '../../../assets/images/bankcardactive.png';
 import bankcardinactive from '../../../assets/images/bankcardinactive.png';
 import trx from '../../../assets/images/trx.png';
-import { depositHistoryFunction, withdrawlHistoryFunction } from "../../../services/apiCallings";
+import { withdrawlHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from '../../../utils/theme';
 

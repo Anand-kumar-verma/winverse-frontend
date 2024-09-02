@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import moment from "moment";
 import * as React from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
@@ -16,13 +17,11 @@ import * as XLSX from "xlsx";
 import Layout from "../../component/layout/Layout";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
-import theme from "../../utils/theme";
-import moment from "moment";
 import { deCryptData } from "../../shared/secret";
+import theme from "../../utils/theme";
 
 export default function Tables() {
-
-  const userid = deCryptData(localStorage.getItem("user_id"));
+  
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = React.useState(0);
   const tableRef = React.useRef(null);

@@ -16,7 +16,7 @@ export const endpoint = {
   
   with_request: `${baseUrl}/api/withdrawal_wallet`,
   p2p_request: `${baseUrl}/api/insert_user_topup`,
-  deposite_request: `${domain}/fund-request`,
+  deposite_request: `${domain_ovi_node}/fund-request`,
   wallet_withdrawl: `${baseUrl}/api/insert_withdrawal_request`,
   p2padd_money: `${baseUrl}/api/insert_main_to_p2p_transfer`,
   get_bank_list: `${domain1}/api/get_banks`,
@@ -70,7 +70,7 @@ export const endpoint = {
   team_data: `${baseUrl}/api/get_all`,
   view_paying_api: `${baseUrl}/api/view_paying_api`,
   update_profile_pic: `${baseUrl}/api/update_profile_pic`,
-  win_list_last: `${domain}/last-trade-top-winners`,
+  win_list_last: `${domain_ovi_node}/last-trade-top-winners`,
 
   payin_status: `${baseUrl}/api/payin_api`,
   swnl_pay_in_api: `${baseUrl}/api/insert_fund_request_vapayout`,

@@ -7,8 +7,10 @@ import {
   Stack,
   Typography
 } from "@mui/material";
+import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import countdownfirst from "../../../assets/images/countdownfirst.mp3";
@@ -27,19 +29,17 @@ import nine from "../../../assets/images/n9-a20f6f42 (1).png";
 import timerbg1 from "../../../assets/images/timerbg.png";
 import timerbg2 from "../../../assets/images/timerbg2.png";
 import backbanner from "../../../assets/images/winbackbanner.png";
-import { dummycounterFun, gameHistory_trx_one_minFn, updateNextCounter } from "../../../redux/slices/counterSlice";
+import { gameHistory_trx_one_minFn, updateNextCounter } from "../../../redux/slices/counterSlice";
+import { endpoint } from "../../../services/urls";
 import { changeImages } from "../../../shared/nodeSchedular";
 import { useSocket } from "../../../shared/socket/SocketContext";
+import theme from "../../../utils/theme";
 import BetNumber from "../BetNumber";
 import Chart from "../history/Chart";
 import GameHistory from "../history/GameHistory";
 import MyHistory from "../history/MyHistory";
-import Howtoplay from "./Howtoplay";
-import { endpoint } from "../../../services/urls";
-import axios from "axios";
-import toast from "react-hot-toast";
-import theme from "../../../utils/theme";
 import WinLossPopup from "../WinLossPopup";
+import Howtoplay from "./Howtoplay";
 
 function Wingo3Min() {
   const socket = useSocket();
@@ -158,7 +158,7 @@ function Wingo3Min() {
     };
   }, []);
 
-  const { isLoading, data: game_history } = useQuery(
+  const {  data: game_history } = useQuery(
     ["gamehistory_2min"],
     () => GameHistoryFn("2"),
     {

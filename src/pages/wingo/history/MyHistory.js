@@ -7,7 +7,7 @@ import moment from "moment";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { My_All_HistoryFn } from "../../../services/apiCallings";
-import { rupees, zubgback } from "../../../services/urls";
+import { rupees } from "../../../services/urls";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
 

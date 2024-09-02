@@ -4,16 +4,13 @@ import RedeemIcon from "@mui/icons-material/Redeem";
 import StoreIcon from "@mui/icons-material/Store";
 import { Box, Container } from "@mui/material";
 import * as React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Layout from "../../component/layout/Layout";
 const zubgback = "#63BA0E";
 const zubgmid = "#63BA0E";
 
 function MainPageOFIncome() {
-  const navigate = useNavigate();
-  const goBack = () => {
-    navigate(-1);
-  };
+
 
   const data_array = [
   

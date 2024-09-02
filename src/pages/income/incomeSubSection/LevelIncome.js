@@ -9,8 +9,8 @@ import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 import Layout from "../../../component/layout/Layout";
-import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import { reportIncomeFn } from "../../../services/apiCallings";
+import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 const zubgback = "#63BA0E"
 const zubgmid = "#63BA0E"
 const zubgbackgrad = "#63BA0E"
