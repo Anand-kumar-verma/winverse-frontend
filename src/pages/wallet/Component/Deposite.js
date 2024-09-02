@@ -63,6 +63,7 @@ function Deposite() {
 
   const fk = useFormik({
     initialValues: initialValue,
+    // validationSchema:Deposit,
     enableReinitialize: true,
     onSubmit: () => {
       setLoading(true);

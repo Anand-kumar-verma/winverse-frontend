@@ -1,3 +1,4 @@
+import { Money } from "@mui/icons-material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Box, Button, Container, IconButton, Stack, Typography } from '@mui/material';
 import moment from "moment";
@@ -9,7 +10,6 @@ import allactive from '../../../assets/images/allinactive.png';
 import backbtn from '../../../assets/images/backBtn.png';
 import bankcardactive from '../../../assets/images/bankcardactive.png';
 import bankcardinactive from '../../../assets/images/bankcardinactive.png';
-import trx from '../../../assets/images/trx.png';
 import { withdrawlHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from '../../../utils/theme';
@@ -98,7 +98,12 @@ function Depositehistory() {
             className={value === 3 ? " gametableactive gametable" : " gametable"}
             onClick={() => handleChange(3)}
           >
-            <Box component='img' src={trx} width={20} mr={1}></Box>
+              {value === 3 ?
+            <Box  width={20} mr={1}>  <Money className="!text-white" />  </Box>
+              :
+            <Box  width={20} mr={1}>  <Money />  </Box>
+              
+            }
             UPI
           </Button>
         </Stack>
