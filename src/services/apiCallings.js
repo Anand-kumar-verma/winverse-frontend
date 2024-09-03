@@ -356,7 +356,7 @@ export const depositHistoryFunction = async () => {
     const reqBody = {
       userid: deCryptData(localStorage.getItem("user_id")),
     };
-    const response = await axios.post(endpoint.wallet_deposit_history, reqBody);
+    const response = await axios.post(endpoint.view_withdrwal_new_inr, reqBody);
     return response;
   } catch (e) {
     toast(e?.message);

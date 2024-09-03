@@ -1,6 +1,5 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
-import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import depositeimg from "../../assets/images/deposite.png";
@@ -13,7 +12,7 @@ import {
   checkTokenValidity,
   depositHistoryFunction,
   getBalanceFunction,
-
+  withdrawlHistoryFunction,
 } from "../../services/apiCallings";
 import { rupees } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
@@ -48,9 +47,9 @@ function Wallet() {
   );
   const profile = user?.data?.earning || [];
 
-  const { isLoading: total_deposit, data } = useQuery(
+  const { data } = useQuery(
     ["deposit_history"],
-    () => depositHistoryFunction(),
+    () => withdrawlHistoryFunction(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -60,11 +59,12 @@ function Wallet() {
     }
   );
   const res = data?.data?.earning?.recharge || [];
+ 
   const total_deposit_amount = useMemo(() => {
     return res
-      ?.filter((i) => i?.m_top_status === "Success")
+      ?.filter((i) => i?.m_top_status === "Approve")
       ?.reduce((a, b) => a + Number(b?.tr09_req_amount || 0), 0);
-  }, [data]);
+  }, [res]);
 
 
   useEffect(() => {
@@ -107,7 +107,7 @@ function Wallet() {
             {profile?.rec?.Login_Id}  </p>
               
         </Box>
-        <CustomCircularProgress isLoading={isLoading || total_deposit} />
+        <CustomCircularProgress isLoading={isLoading } />
         <Box sx={{ background: theme.palette.primary.main, pb: 2 }} className="!pt-2">
           <Stack
             direction="row"
