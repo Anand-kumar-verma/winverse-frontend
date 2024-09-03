@@ -214,7 +214,7 @@ function Wallet() {
 
             <Stack direction="row" sx={style.stack}
             >
-              <Box sx={style.box}
+              <Box className="!cursor-pointer" sx={style.box}
                 onClick={() =>
 
                   navigate('/deposit')
@@ -232,7 +232,7 @@ function Wallet() {
                 </Typography>
               </Box>
 
-              <Box sx={style.box}
+              <Box className="!cursor-pointer" sx={style.box}
                 onClick={() =>
                   navigate('/withdraw')
                 }>
@@ -247,7 +247,7 @@ function Wallet() {
                   Withdraw
                 </Typography>
               </Box>
-              <Box sx={style.box}
+              <Box className="!cursor-pointer" sx={style.box}
                 onClick={() =>
 
                   navigate('/depositehistory')
@@ -264,12 +264,12 @@ function Wallet() {
                   Deposit history
                 </Typography>
               </Box>
-              <Box sx={style.box}
+              <Box className="!cursor-pointer" sx={style.box}
                 onClick={() =>
                   navigate('/withdrawlhistory')
 
                 }>
-                <Box sx={style.innerBox}>
+                <Box  sx={style.innerBox}>
                   <Box
                     component="img"
                     src={whistory}
@@ -280,8 +280,24 @@ function Wallet() {
                   Withdrawal history
                 </Typography>
               </Box>
-            </Stack>
+              <Box className="!cursor-pointer" sx={style.box}
+                onClick={() =>
+                  navigate('/p2p')
 
+                }>
+                <Box sx={style.innerBox}>
+                  <Box
+                    component="img"
+                    src={withdraw}
+                    sx={{ ...style.innerBoximg, filter: 'hue-rotate(231deg)', }}
+                  ></Box>
+                </Box>
+                <Typography variant="body1" color="initial" sx={style.typography}>
+                P2P TopUp
+                </Typography>
+              </Box>
+            </Stack>
+          
           </Box>
         </Box>
       </Container>

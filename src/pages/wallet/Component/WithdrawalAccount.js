@@ -22,7 +22,7 @@ import backbtn from "../../../assets/images/backBtn.png";
 import bankicon from "../../../assets/images/bankicon.png";
 import cip from "../../../assets/images/cip.png";
 import refresh from "../../../assets/images/refwhite.png";
-import trx from "../../../assets/images/trx.png";
+import upi from "../../../assets/images/upi (2).png";
 import withdrawol_voice from "../../../assets/images/withdrawol_voice.mp3";
 import {
     BankDetailsFUnction,
@@ -47,7 +47,7 @@ function WithdrawalAccount() {
 
     const initialValue = {
         amount: "",
-        type: "",
+        type: "Bank",
     };
 
     const fk = useFormik({
@@ -106,7 +106,7 @@ function WithdrawalAccount() {
         () => upi_detail?.data?.earning?.bank_details,
     );
 
-    const {  data: wallet_amount } = useQuery(
+    const { data: wallet_amount } = useQuery(
         ["wallet_amount"],
         () => getBalanceFunction(setBalance),
         {
@@ -242,7 +242,7 @@ function WithdrawalAccount() {
                             variant="body1"
                             sx={{ color: "white", fontSize: "24px", fontWeight: "500" }}
                         >
-                            ₹ {wallet_amount_data ?.wallet || 0}
+                            ₹ {wallet_amount_data?.wallet || 0}
                         </Typography>
                         <Box
                             component="img"
@@ -258,7 +258,7 @@ function WithdrawalAccount() {
                 </Box>
             </Box>
 
-            <Box sx={{ mt: 2, px: 2 }}>
+            <Box sx={{ mt: 2, px: 2 }} >
                 <Stack direction="row">
                     <Stack
                         sx={{
@@ -268,8 +268,11 @@ function WithdrawalAccount() {
                             borderRadius: 2,
                             mr: 2,
                             width: "120px",
+                            cursor: "pointer",
+                            backgroundColor: fk.values.type === "Bank" ? theme.palette.primary.light : theme.palette.secondary.light
                         }}
-                    >
+                     
+                        onClick={() => fk.setFieldValue("type", "Bank")} >
                         <Box
                             component="img"
                             src={atmchip}
@@ -290,19 +293,20 @@ function WithdrawalAccount() {
                         </Typography>
                     </Stack>
                     <Stack
-                        sx={{
-                            width: "120px",
-                            background: theme.palette.primary.light,
-                            padding: 2,
-                            borderRadius: 2,
-                            mr: 2,
-                            boxShadow:
-                                " rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
-                        }}
-                    >
+                       sx={{
+                        background:
+                            theme.palette.secondary.light,
+                        padding: 2,
+                        borderRadius: 2,
+                        mr: 2,
+                        width: "120px",
+                        cursor: "pointer",
+                        backgroundColor: fk.values.type === "UPI" ? theme.palette.primary.light : theme.palette.secondary.light
+                    }}
+                        onClick={() => fk.setFieldValue("type", "UPI")} >
                         <Box
                             component="img"
-                            src={trx}
+                            src={upi}
                             width={40}
                             sx={{ margin: "0px auto" }}
                         ></Box>
@@ -388,7 +392,7 @@ function WithdrawalAccount() {
                         <div className="error">{fk.errors.amount}</div>
                     )}
 
-                    <span className="!text-white !text-sm">Withdrawal Type *</span>
+                    {/* <span className="!text-white !text-sm">Withdrawal Type *</span>
                     <TextField
                         id="type"
                         name="type"
@@ -403,7 +407,7 @@ function WithdrawalAccount() {
                     </TextField>
                     {fk.touched.type && fk.errors.type && (
                         <div className="error">{fk.errors.type}</div>
-                    )}
+                    )} */}
 
 
                     {fk.values.type === "Bank" && (
@@ -411,26 +415,13 @@ function WithdrawalAccount() {
                             {bank_data?.map((item) => {
                                 return <>
                                     <span className="!text-white !text-sm "> Bank Name*</span>
-                                    <TextField
-                                        value={item?.bank_name}
-                                        className="!w-[100%] !bg-white !mt-5"
-                                    />
+                                    <p>{item?.Bankname}</p>
                                     <span className="!text-white !text-sm "> Account Holder Name*</span>
-                                    <TextField
-                                        value={item?.Associate_Name}
-                                        className="!w-[100%] !bg-white !mt-5"
-                                    />
+                                    <p>{item?.Associate_Name}</p>
                                     <span className="!text-white !text-sm "> Account Number*</span>
-
-                                    <TextField
-                                        value={item?.AcNo}
-                                        className="!w-[100%] !bg-white !mt-5"
-                                    />
+                                    <p>{item?.AcNo}</p>
                                     <span className="!text-white !text-sm "> IFSC Code *</span>
-                                    <TextField
-                                        value={item?.ifsc_code || 0}
-                                        className="!w-[100%] !bg-white !mt-5"
-                                    />
+                                    <p>{item?.ifsc_code || 0}</p>
                                 </>
                             })}
                         </>
@@ -440,20 +431,11 @@ function WithdrawalAccount() {
                             {upidata?.map((item) => {
                                 return <>
                                     <span className="!text-white !text-sm ">UPI ID*</span>
-                                    <TextField
-                                        value={item?.Branch}
-                                        className="!w-[100%] !bg-white !mt-5"
-                                    />
+                                    <p>{item?.Branch}</p>
                                     <span className="!text-white !text-sm ">UPI Number*</span>
-                                    <TextField
-                                        value={item?.AcNo}
-                                        className="!w-[100%] !bg-white !mt-5"
-                                    />
+                                    <p>{item?.Upi_number}</p>
                                     <span className="!text-white !text-sm ">UPI Type*</span>
-                                    <TextField
-                                        value={item?.Ifsc}
-                                        className="!w-[100%] !bg-white !mt-5"
-                                    />
+                                    <p>{item?.Ifsc}</p>
                                 </>
                             })}
                         </>
@@ -510,29 +492,7 @@ function WithdrawalAccount() {
                         All
                     </Button>
                 </Stack>
-                <Stack
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    mt={1}
-                >
-                    <Stack direction="row">
-                        <Typography
-                            variant="body1"
-                            sx={{ fontSize: "12px", color: 'white' }}
-                        >
-                            Withdrawal amount received{" "}
-                        </Typography>
-                    </Stack>
-                    <Typography
-                        sx={{
-                            fontSize: "12px",
-                            color: theme.palette.secondary.main,
-                        }}
-                    >
-                        ₹ 0.00
-                    </Typography>
-                </Stack>
+             
 
                 <Box mt={3}>
                     <Stack direction="row" alignItems="center" mt={1}>
@@ -549,7 +509,7 @@ function WithdrawalAccount() {
                             variant="body1"
                             sx={{ fontSize: "12px", color: 'white' }}
                         >
-                            Need to bet{" "}
+                            You have to withdrawal upto {" "}
                         </Typography>
                         <Typography
                             variant="body1"
@@ -560,15 +520,10 @@ function WithdrawalAccount() {
                             }}
                         >
                             {" "}
-                            ₹ {total_bet?.total_amt || 0}
+                            ₹ 
+                            {/* {total_bet?.total_amt || 0} */}
                         </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{ fontSize: "12px", color: 'white' }}
-                        >
-                            {" "}
-                            to be able to withdraw{" "}
-                        </Typography>
+                     
                     </Stack>
 
 

@@ -8,6 +8,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import allinactive from '../../../assets/images/allactive.png';
 import allactive from '../../../assets/images/allinactive.png';
 import backbtn from '../../../assets/images/backBtn.png';
+import upi from '../../../assets/images/upi (2).png';
 import bankcardactive from '../../../assets/images/bankcardactive.png';
 import bankcardinactive from '../../../assets/images/bankcardinactive.png';
 import { withdrawlHistoryFunction } from "../../../services/apiCallings";
@@ -40,12 +41,12 @@ function Depositehistory() {
     if (value === 1) {
       filteredData = res;
     } else if (value === 2) {
-      filteredData = res.filter(i => i.tr09_type === 'Wallet Transfer');
+      filteredData = res?.filter(i => i.tr09_type === 'Bank');
     } else if (value === 3) {
-      filteredData = res.filter(i => i.tr09_type === 'UPI');
+      filteredData = res?.filter(i => i.tr09_type === 'UPI');
     }
 
-    setVisibleData(isAllValue ? filteredData : filteredData.slice(0, 3));
+    setVisibleData(isAllValue ? filteredData : filteredData?.slice(0, 3));
   }, [isAllValue, value, res]);
 
   const navigate = useNavigate();
@@ -98,12 +99,11 @@ function Depositehistory() {
             className={value === 3 ? " gametableactive gametable" : " gametable"}
             onClick={() => handleChange(3)}
           >
-              {value === 3 ?
-            <Box  width={20} mr={1}>  <Money className="!text-white" />  </Box>
-              :
-            <Box  width={20} mr={1}>  <Money />  </Box>
-              
-            }
+             {value === 3 ? (
+              <Box component="img" src={upi} width={20} mr={1}></Box>
+            ) : (
+              <Box component="img" src={upi} width={20} mr={1}></Box>
+            )}
             UPI
           </Button>
         </Stack>

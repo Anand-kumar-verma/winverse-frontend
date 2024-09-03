@@ -1,4 +1,3 @@
-import { Money } from "@mui/icons-material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   Box,
@@ -20,6 +19,7 @@ import bankcardinactive from "../../../assets/images/bankcardinactive.png";
 import { withdrawlHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
+import upi from  "../../../assets/images/upi (2).png"
 
 function Withdrawlhistory() {
   const [isAllValue, setIsAllValue] = useState(false);
@@ -55,9 +55,9 @@ function Withdrawlhistory() {
     if (value === 1) {
       filteredData = res;
     } else if (value === 2) {
-      filteredData = res.filter(i => i.m_w_type === 'BANK');
+      filteredData = res?.filter(i => i.m_w_type === 'BANK');
     } else if (value === 3) {
-      filteredData = res.filter(i => i.m_w_type === 'UPI');
+      filteredData = res?.filter(i => i.m_w_type === 'UPI');
     }
 
     setVisibleData(isAllValue ? filteredData : filteredData.slice(0, 3));
@@ -110,10 +110,12 @@ function Withdrawlhistory() {
           <Button
             className={value === 3 ? " gametableactive gametable" : " gametable"}
             onClick={() => handleChange(3)} >
-             {value === 3 ?
-            <Box  width={20} mr={1}>  <Money className="!text-white" />  </Box>
-              :
-            <Box  width={20} mr={1}>  <Money />  </Box> }
+              {value === 3 ? (
+              <Box component="img" src={upi} width={20} mr={1}></Box>
+            ) : (
+              <Box component="img" src={upi} width={20} mr={1}></Box>
+            )}
+           
             UPI
           </Button>
         </Stack>

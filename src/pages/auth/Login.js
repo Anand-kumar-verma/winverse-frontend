@@ -119,45 +119,11 @@ function Login() {
         ></Box>
       </Box>
       <Box sx={{ width: "92%", margin: "auto", mt: 2 }}>
-        <Tabs value={value} onChange={handleChange}>
-          <Tab
-            sx={{ width: "50%" }}
-            value="one"
-            label={
-              <Box>
-                {value === "one" ? (
-
-                  <></>
-                ) : (
-
-                  <></>
-                )}
-                {value === "one" ? <p>Log in with phone</p> : <p style={{ color: 'white' }}>Log in with phone</p>}
-
-              </Box>
-            }
-          />
-          {/* <Tab
-            sx={{ width: "50%" }}
-            value="two"
-            label={
-              <Box>
-                {value === "two" ? (
-
-                  <></>
-                ) : (
-
-                  <></>
-                )}
-                {value === "two" ? <p>  Log in with email</p> : <p style={{ color: 'white' }}>  Log in with email</p>}
-
-              </Box>
-            }
-          /> */}
-        </Tabs>
+       
+          
       </Box>
       <Box sx={{ width: "92%", margin: "auto", mt: 3 }}>
-        {value === "one" && (
+      
           <Box component="form" onSubmit={fk.handleSubmit}>
             <Stack
               direction="row"
@@ -217,59 +183,8 @@ function Login() {
               </FormControl>
             </Box>
           </Box>
-        )}
-        {value === "two" && (
-          <Box component="form" onSubmit={fk.handleSubmit}>
-            <Box>
-              <FormControl fullWidth sx={{ ...style.inputfield2 }}>
-                <Box
-                  component="img"
-                  src={email}
-                  sx={style.inputimg2}
-                ></Box>
-                <TextField
-                  class="sub"
-                  id="email"
-                  name="email"
-                  onChange={fk.handleChange}
-                  value={fk.values.email}
-                  label=""
-                  placeholder="please input your email"
-                  fullWidth
-                  type="email"
-                />
-              </FormControl>
-            </Box>
-            <Box mt={2}>
-              <FormControl fullWidth sx={{ ...style.passwordfield2 }}>
-                <Box
-                  component="img"
-                  src={password}
-                  sx={style.inputimg2}
-                ></Box>
-                <FilledInput
-                  placeholder="please input your password"
-                  id="password"
-                  name="password"
-                  onChange={fk.handleChange}
-                  value={fk.values.password}
-                  type={showPassword ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff sx={{ color: '#fff2f2' }} /> : <Visibility sx={{ color: '#fff2f2' }} />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Box>
-          </Box>
-        )}
+    
+      
         <Box sx={{ width: "80%", margin: "auto", mt: 3 }}>
 
           <button class="cssbuttons-io-button" onClick={() => fk.handleSubmit()}>

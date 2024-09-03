@@ -27,6 +27,7 @@ export default function Tables() {
   const tableRef = React.useRef(null);
   const location = useLocation();
   const member_id = location?.state?.member_id;
+  const user_id= deCryptData(localStorage.getItem("user_id"));
 
   const { isLoading, data: game_history } = useQuery(
     ["trx_team_level", member_id],
@@ -43,7 +44,7 @@ export default function Tables() {
     try {
      
       const response = await axios.get(
-        `${endpoint.my_team_level_report_indevidual}/${member_id}`
+        `${endpoint.my_team_level_report_indevidual}/${member_id}?userid=${user_id}`
       );
       return response;
     } catch (e) {

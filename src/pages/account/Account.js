@@ -15,7 +15,7 @@ import f1 from "../../assets/images/f1.png";
 import l1 from "../../assets/images/l1.png";
 import n1 from "../../assets/images/n1.png";
 import s1 from "../../assets/images/s1.png";
-import trx from "../../assets/images/trx.png";
+import upi from "../../assets/images/upi (2).png";
 import vip from "../../assets/images/vip.png";
 import wal from "../../assets/images/wal.png";
 import wih from "../../assets/images/with.png";
@@ -183,10 +183,10 @@ function Account() {
                 <Typography sx={{ color: 'white' }}>Withdraw</Typography>
               </Box>
               <Box className="flex flex-col justify-center cursor-pointer items-center"
-                // onClick={() =>  navigate('/p2p')}
+                onClick={() =>  navigate('/withdraw')}
               >
-                <Typography><img src={trx} alt="" className="w-8" style={{ filter: 'hue-rotate(310deg)' }} /></Typography>
-                <Typography sx={{ color: 'white' }} className="">USDT</Typography>
+                <Typography><img src={upi} alt="" className="w-8" style={{ filter: 'hue-rotate(310deg)' }} /></Typography>
+                <Typography sx={{ color: 'white' }} className="">Bank & UPI</Typography>
               </Box>
             </Box>
           </Box>

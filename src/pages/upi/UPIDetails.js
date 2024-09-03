@@ -79,7 +79,7 @@ export default function UPIDetails() {
       visibleRows?.find((i) => i?.regid === openDialogBox)?.or_m_name ||
       "",
     upi_type: visibleRows?.find((i) => i?.regid === openDialogBox)?.Ifsc || "",
-    upi_no: visibleRows?.find((i) => i?.regid === openDialogBox)?.AcNo || "",
+    upi_no: visibleRows?.find((i) => i?.regid === openDialogBox)?.Upi_number || "",
     upi_id: visibleRows?.find((i) => i?.regid === openDialogBox)?.Branch || "",
   };
   const fk = useFormik({
@@ -254,7 +254,7 @@ export default function UPIDetails() {
                         {i?.Ifsc}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.AcNo}
+                        {i?.Upi_number}
                       </TableCell>
                     </TableRow>
                   );
@@ -279,7 +279,7 @@ export default function UPIDetails() {
           </Box>
         </Box>
         <Dialog open={openDialogBox}>
-          <div className="grid grid-cols-2 gap-1 items-center w-[400px] p-5">
+          <div className="grid grid-cols-2 gap-1 items-center  p-5">
             <span className="col-span-2 justify-end">
               <div className="flex justify-between">
                 <span className="font-bold">Update UPI Details</span>
@@ -296,7 +296,7 @@ export default function UPIDetails() {
               name="name"
               value={fk.values.name}
               onChange={fk.handleChange}
-              placeholder="Select Bank"
+              placeholder="Enter Name"
               className="!w-[100%] !py-0"
             />
             <span>UPI Type*</span>

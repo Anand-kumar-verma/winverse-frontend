@@ -35,7 +35,7 @@ function FundMain() {
 
     {
       to: "/fund-recieve",
-      name: "Fund Recieve",
+      name: "Fund Receive",
       logo: (
         <CurrencyFrancSharp
           className="!w-[40px] !h-[40px] !text-[#63BA0E]"

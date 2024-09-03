@@ -103,7 +103,7 @@ export default function Banks() {
     ifsc:
       visibleRows?.find((i) => i?.regid === openDialogBox)?.ifsc_code || "",
     account:
-      visibleRows?.find((i) => i?.regid === openDialogBox)?.account_number ||
+      visibleRows?.find((i) => i?.regid === openDialogBox)?.AcNo ||
       "",
   };
 
@@ -265,9 +265,7 @@ export default function Banks() {
                         <Button
                           className="!bg-[#FD565C] !py-0 !text-white"
                           onClick={() => {
-                            Number(i?.bank_update) === 0
-                              ? setOpenDialogBox(i?.regid)
-                              : toast("You have already changed your bank account")
+                            setOpenDialogBox(i?.regid)
                           }}
                         >
                           Update
@@ -283,7 +281,7 @@ export default function Banks() {
                         {i?.ifsc_code}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.account_number}
+                        {i?.AcNo}
                       </TableCell>
                     </TableRow>
                   );
@@ -308,7 +306,7 @@ export default function Banks() {
           </Box>
         </Box>
         <Dialog open={openDialogBox}>
-          <div className="grid grid-cols-2 gap-1 items-center w-[400px] p-5">
+          <div className="grid grid-cols-2 gap-1 items-center  p-5">
             <span className="col-span-2 justify-end">
               <div className="flex justify-between">
                 <span className="font-bold">Update Bank Details</span>

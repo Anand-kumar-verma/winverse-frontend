@@ -169,10 +169,10 @@ export const My_All_TRX_HistoryFn_new = async (gid) => {
 // };
 
 export const MyTeamLevel = async () => {
-  // const id = deCryptData(localStorage.getItem("user_id"));
+  const id = deCryptData(localStorage.getItem("user_id"));
   try {
     const response = await axios.get(
-      `${endpoint.my_team_level}`
+      `${endpoint.my_team_level}?userid=${id}`
     );
     return response;
   } catch (e) {

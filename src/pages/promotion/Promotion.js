@@ -103,15 +103,9 @@ function Promotion() {
               >
                 User ID :{profile?.rec?.Login_Id}
               </Typography>
-              {profile?.rec?.Club !== 0 && (
-                <Typography
-                  variant="body1"
-                  color="initial"
-                  className="!text-white"
-                >
-                  Rank : {showRank(profilerec?.Club)}
-                </Typography>
-              )}
+           
+              
+        
             </Box>
           </Box>
           <Box sx={style.subcordinateBox}>
@@ -305,7 +299,7 @@ function Promotion() {
                 </Stack>
               </Box>
             </NavLink>
-            <NavLink to="/account/income-main/my-team">
+            {/* <NavLink to="/account/income-main/my-team">
               <Box sx={style.invitbox}>
                 <Stack direction="row">
                   <Box component="img" src={subcordinatedata} sx={{ filter: 'hue-rotate(45deg)' }}></Box>
@@ -317,7 +311,7 @@ function Promotion() {
                   <ArrowForwardIosOutlinedIcon />
                 </Stack>
               </Box>
-            </NavLink>
+            </NavLink> */}
             <Box sx={style.promotionBoxOutertwo}></Box>
           </Box>
         </Box>
