@@ -31,6 +31,7 @@ import theme from "../../../utils/theme";
 import { History } from "@mui/icons-material";
 import { endpoint } from "../../../services/urls";
 import { deCryptData } from "../../../shared/secret";
+import { Deposit } from "../../../services/validation";
 
 function Deposite() {
   const [receipt, setReceipt] = React.useState();
@@ -63,7 +64,7 @@ function Deposite() {
 
   const fk = useFormik({
     initialValues: initialValue,
-    // validationSchema:Deposit,
+    validationSchema:Deposit,
     enableReinitialize: true,
     onSubmit: () => {
       setLoading(true);
@@ -163,6 +164,90 @@ function Deposite() {
       </audio>
     );
   }, []);
+  const payment_button = React.useMemo(() => {
+    return (
+      <>
+        <Stack direction="row" sx={{ alignItems: "center", mb: "20px" }}>
+       
+          <Typography
+            variant="body1"
+            sx={{ fontSize: "15px ", color: 'white !important', ml: "10px" }}
+          >
+          Select  Amount
+          </Typography>
+        </Stack>
+        <Stack
+          direction="row"
+          sx={{
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            mt: "10px",
+          }}
+        >
+          <Button
+            sx={style.paytmbtn}
+            onClick={() => {
+              fk.setFieldValue("req_amount", 500);
+            }}
+          >
+            ₹ 500
+          </Button>
+          <Button
+            sx={style.paytmbtn}
+            onClick={() => {
+              fk.setFieldValue("req_amount", 1000)
+            }
+            }
+          >
+            {" "}
+            ₹ 1K
+          </Button>
+          <Button
+            sx={style.paytmbtn}
+            onClick={() => {
+              fk.setFieldValue("req_amount", 5000)
+            }
+            }
+          >
+            {" "}
+            ₹ 5K
+          </Button>
+          <Button
+            sx={style.paytmbtn}
+            onClick={() => {
+              fk.setFieldValue("req_amount", 10000)
+            }
+            }
+
+          >
+            {" "}
+            ₹ 10K
+          </Button>
+          <Button
+            sx={style.paytmbtn}
+            onClick={() => {
+              fk.setFieldValue("req_amount", 15000)
+            }
+            }
+          >
+            {" "}
+            ₹ 15K
+          </Button>
+          <Button
+            sx={style.paytmbtn}
+            onClick={() => {
+              fk.setFieldValue("req_amount", 20000)
+            }
+            }
+          >
+            {" "}
+            ₹ 20K
+          </Button>
+        </Stack>
+      </>
+    );
+  }, []);
 
   return (
     <Container sx={{ background: theme.palette.secondary.main, }}>
@@ -242,7 +327,10 @@ function Deposite() {
           </Stack>
         </Box>
       </Box>
-      <div className="grid grid-cols-2 gap-1 items-center p-5 !text-white">
+      <div className="!m-5">
+      {payment_button}
+      </div>
+      <div className="grid grid-cols-2 gap-1 -mt-5 items-center p-5 !text-white">
         <span className="col-span-2 justify-end">
           <div className="flex justify-between">
             <span className="font-bold">Fund Transfer</span>
@@ -250,8 +338,7 @@ function Deposite() {
         </span>
         <span className="!text-white !text-sm">Select Payment *</span>
         <TextField
-
-          id="deposit_type"
+        id="deposit_type"
           name="deposit_type"
           value={fk.values.deposit_type}
           onChange={fk.handleChange}
@@ -259,10 +346,14 @@ function Deposite() {
           select
           size="small"
         >
-          <MenuItem value={"Select Method"}>Select Method</MenuItem>
+         
           <MenuItem value={"Bank"}>Bank</MenuItem>
           <MenuItem value={"UPI"}>UPI</MenuItem>
         </TextField>
+        {fk.touched.deposit_type && fk.errors.deposit_type && (
+         <div className="error">{fk.errors.deposit_type}</div>
+   )}
+
         {fk.values.deposit_type === "Bank" && (
           <>
             <span className="!text-white !text-sm">Select Bank *</span>
@@ -276,7 +367,7 @@ function Deposite() {
               select
               size="small"
             >
-              <MenuItem value={"Select Bank"}>Select Bank</MenuItem>
+         
               {result?.map((i, index) => {
                 return (
                   <MenuItem value={i?.id}>
@@ -300,7 +391,7 @@ function Deposite() {
               select
               size="small"
             >
-              <MenuItem value="Select UPI">Select UPI</MenuItem>
+         
               {upidata?.map((i) => (
                 <MenuItem key={i.m37_id} value={i.m37_id}>
                   {i.m37_title}
@@ -343,6 +434,9 @@ function Deposite() {
           placeholder="amount"
           className="!w-[100%] !bg-white !mt-5"
         />
+          {fk.touched.req_amount && fk.errors.req_amount && (
+                        <div className="error">{fk.errors.req_amount}</div>
+                    )}
         <span className="!text-white !text-sm ">Transaction Id*</span>
         <TextField
           type="text"
@@ -353,6 +447,9 @@ function Deposite() {
           placeholder="Transaction"
           className="!w-[100%] !bg-white !mt-5"
         />
+        {fk.touched.transaction_no && fk.errors.transaction_no && (
+                        <div className="error">{fk.errors.transaction_no}</div>
+                    )}
         <span className="!text-white !text-sm ">Receipt*</span>
         <input
           type="file"
@@ -363,8 +460,6 @@ function Deposite() {
           onChange={handleFileChange}
           required
         />
-
-
         <div className="col-span-2 flex justify-end gap-2 mt-8">
           <Button
             className="!bg-[#FD565C] !text-white"

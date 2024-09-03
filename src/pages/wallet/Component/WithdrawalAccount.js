@@ -41,7 +41,6 @@ function WithdrawalAccount() {
     const user_id = deCryptData(localStorage.getItem("user_id"));
     const audioRefMusic = React.useRef(null);
     const [balance, setBalance] = useState("");
-    const [bet, setBet] = useState("");
     const navigate = useNavigate();
     const [Loading, setLoading] = useState(false);
 
@@ -55,7 +54,7 @@ function WithdrawalAccount() {
         validationSchema: withdraw_amount_validation_schema,
         enableReinitialize: true,
         onSubmit: () => {
-
+            
             const reqBody = {
                 userid: user_id,
                 amount: fk.values.amount,
@@ -119,18 +118,7 @@ function WithdrawalAccount() {
     );
     const wallet_amount_data = wallet_amount?.data?.earning || 0;
 
-    const { data: total_bet_amount } = useQuery(
-        ["bet_amount"],
-        () => getBetFunction(setBet),
-        {
-            refetchOnMount: false,
-            refetchOnReconnect: false,
-            retry: false,
-            retryOnMount: false,
-            refetchOnWindowFocus: false
-        }
-    );
-    const total_bet = total_bet_amount?.data?.earning || 0;
+
 
     const { data: game_history } = useQuery(
         ["bank_details"],
@@ -386,7 +374,7 @@ function WithdrawalAccount() {
                         value={fk.values.amount}
                         onChange={fk.handleChange}
                         placeholder="Amount"
-                        className="!w-[100%] !bg-white !mt-5"
+                        className="!w-[100%] !bg-white !mt-5 !rounded"
                     />
                     {fk.touched.amount && fk.errors.amount && (
                         <div className="error">{fk.errors.amount}</div>
@@ -520,8 +508,7 @@ function WithdrawalAccount() {
                             }}
                         >
                             {" "}
-                            ₹ 
-                            {/* {total_bet?.total_amt || 0} */}
+                            ₹   {(wallet_amount_data?.wallet)* 0.10 || 0}
                         </Typography>
                      
                     </Stack>

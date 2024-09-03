@@ -35,7 +35,7 @@ function Wallet() {
   const navigate = useNavigate();
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
 
-  const { isLoading: profileLoding, data: user } = useQuery(
+  const {  data: user } = useQuery(
     ["profile"],
     () => ProfileDataFunction(),
     {
@@ -293,7 +293,7 @@ function Wallet() {
                   ></Box>
                 </Box>
                 <Typography variant="body1" color="initial" sx={style.typography}>
-                P2P TopUp
+                P2P 
                 </Typography>
               </Box>
             </Stack>
