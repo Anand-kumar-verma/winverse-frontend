@@ -313,8 +313,9 @@ function WithdrawalAccount() {
                     </Stack>
                 </Stack>
             </Box>
-
-            <Box
+            {fk.values.type === "Bank" && (
+                <>
+                  <Box
                 sx={{
                     width: "92%",
                     margin: "auto",
@@ -355,7 +356,55 @@ function WithdrawalAccount() {
                     </Stack>
                 </Stack>
             </Box>
-
+                </>
+            )}
+    {fk.values.type === "UPI" && (
+                <>
+                  <Box
+                sx={{
+                    width: "92%",
+                    margin: "auto",
+                    my: 2,
+                    background: theme.palette.primary.light,
+                    padding: "10px 0px 10px 10px",
+                    borderRadius: '10px'
+                }}
+            >
+                <Stack direction="row" component={NavLink} to="/banks-upi">
+                    <Box sx={{ width: "35%" }}>
+                        <Box
+                            component="img"
+                            src={bankicon}
+                            width={30}
+                            sx={{ margin: "auto" }}
+                        ></Box>
+                        <Typography
+                         className="!text-center"
+                            variant="body1"
+                            sx={{ fontSize: "15px", fontWeight: "500", mt: 1, color: 'white' }}
+                        >
+                            {upi_detail?.data?.earning?.bank_details?.[0]?.Ifsc?.substring(0, 8) + "****"}
+                        </Typography>
+                    </Box>
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        sx={{ width: "60%", borderLeft: "1px solid gray", pl: "5%" }}
+                    >
+                        <Typography
+                        className="!text-center"
+                            variant="body1"
+                            sx={{ fontSize: "13px", fontWeight: "600", color: 'white' }}
+                        >
+                            {upi_detail?.data?.earning?.bank_details?.[0]?.Branch?.substring(0, 5) + "****"}
+                        </Typography>
+                        <KeyboardArrowRightIcon sx={{ color: 'white' }} />
+                    </Stack>
+                </Stack>
+            </Box>
+                </>
+            )}
             <Box
                 sx={{
                     width: "92%",

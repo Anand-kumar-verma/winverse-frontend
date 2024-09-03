@@ -248,9 +248,9 @@ const MyHistory = ({ gid }) => {
                   <div className="!w-full !flex !justify-between">
                     <p className="!text-white ">{i?.tr_transid}</p>
                     <p
-                      className={`${i?.tr_status === "Loss"
+                      className={`${i?.tr_status === "Fail"
                         ? "!text-red-600"
-                        : i?.tr_status === "Win"
+                        : i?.tr_status === "Success"
                           ? "!text-green-600"
                           : "!text-red-600"
                         } !font-bold`}
@@ -258,9 +258,9 @@ const MyHistory = ({ gid }) => {
                       {i?.tr_status}
                     </p>
                     <span
-                      className={`${i?.tr_status === "Loss"
+                      className={`${i?.tr_status === "Fail"
                         ? "!text-red-600"
-                        : i?.tr_status === "Win"
+                        : i?.tr_status === "Success"
                           ? "!text-green-600"
                           : "!text-red-600"
                         }`}
@@ -418,9 +418,9 @@ const MyHistory = ({ gid }) => {
                       Status
                     </span>
                     <span
-                      className={`${i?.tr_status === "Loss"
+                      className={`${i?.tr_status === "Fail"
                         ? "!text-red-400"
-                        : i?.tr_status === "Win"
+                        : i?.tr_status === "Success"
                           ? "!text-green-400"
                           : "!text-red-400"
                         } bg-white !bg-opacity-10 py-1 px-2`}

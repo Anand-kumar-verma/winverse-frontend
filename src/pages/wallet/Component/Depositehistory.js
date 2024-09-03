@@ -67,7 +67,7 @@ function Depositehistory() {
             <Box component='img' src={backbtn} width={25}></Box>
           </NavLink>
           <Box sx={{ position: 'absolute', left: '30%', top: '10%' }}>
-            <Typography variant="body1" sx={{ color: 'white', fontSize: '16px', fontWeight: '600' }}>Deposit history</Typography>
+            <Typography variant="body1" sx={{ color: 'white', fontSize: '16px', fontWeight: '600' }}>Deposit History</Typography>
           </Box>
         </Stack>
       </Box>

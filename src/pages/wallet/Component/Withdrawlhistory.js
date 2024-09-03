@@ -55,7 +55,7 @@ function Withdrawlhistory() {
     if (value === 1) {
       filteredData = res;
     } else if (value === 2) {
-      filteredData = res?.filter(i => i.m_w_type === 'BANK');
+      filteredData = res?.filter(i => i.m_w_type === 'Bank');
     } else if (value === 3) {
       filteredData = res?.filter(i => i.m_w_type === 'UPI');
     }
@@ -78,7 +78,7 @@ function Withdrawlhistory() {
               variant="body1"
               sx={{ color: "white", fontSize: "16px", fontWeight: "600" }}
             >
-              Withdrawal history
+              Withdrawal History
             </Typography>
           </Box>
         </Stack>

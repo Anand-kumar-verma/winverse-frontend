@@ -261,7 +261,7 @@ function Wallet() {
                   ></Box>
                 </Box>
                 <Typography variant="body1" color="initial" sx={style.typography}>
-                  Deposit history
+                  Deposit History
                 </Typography>
               </Box>
               <Box className="!cursor-pointer" sx={style.box}
@@ -277,12 +277,12 @@ function Wallet() {
                   ></Box>
                 </Box>
                 <Typography variant="body1" color="initial" sx={style.typography}>
-                  Withdrawal history
+                  Withdrawal History
                 </Typography>
               </Box>
               <Box className="!cursor-pointer" sx={style.box}
                 onClick={() =>
-                  navigate('/p2p')
+                  navigate('/fund-main')
 
                 }>
                 <Box sx={style.innerBox}>

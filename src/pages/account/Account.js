@@ -102,9 +102,6 @@ function Account() {
     }
   }, []);
 
-
-
-
   return (
     <Layout header={false}>
       <Container sx={{
@@ -185,7 +182,7 @@ function Account() {
               <Box className="flex flex-col justify-center cursor-pointer items-center"
                 onClick={() =>  navigate('/withdraw')}
               >
-                <Typography><img src={upi} alt="" className="w-8" style={{ filter: 'hue-rotate(310deg)' }} /></Typography>
+                <Typography><img src={upi} alt="" className="w-8 !bg-[#325A17]  !rounded"  /></Typography>
                 <Typography sx={{ color: 'white' }} className="">Bank & UPI</Typography>
               </Box>
             </Box>
