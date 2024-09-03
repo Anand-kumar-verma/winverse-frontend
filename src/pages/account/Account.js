@@ -4,6 +4,7 @@ import { Box, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import copy from "clipboard-copy";
 import { useQuery, useQueryClient } from "react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import a1 from "../../assets/images/a1.png";
@@ -102,6 +103,10 @@ function Account() {
     }
   }, []);
 
+  const functionTOCopy = (value) => {
+    copy(value);
+    toast.success("Copied to clipboard!");
+  };
   return (
     <Layout header={false}>
       <Container sx={{
@@ -136,7 +141,11 @@ function Account() {
                   <img src={vip} alt="" className=" w-10 mt-6" />
                 </Typography>
               </Box>
-              <Box className="bg-gray-600 w-40 h-6 rounded-full p-1   realtive !left-40 flex gap-3 justify-center">
+              <Box className="!cursor-pointer bg-gray-600 w-40 h-6 rounded-full p-1   realtive !left-40 flex gap-3 justify-center"  onClick={() =>
+                        functionTOCopy(
+                          profile?.rec?.Login_Id
+                        )
+                      }>
                 <Typography className="text-white !text-xs">UID </Typography>
                 <Typography className="text-white !text-xs">| </Typography>
                 <Typography className="text-white !text-xs">{profile?.rec?.Login_Id} <CopyAll fontSize="small" /> </Typography>
