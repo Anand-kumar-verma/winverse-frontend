@@ -160,7 +160,7 @@ function Account() {
             </Typography>
            </div>
             </div>
-            <Box className="flex justify-center gap-8 pt-5">
+            <Box className="flex justify-center gap-5 pt-5">
               <NavLink to="/wallet">
                 <Box className="flex flex-col justify-center items-center">
                   <Typography><img src={wal} alt="" className="w-8" style={{ filter: 'hue-rotate(105deg)' }} /></Typography>
