@@ -59,11 +59,11 @@ function Wallet() {
       refetchOnWindowFocus: false
     }
   );
-  const res = data?.data?.earning?.rid || [];
+  const res = data?.data?.earning?.recharge || [];
   const total_deposit_amount = useMemo(() => {
     return res
-      ?.filter((i) => i?.tr15_status === "Success")
-      ?.reduce((a, b) => a + Number(b?.tr15_amt || 0), 0);
+      ?.filter((i) => i?.m_top_status === "Success")
+      ?.reduce((a, b) => a + Number(b?.tr09_req_amount || 0), 0);
   }, [data]);
 
 

@@ -1,3 +1,4 @@
+import { Recommend, RepeatOn, ReportGmailerrorredTwoTone, ReportSharp } from "@mui/icons-material";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import LocalConvenienceStoreIcon from "@mui/icons-material/LocalConvenienceStore";
 import RedeemIcon from "@mui/icons-material/Redeem";
@@ -55,9 +56,27 @@ function MainPageOFIncome() {
       ),
     },
     
-   
+    {
+      to: "/account/income-main/sponsor",
+      name: "Sponsor Income",
+      logo: (
+        <ReportGmailerrorredTwoTone
+          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          color="#8f5206"
+        />
+      ),
+    },
     
-  
+    {
+      to: "/account/income-main/joining",
+      name: "Joining Bonus" ,
+      logo: (
+        <Recommend
+          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          color="#8f5206"
+        />
+      ),
+    },
     
   ];
   return (

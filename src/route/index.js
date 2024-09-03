@@ -18,8 +18,10 @@ import Dashboard from "../pages/home/Dashboard";
 import MainPageOFIncome from "../pages/income/MainPageOFIncome";
 import DirectIncome from "../pages/income/incomeSubSection/DirectIncome";
 import FundLevelCommission from "../pages/income/incomeSubSection/FundLevelCommission";
+import JoiningBonus from "../pages/income/incomeSubSection/Joiningbonus";
 import LevelBonus from "../pages/income/incomeSubSection/LevelBonus";
 import LevelIncome from "../pages/income/incomeSubSection/LevelIncome";
+import SponsorIncome from "../pages/income/incomeSubSection/SponsorIncome";
 import AllLevelOfTeam from "../pages/myteam/AllLevelOfTeam";
 import Tables from "../pages/myteam/Tables";
 import AccountPassword from "../pages/password/AccountPassword";
@@ -180,6 +182,14 @@ export const routes = [
     {
         path: "/account/income-main/level-bonus",
         element: <LevelBonus />
+    },
+    {
+        path: "/account/income-main/sponsor",
+        element: <SponsorIncome />
+    },
+    {
+        path: "/account/income-main/joining",
+        element: <JoiningBonus />
     },
     {
         path: "/account/income-main/my-team",
