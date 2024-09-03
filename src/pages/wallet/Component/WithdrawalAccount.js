@@ -508,7 +508,7 @@ function WithdrawalAccount() {
                             }}
                         >
                             {" "}
-                            ₹   {(wallet_amount_data?.wallet)* 0.10 || 0}
+                            ₹   {((wallet_amount_data?.wallet)* 0.10 )?.toFixed(0,2)|| 0}
                         </Typography>
                      
                     </Stack>

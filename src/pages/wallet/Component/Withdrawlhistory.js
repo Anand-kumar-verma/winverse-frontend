@@ -190,6 +190,27 @@ function Withdrawlhistory() {
             </Typography>
             <Typography variant="body1">₹ {i?.m_w_amount}</Typography>
           </Stack>
+        
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Type
+            </Typography>
+            <Typography variant="body1" color="initial">
+              {i?.m_w_type}
+            </Typography>
+          </Stack>
           <Stack
               direction="row"
               sx={{
@@ -214,55 +235,6 @@ function Withdrawlhistory() {
                 {moment(i?.m_w_reqdate)?.format("DD-MM-YYYY HH:mm:ss")}
               </Typography>
             </Stack>
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: "center",
-              justifyContent: "space-between",
-              "&>p": {
-                color: "#888",
-                fontSize: "13px",
-                fontWeight: "600",
-                py: 1,
-              },
-            }}
-          >
-            <Typography variant="body1" color="initial">
-              Type
-            </Typography>
-            <Typography variant="body1" color="initial">
-              {i?.m_w_type}
-            </Typography>
-          </Stack>
-          
-          {i?.m_w_approvedate=== i?.m_w_approvedate && (
-              <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-              Approve  Date/Time
-              </Typography>
-              <Typography
-                variant="body1"
-                color="initial"
-                className="!text-green-500"
-              >
-                {moment(i?.m_w_approvedate)?.format("DD-MM-YYYY HH:mm:ss")}
-              </Typography>
-            </Stack>
-          )
-       }
-         
           <Stack
             direction="row"
             sx={{
