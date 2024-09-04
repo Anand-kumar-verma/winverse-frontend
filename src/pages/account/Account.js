@@ -191,7 +191,7 @@ function Account() {
               <Box className="flex flex-col justify-center cursor-pointer items-center"
                 onClick={() =>  navigate('/withdraw')}
               >
-                <Typography><img src={upi} alt="" className="w-8 !bg-[#325A17]  !rounded"  /></Typography>
+                <Typography><img src={upi} alt="" className="w-8 h-6 mb-2 !bg-[#8CC670]  !rounded"  /></Typography>
                 <Typography sx={{ color: 'white' }} className="">Bank & UPI</Typography>
               </Box>
             </Box>

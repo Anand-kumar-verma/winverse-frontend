@@ -1,3 +1,4 @@
+import { AccountBalanceOutlined, ArrowBackIos, Edit } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
@@ -5,40 +6,35 @@ import {
   Container,
   Dialog,
   Divider,
+  IconButton,
   MenuItem,
   Stack,
-  TablePagination,
   TextField,
+  Typography
 } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import axios from "axios";
 import { useFormik } from "formik";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import * as React from "react";
+import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import Layout from "../../component/layout/Layout";
 import {
   BankDetailsFUnction,
   bankListFuncton,
 } from "../../services/apiCallings";
-import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
-import theme from "../../utils/theme";
-import axios from "axios";
 import { endpoint } from "../../services/urls";
-import toast from "react-hot-toast";
+import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import { deCryptData } from "../../shared/secret";
+import theme from "../../utils/theme";
 
 export default function Banks() {
   const user_id = deCryptData(localStorage.getItem("user_id"));
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = React.useState(0);
-  const tableRef = React.useRef(null);
   const client = useQueryClient()
   const [openDialogBox, setOpenDialogBox] = React.useState(false);
 
@@ -54,7 +50,7 @@ export default function Banks() {
     }
   );
 
-  const { isLoading: bank_list, data: bankList } = useQuery(
+  const { data: bankList } = useQuery(
     ["bank_list"],
     () => bankListFuncton(),
     {
@@ -73,14 +69,6 @@ export default function Banks() {
     [game_history?.data?.earning?.bank_details]
   );
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   const visibleRows = React.useMemo(
     () =>
@@ -174,6 +162,7 @@ export default function Banks() {
     doc.autoTable({ html: "#my-table" });
     doc.save("table.pdf");
   };
+  const navigate = useNavigate()
   return (
     <Layout>
       <Container
@@ -184,9 +173,20 @@ export default function Banks() {
           mb: 5,
         }}
         className="no-scrollbar"
-      >
+      >    
+         <CustomCircularProgress isLoading={isLoading} />
+  
+           <Box sx={style.header}>
+          <Box >
+            <ArrowBackIos className="!text-white !cursor-pointer"  onClick={()=>navigate('/bank')}/>
+          </Box>
+          <Typography variant="body1" sx={{ color: 'white' }} >
+             Bank Details
+          </Typography>
+          <Box></Box>
+        </Box>
         <CustomCircularProgress isLoading={isLoading} />
-        <div className="flex justify-between w-full px-1 pt-2 pb-1">
+        <div className="flex justify-center gap-5 w-full px-1 pt-2 pb-1">
           <div className="flex gap-1">
             <Button
               className="!bg-[#BF6DFE] !py-0 !text-white"
@@ -209,100 +209,107 @@ export default function Banks() {
             />
           </div>
         </div>
-        <Box className="!m-2">
-          <TableContainer>
-            <Table
-              id="my-table"
-              ref={tableRef}
-              sx={{ maxWidth: 400 }}
-              aria-label="simple table"
-            >
-              <TableHead
-                sx={{
-                  background: theme.palette.primary.main,
-                  "&>tr>th": {
-                    padding: 1,
-                    fontSize: "13px",
-                    fontWeight: 700,
-                    color: "white",
-                  },
-                }}
-              >
-                <TableRow>
-                  <TableCell className="!text-sm !text-center !pl-[2px] !pr-0 border-2 border-r  border-white">
-                    S.No.
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Action
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Bank
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Holder
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    IFSC
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Acc Number
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody
-              // sx={{
-              //   "&>tr>td": { padding: "10px 5px", border: "none" },
-              //   "&>tr": { borderBottom: "1px solid #ced4d7" },
-              // }}
-              >
-                {visibleRows?.map((i, index) => {
-                  return (
-                    <TableRow key={index} className="!w-[95%]">
-                      <TableCell className="!text-black !pl-[2px] !pr-2 !text-center !border-2 !border-r !border-[#63BA0E]">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        <Button
-                          className="!bg-[#FD565C] !py-0 !text-white"
-                          onClick={() => {
+       
+         <Box>
+          <Box
+            sx={{
+              padding: "10px",
+              width: "95%",
+              margin: "auto",
+              mt: 2,
+              borderRadius: "10px",
+              mb: 5,
+            }}
+          >
+          
+            {visibleRows?.map((i, index) => {
+              return (
+                <Box
+                  key={index}
+                  sx={{
+                    mb: 2,
+                    padding: "15px",
+                    borderRadius: "10px",
+                    background: theme.palette.primary.main,
+                  }}
+                >
+                  <div className="flex !justify-between">
+                    <IconButton>
+                      <AccountBalanceOutlined sx={{ color: 'white' }} />
+                    </IconButton>
+                    <IconButton  onClick={() => {
                             setOpenDialogBox(i?.regid)
-                          }}
-                        >
-                          Update
-                        </Button>
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.Bankname}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.Associate_Name}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.ifsc_code}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.AcNo}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Box sx={{ background: "white", mt: 3 }}>
-            <Stack spacing={2}>
-              <TablePagination
-                sx={{ background: "#FBA343", color: "white" }}
-                rowsPerPageOptions={[10, 15, 20]}
-                component="div"
-                count={game_history_data?.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                labelRowsPerPage="Rows"
-              />
-            </Stack>
+                          }}>
+                      <Edit sx={{ color: 'white' }} />
+                    </IconButton>
+                  </div>
+                  <Divider className="!bg-red-100 !text-red-100 !bg-opacity-20" />
+                  <Stack
+                    direction="row"
+                    sx={{
+                      marginTop: "10px",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      "&>p": { color: 'white' },
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                      Account Holder Name
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                      {i?.Associate_Name}
+                    </Typography>
+                  </Stack>
+                
+                  <Stack
+                    direction="row"
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      "&>p": { color: 'white' },
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                      Bank Name
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                      {i?.Bankname}
+                    </Typography>
+                  </Stack>
+                 
+                  <Stack
+                    direction="row"
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      "&>p": { color: 'white' },
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                      IFSC Code
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                      {i?.ifsc_code}
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      "&>p": { color: 'white' },
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                      Account Number
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                      {i?.AcNo}
+                    </Typography>
+                  </Stack>
+                </Box>
+              );
+            })}
           </Box>
         </Box>
         <Dialog open={openDialogBox}>
@@ -379,4 +386,23 @@ export default function Banks() {
       </Container>
     </Layout>
   );
+}
+const style = {
+  header: {
+    padding: "10px 8px",
+    background: "#63BA0E",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    "& > p": {
+      fontSize: "20px",
+      fontWeight: "600",
+      textAlign: "center",
+      color: 'white',
+    },
+    "& > a > svg": {
+      color: 'white',
+      fontSize: "35px",
+    },
+  },
 }

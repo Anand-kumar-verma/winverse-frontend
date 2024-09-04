@@ -58,9 +58,6 @@ function Promotion() {
     }
   );
   const profile = user?.data?.earning || [];
-  const profilerec = user?.data?.earning?.rec || [];
-
-  const [copied, setCopied] = useState(false);
   const functionTOCopy = (value) => {
     copy(value);
     toast.success("Copied to clipboard!");
