@@ -12,16 +12,16 @@ function FundMain() {
 
 
   const data_array = [
-    {
-      to: "/fund-report",
-      name: "Fund Transfer History",
-      logo: (
-        <RedeemIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
+    // {
+    //   to: "/fund-report",
+    //   name: "Fund Transfer History",
+    //   logo: (
+    //     <RedeemIcon
+    //       className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+    //       color="#8f5206"
+    //     />
+    //   ),
+    // },
     {
       to: "/fund-transfer",
       name: "P2P Transfer",
@@ -33,16 +33,16 @@ function FundMain() {
       ),
     },
 
-    {
-      to: "/fund-recieve",
-      name: "Fund Receive",
-      logo: (
-        <CurrencyFrancSharp
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
+    // {
+    //   to: "/fund-recieve",
+    //   name: "Fund Receive",
+    //   logo: (
+    //     <CurrencyFrancSharp
+    //       className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+    //       color="#8f5206"
+    //     />
+    //   ),
+    // },
     {
       to: "/p2p",
       name: "P2P TopUp",

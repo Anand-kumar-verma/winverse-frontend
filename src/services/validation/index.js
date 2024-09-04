@@ -59,7 +59,8 @@ export const topup = Yup.object().shape({
   amount: Yup.number()
     .required("Amount is required")
     .min(200, "Amount must be greater than or equal to 200"),
-    type : Yup.string().required("withdrawal type is required")
+    deposit_type : Yup.string().required("deposite type is required"),
+    transaction_id: Yup.string().required("Transaction id  is required"),
   
 });
 export const Deposit = Yup.object().shape({

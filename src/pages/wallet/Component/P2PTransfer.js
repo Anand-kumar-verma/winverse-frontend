@@ -23,7 +23,7 @@ const P2PTransfer = () => {
   const [receipt, setReceipt] = React.useState();
   const user_id = deCryptData(localStorage.getItem("user_id"));
   const [Loading, setLoading] = useState(false);
-  const [balance, setBalance] = useState();
+  const [balance, setsetBalance] = useState();
   
   const client = useQueryClient()
   
@@ -76,7 +76,7 @@ const P2PTransfer = () => {
     try {
       setLoading(true)
       const res = await axios.post(endpoint?.p2p_request, reqBody);
-      toast(res?.data?.message);
+      toast(res?.data?.msg);
       setLoading(false)
       fk.handleReset();
       client.refetchQueries("wallet_amount_amount");
@@ -114,8 +114,6 @@ const P2PTransfer = () => {
     (item) => item?.m37_id === fk?.values?.txtupi
   );
 
-
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -132,7 +130,7 @@ const P2PTransfer = () => {
   };
   const { data: wallet_amount } = useQuery(
     ["wallet_amount_amount"],
-    () => getBalanceFunction(setBalance),
+    () => getBalanceFunction(setsetBalance),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -141,15 +139,6 @@ const P2PTransfer = () => {
     }
   );
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
-
-  // useEffect(() => {
-  //   if (wallet_amount_data?.p2pwallet && fk.values.amount) {
-  //     const p2pAmount = Math.floor(fk.values.amount * 0.6);
-  //     const reqAmount = Math.floor(fk.values.amount * 0.4);
-  //     fk.setFieldValue("p2pamount", p2pAmount);
-  //     fk.setFieldValue("txt_req_amt", reqAmount);
-  //   }
-  // }, [wallet_amount_data?.p2pwallet, fk.values.amount]);
 
   useEffect(() => {
     if (wallet_amount_data?.p2pwallet && fk.values?.amount) {
@@ -189,57 +178,56 @@ const P2PTransfer = () => {
           </Typography>
           <Box></Box>
         </Box>
-        <div className=" items-center !text-white !font-bold p-5 mt-2 ">
-          <div className="!text-white !text-sm !mt-5">Transfer Id*</div>
+        <div className="text-white flex justify-between px-5 mt-5">
+        <div className="">P2P Wallet Available Balance :</div>
+        <div className="">{wallet_amount_data?.p2pwallet}</div>
+        </div>
+       
+        <div className=" items-center !text-white !font-bold p-5">
+          <div className="!text-white !text-sm !mt-1">Transfer To*</div>
           <TextField
             type="text"
             id="transfer_id"
             name="transfer_id"
             value={fk.values.transfer_id}
             onChange={fk.handleChange}
-            placeholder="Transfer"
-            className="!w-[100%] !bg-white "
+            placeholder="User Id"
+            className="!w-[100%] !bg-white rounded"
           />
-          <div className="mt-5">P2P Wallet Available Balance*</div>
-          <TextField
-           
-            value={wallet_amount_data?.p2pwallet}
-          
-            className="!w-[100%] !bg-white !my-2 !rounded "
-          ></TextField>
-          <div className="mt-5">TopUp Amount*</div>
+         
+          <div className="mt-2">TopUp Amount*</div>
           <TextField
             id="amount"
             name="amount"
             placeholder="Enter Amount"
             value={fk.values.amount}
             onChange={fk.handleChange}
-            className="!w-[100%] !bg-white !my-2 !rounded "
+            className="!w-[100%] !bg-white !mb-2 !rounded "
           />
              {fk.touched.amount && fk.errors.amount && (
                         <div className="error">{fk.errors.amount}</div>
                     )}
 
-         <div className="mt-5">P2P Amount*</div>
+         <div className="mt-2">P2P Amount*</div>
           <TextField
             id="p2pamount"
             name="p2pamount"
             placeholder="Enter Amount"
             value={fk.values.p2pamount}
             onChange={fk.handleChange}
-            className="!w-[100%] !bg-white !my-2 !rounded "
+            className="!w-[100%] !bg-white !mb-2 !rounded "
           />
 
-          <div className="mt-5">Request Amount*</div>
+          <div className="mt-2">Request Amount*</div>
           <TextField
             id="txt_req_amt"
             name="txt_req_amt"
             placeholder="Enter password"
             value={fk.values.txt_req_amt}
             onChange={fk.handleChange}
-            className="!w-[100%] !bg-white !my-2 !rounded "
+            className="!w-[100%] !bg-white !mb-2 !rounded "
           />
-          <div className="!text-white !text-sm !mt-5">Select Payment *</div>
+          <div className="!text-white !text-sm !mt-2">Select Payment *</div>
           <TextField
             id="deposit_type"
             name="deposit_type"
@@ -248,21 +236,24 @@ const P2PTransfer = () => {
             className="!w-[100%] !bg-white "
             select
             size="small"
-          >
+          >  
             <MenuItem value={"Select Method"}>Select Method</MenuItem>
             <MenuItem value={"Bank"}>Bank</MenuItem>
             <MenuItem value={"UPI"}>UPI</MenuItem>
           </TextField>
+          {fk.touched.deposit_type && fk.errors.deposit_type && (
+            <div className="error">{fk.errors.deposit_type}</div>
+        )}
           {fk.values.deposit_type === "Bank" && (
             <>
-              <div className="!text-white !text-sm">Select Bank *</div>
+              <div className="!text-white !text-sm !mt-2">Select Bank *</div>
               <TextField
                 id="txtbank"
                 name="txtbank"
                 value={fk.values.txtbank}
                 onChange={fk.handleChange}
                 placeholder="Select Bank"
-                className="!w-[100%] !bg-white !mt-5"
+                className="!w-[100%] !bg-white !mb-2"
                 select
                 size="small"
               >
@@ -279,14 +270,14 @@ const P2PTransfer = () => {
           )}
           {fk.values.deposit_type === "UPI" && (
             <>
-              <div className="!text-white !text-sm">Select UPI *</div>
+              <div className="!text-white !text-sm !mt-2">Select UPI *</div>
               <TextField
                 id="txtupi"
                 name="txtupi"
                 value={fk.values.txtupi}
                 onChange={fk.handleChange}
                 placeholder="Select UPI"
-                className="!w-[100%] !bg-white !mt-5"
+                className="!w-[100%] !bg-white !mb-2"
                 select
                 size="small"
               >
@@ -324,7 +315,7 @@ const P2PTransfer = () => {
             </>
           )}
 
-          <div className="!text-white !text-sm !mt-5">Transaction Id*</div>
+          <div className="!text-white !text-sm !mt-2">Transaction Id*</div>
           <TextField
             type="text"
             id="transaction_id"
@@ -334,7 +325,10 @@ const P2PTransfer = () => {
             placeholder="Transaction"
             className="!w-[100%] !bg-white "
           />
-          <div className="!text-white !text-sm !mt-5 !mr-5">Receipt*</div>
+            {fk.touched.transaction_id && fk.errors.transaction_id && (
+                        <div className="error">{fk.errors.transaction_id}</div>
+                    )}
+          <div className="!text-white !text-sm !mt-2 !mr-5">Receipt*</div>
           <input
             type="file"
             id="txtfile"
@@ -343,7 +337,7 @@ const P2PTransfer = () => {
             onChange={handleFileChange}
             required
           />
-            <div className="col-div-2 flex justify-end gap-2 my-8">
+            <div className="col-div-2 flex justify-end gap-2 mb-8">
             <Button
               className="!bg-[#FD565C] !text-white"
               onClick={() => fk.handleReset()}

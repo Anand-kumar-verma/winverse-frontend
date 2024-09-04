@@ -4,7 +4,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { NavLink } from "react-router-dom";
 import Layout from "../../component/layout/Layout";
 import {
@@ -46,16 +46,24 @@ const P2Pmoney = () => {
             toast(res?.data?.message);
             fk.handleReset();
             setLoading(false)
-            client.refetchQueries("wallet_amount");
+            client.refetchQueries("wallet_amount_amount");
 
         } catch (e) {
             console.log(e);
         }
     }
-    useEffect(() => {
-        getBalanceFunction(setsetBalance);
-    }, []);
-
+    const { data: wallet_amount } = useQuery(
+        ["wallet_amount_amount"],
+        () => getBalanceFunction(setsetBalance),
+        {
+          refetchOnMount: false,
+          refetchOnReconnect: false,
+          retryOnMount: false,
+          refetchOnWindowFocus: false
+        }
+      );
+      const wallet_amount_data = wallet_amount?.data?.earning || 0;
+    
     return (
         <Layout header={false}
         > <Container
@@ -66,26 +74,25 @@ const P2Pmoney = () => {
                 background: theme.palette.secondary.main,
             }}>
                 <Box sx={style.header} >
-                     <Box component={NavLink} to="/fund-main"><ArrowBackIos className="!text-white" /></Box>
+                    <Box component={NavLink} to="/fund-main"><ArrowBackIos className="!text-white" /></Box>
                     <Typography variant="" color="initial" className="!text-white !font-bold !py-2">
                         Add Money To P2P
                     </Typography>
                     <Box></Box>
                 </Box>
-                <div className=" items-center !text-white !font-bold p-5 mt-5 ">
+                <div className="text-white flex justify-between px-5 mt-5">
+                    <div className="">Main Wallet :</div>
+                    <div className="">{wallet_amount_data?.wallet}</div>
+                </div>
 
-                    <span>Wallet*</span>
-                    <TextField
-                        id="wallet"
-                        name="wallet"
-                        value={balance}
-                        className="!w-[100%] !bg-white !my-2 !rounded !mb-5"
-                    ></TextField>
+                <div className=" items-center !text-white !font-bold p-5 mt-1 ">
+
+
                     <span>Transfer Amount*</span>
                     <TextField
                         id="amount"
                         name="amount"
-                        placeholder="Enter Amount"
+                        placeholder="Enter Transfer Amount"
                         value={fk.values.amount}
                         onChange={fk.handleChange}
                         className="!w-[100%] !bg-white !my-2 !rounded " />

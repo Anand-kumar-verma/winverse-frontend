@@ -70,7 +70,7 @@ const FundTransfer = () => {
       toast(res?.data?.msg);
       fk.handleReset();
       setLoading(false)
-      client.refetchQueries("wallet_amount");
+      client.refetchQueries("wallet_amount_amount");
       
     } catch (e) {
       console.log(e);
@@ -94,9 +94,18 @@ const FundTransfer = () => {
   useEffect(() => {
     getIntroFn();
   }, [fk.values.userid]);
-  useEffect(() => {
-    getBalanceFunction(setsetBalance);
-  }, []);
+
+  const { data: wallet_amount } = useQuery(
+    ["wallet_amount_amount"],
+    () => getBalanceFunction(setsetBalance),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false
+    }
+  );
+  const wallet_amount_data = wallet_amount?.data?.earning || 0;
   return (
     <Layout header={false}
 > <Container
@@ -114,31 +123,22 @@ const FundTransfer = () => {
       </Typography>
       <Box></Box>
     </Box>
-    <div className=" items-center !text-white !font-bold p-5 mt-5 ">
+    <div className="text-white flex justify-between px-5 mt-5">
+                    <div className="">P2P Wallet :</div>
+                    <div className="">{wallet_amount_data?.p2pwallet}</div>
+                </div>
+              
+    <div className=" items-center !text-white !font-bold p-5 mt-2 ">
           
-          <span>Wallet*</span>
-          <TextField
-            id="wallet"
-            name="wallet"
-            value={balance}
-        
-            className="!w-[100%] !bg-white !my-2 !rounded "
-          ></TextField>
-
-          <span>Transfer Id*</span>
+          <span>Transfer To *</span>
           <div>
             <TextField
               id="transfer_id"
               name="transfer_id"
               value={fk.values.transfer_id}
                onChange={fk.handleChange}
-               placeholder="Transfer ID"
-              // onChange={(e) => {
-              //   fk.handleChange(e);
-              //   if (e.target.value === profile?.rec?.Login_Id) {
-              //    return toast("Can not send fund to yourself ");
-              //   } 
-              // }}
+               placeholder="User ID"
+              
               className="!w-[100%] !bg-white !my-2 !rounded "
             />
             {/* {username && username !== "false" && (

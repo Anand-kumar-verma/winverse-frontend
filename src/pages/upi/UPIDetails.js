@@ -161,7 +161,7 @@ export default function UPIDetails() {
           </Typography>
           <Box></Box>
         </Box>
-        <div className="flex justify-between w-full px-1 pt-2 pb-1">
+        {/* <div className="flex justify-between w-full px-1 pt-2 pb-1">
           <div className="flex gap-1">
             <Button
               className="!bg-[#BF6DFE] !py-0 !text-white"
@@ -183,7 +183,7 @@ export default function UPIDetails() {
               placeholder="Search.."
             />
           </div>
-        </div>
+        </div> */}
 
          <Box>
           <Box

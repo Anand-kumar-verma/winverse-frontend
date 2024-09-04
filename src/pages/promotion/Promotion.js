@@ -3,7 +3,7 @@ import EmojiPeopleOutlinedIcon from "@mui/icons-material/EmojiPeopleOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import copy from "clipboard-copy";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { NavLink } from "react-router-dom";
@@ -72,7 +72,9 @@ function Promotion() {
   }, []);
   return (
     <Layout header={false}>
-      <Container sx={{ background: theme.palette.secondary.main }}>
+      <Container 
+      className ="!h-screen "
+      sx={{ background: theme.palette.secondary.main }}>
         <CustomCircularProgress isLoading={isLoading || profileLoding} />
         <Box sx={style.header}>
           <Typography variant="body1" color="initial"></Typography>
