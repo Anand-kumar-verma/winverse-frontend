@@ -94,6 +94,8 @@ function Deposite() {
       console.log(e);
     }
     client.refetchQueries("wallet_amount");
+    client.refetchQueries("withdrawl_history");
+    
   }
   const handleFileChange = (event) => {
     const file = event.target.files[0];
