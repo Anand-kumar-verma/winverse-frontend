@@ -182,7 +182,7 @@ const P2PTransfer = () => {
       }}>
         <Box sx={style.header} >
 
-          <Box component={NavLink} to="/fund-main"><ArrowBackIos className="!text-white" /></Box>
+          <Box component={NavLink} to="/deposit"><ArrowBackIos className="!text-white" /></Box>
           <Typography variant="" color="initial" className="!text-white !font-bold !py-2">
             P2P TopUp
           </Typography>
@@ -237,12 +237,12 @@ const P2PTransfer = () => {
                         <div className="error">{fk.errors.amount}</div>
                     )}
 
-         <div className="mt-1">P2P Amount - 
+         <div className="mt-1">P2P Amount : 
           <span className="ml-2" >
           {fk.values.p2pamount}
           </span>
           </div>
-          <div className="mb-2 ">Request Amount - 
+          <div className="mb-2 ">Request Amount : 
           <span
            className="ml-2"
             id="txt_req_amt"
