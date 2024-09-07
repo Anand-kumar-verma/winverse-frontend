@@ -27,7 +27,7 @@ function FundMain() {
       name: "P2P Transfer",
       logo: (
         <CurrencyExchangeIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[60px] !h-[60px] !text-[#63BA0E]"
           color="#8f5206"
         />
       ),
@@ -43,22 +43,22 @@ function FundMain() {
     //     />
     //   ),
     // },
-    {
-      to: "/p2p",
-      name: "P2P TopUp",
-      logo: (
-        <CurrencyLiraRounded
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
+    // {
+    //   to: "/p2p",
+    //   name: "P2P TopUp",
+    //   logo: (
+    //     <CurrencyLiraRounded
+    //       className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+    //       color="#8f5206"
+    //     />
+    //   ),
+    // },
     {
       to: "/addmoneyp2p",
       name: "Add Money To P2P",
       logo: (
         <MoneyOffCsred
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[60px] !h-[60px] !text-[#63BA0E]"
           color="#8f5206"
         />
       ),
@@ -76,20 +76,22 @@ function FundMain() {
       >
         <Box
           sx={{
-            width: "95%",
-            marginLeft: "2.5%",
-            borderRadius: "10px",
+            // width: "100%",
+            // marginLeft: "2.5%",
+            borderRadius: "20px",
+
+            background:"#0D0335",
             padding: "10px",
-            mt: "20px",
+            m: "20px",
             "&>:nth-child(1)": {
               color: "white",
-              fontSize: "15px",
+              fontSize: "25px",
               fontWeight: "600",
-              mb: "25px",
+              // mb: "25px",
             },
           }}
         >
-          <div className="!w-full !grid !grid-cols-3 !place-items-center">
+          <div className="!w-full !grid !grid-cols-2 gap-1   !place-items-center">
             {data_array?.map((i) => {
               return (
                 <Box
@@ -105,12 +107,12 @@ function FundMain() {
                       color: "white",
                       fontSize: "14px",
                       fontWeight: "500",
-                      mt: "5px",
+                      mt: "15px",
                     },
                   }}
                 >
                   <p>{i?.logo}</p>
-                  <p className="lg:!whitespace-nowrap !text-center !text-black !text-[10px]">
+                  <p className="lg:!whitespace-nowrap !text-center !text-[15px]">
                     {i.name}
                   </p>
                 </Box>

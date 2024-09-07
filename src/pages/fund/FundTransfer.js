@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, InputAdornment, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ import {
 import { endpoint } from "../../services/urls";
 import theme from "../../utils/theme";
 import { NavLink } from "react-router-dom";
-import { ArrowBackIos } from "@mui/icons-material";
+import { ArrowBackIos, ContentPaste } from "@mui/icons-material";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import { deCryptData } from "../../shared/secret";
 
@@ -20,22 +20,8 @@ const FundTransfer = () => {
   const [username, setusername] = useState("");
   const [balance, setsetBalance] = useState("");
   const [Loading, setLoading] = useState(false);
-
   const client = useQueryClient();
   const user_id = deCryptData(localStorage.getItem("user_id"));
-
-  const { data } = useQuery(
-    ["profile"],
-    () => ProfileDataFunction(),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false
-    }
-  );
-  const profile = data?.data?.earning || [];
 
   const initialValue = {
     amount: "",
@@ -50,20 +36,28 @@ const FundTransfer = () => {
         userid: user_id,
         amount: fk.values.amount,
         transfer_id: fk.values.transfer_id,
-      }; 
-     
+      };
+
       if (
         !reqBody.amount ||
-        !reqBody.transfer_id 
+        !reqBody.transfer_id
       )
         return toast("Plese enter all data");
       insertFundFn(reqBody);
     },
   });
 
+  const handlePasteClick = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('transfer_id', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
+  };
 
   async function insertFundFn(reqBody) {
-  
+
     try {
       setLoading(true)
       const res = await axios.post(endpoint?.insert_fund_transfer, reqBody);
@@ -71,11 +65,11 @@ const FundTransfer = () => {
       fk.handleReset();
       setLoading(false)
       client.refetchQueries("wallet_amount_amount");
-      
+
     } catch (e) {
       console.log(e);
     }
-   
+
   }
   async function getIntroFn() {
     console.log("Function is hit now");
@@ -108,42 +102,53 @@ const FundTransfer = () => {
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
   return (
     <Layout header={false}
-> <Container
-  sx={{
-    width: "100%",
-    height: "100vh",
-    overflow: "auto",
-    background: theme.palette.secondary.main,
-  }}>
-    <Box sx={style.header} >
-     
-      <Box component={NavLink} to="/fund-main"><ArrowBackIos className="!text-white"/></Box>
-      <Typography variant="" color="initial"  className="!text-white !font-bold !py-2">
-      P2P User Transfer
-      </Typography>
-      <Box></Box>
-    </Box>
-    <div className="text-white flex justify-between px-5 mt-5">
-                    <div className="">P2P Wallet :</div>
-                    <div className="">{wallet_amount_data?.p2pwallet}</div>
-                </div>
-              
-    <div className=" items-center !text-white !font-bold p-5 mt-2 ">
-          
+    > <Container
+      sx={{
+        width: "100%",
+        height: "100vh",
+        overflow: "auto",
+        background: theme.palette.secondary.main,
+      }}>
+        <Box sx={style.header} >
+
+          <Box component={NavLink} to="/fund-main"><ArrowBackIos className="!text-white" /></Box>
+          <Typography variant="" color="initial" className="!text-white !font-bold !py-2">
+            P2P User Transfer
+          </Typography>
+          <Box></Box>
+        </Box>
+        <div className="text-white flex justify-between px-5 mt-10">
+          <div className="!font-bold">P2P Wallet :</div>
+          <div className="!font-bold">{wallet_amount_data?.p2pwallet}</div>
+        </div>
+
+        <div className=" items-center shadow-xl rounded-xl bg-white my-5 mx-3  !font-bold p-5 mt-2 ">
+
           <span>Transfer To *</span>
           <div>
-            <TextField
+            {/* <TextField
               id="transfer_id"
               name="transfer_id"
               value={fk.values.transfer_id}
                onChange={fk.handleChange}
                placeholder="User ID"
-              
-              className="!w-[100%] !bg-white !my-2 !rounded "
+              className="!w-[100%]  !my-2 !rounded "
+            /> */}
+            <TextField
+              id="transfer_id"
+              name="transfer_id"
+              value={fk.values.transfer_id}
+              onChange={fk.handleChange}
+              placeholder="User ID"
+              className="!w-[100%] !my-2 !rounded"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ContentPaste onClick={handlePasteClick} style={{ cursor: 'pointer' }}/>
+                  </InputAdornment>
+                ),
+              }}
             />
-            {/* {username && username !== "false" && (
-              <p className="!text-[10px] !text-red-500 pl-2">{username}</p>
-            )} */}
           </div>
 
           <span>Transfer Amount*</span>
@@ -153,32 +158,32 @@ const FundTransfer = () => {
             placeholder="Enter Amount"
             value={fk.values.amount}
             onChange={fk.handleChange}
-            className="!w-[100%] !bg-white !my-2 !rounded "
+            className="!w-[100%]  !my-2 !rounded "
           />
-        
+
           <div className="col-span-2 flex gap-2 mt-4">
             <Button
-              className="!bg-[#FD565C] !text-white"
+            className="!bg-[#da1c22] !text-white"
               onClick={() => fk.handleReset()}
             >
               Cancel
             </Button>
             <Button
-              className="!bg-[#BF6DFE] !text-white"
+             className="!bg-[#0D0335] !text-white"
               onClick={() => fk.handleSubmit()}
             >
               Submit
             </Button>
             {Loading && (
-                <CustomCircularProgress isLoading={Loading} />)}
+              <CustomCircularProgress isLoading={Loading} />)}
           </div>
         </div>
-  
- 
-  </Container>
 
 
-</Layout>
+      </Container>
+
+
+    </Layout>
   );
 };
 

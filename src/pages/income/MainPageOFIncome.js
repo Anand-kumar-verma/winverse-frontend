@@ -20,7 +20,7 @@ function MainPageOFIncome() {
       name: "Direct Income",
       logo: (
         <RedeemIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
           color="#8f5206"
         />
       ),
@@ -30,38 +30,17 @@ function MainPageOFIncome() {
       name: "LeveL Income",
       logo: (
         <LocalConvenienceStoreIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
           color="#8f5206"
         />
       ),
     },
-    {
-      to: "/account/income-main/level-bonus",
-      name: "Daily Cashback Bonus",
-      logo: (
-        <CardGiftcardIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
-    {
-      to: "/account/income-main/fund-level",
-      name: "Fund Level Commission",
-      logo: (
-        <StoreIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
-    
     {
       to: "/account/income-main/sponsor",
       name: "Sponsor Income",
       logo: (
         <ReportGmailerrorredTwoTone
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
           color="#8f5206"
         />
       ),
@@ -72,7 +51,27 @@ function MainPageOFIncome() {
       name: "Joining Bonus" ,
       logo: (
         <Recommend
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
+          color="#8f5206"
+        />
+      ),
+    },
+    {
+      to: "/account/income-main/level-bonus",
+      name: "Daily Cashback",
+      logo: (
+        <CardGiftcardIcon
+          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
+          color="#8f5206"
+        />
+      ),
+    },
+    {
+      to: "/account/income-main/fund-level",
+      name: "Fund Level Commission",
+      logo: (
+        <StoreIcon
+          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
           color="#8f5206"
         />
       ),
@@ -87,12 +86,13 @@ function MainPageOFIncome() {
           height: "100vh",
           overflow: "auto",
           mb: 5,
+          background:"green"
         }}
       >
         <Box
           sx={{
-            width: "95%",
-            marginLeft: "2.5%",
+            // width: "95%",
+            // marginLeft: "2.5%",
             borderRadius: "10px",
             padding: "10px",
             mt: "20px",
@@ -100,11 +100,12 @@ function MainPageOFIncome() {
               color: "white",
               fontSize: "15px",
               fontWeight: "600",
-              mb: "25px",
+               background:"white"
+              // mb: "25px",
             },
           }}
         >
-          <div className="!w-full !grid !grid-cols-3 !place-items-center">
+          <div className="!w-full gap-2 !grid py-5 px-2 !grid-cols-2 !place-items-center !shadow-xl rounded-xl ">
             {data_array?.map((i) => {
               return (
                 <Box
@@ -118,14 +119,14 @@ function MainPageOFIncome() {
                     mb: "10px",
                     "&>p": {
                       color: "white",
-                      fontSize: "14px",
+                      fontSize: "18px",
                       fontWeight: "500",
                       mt: "5px",
                     },
                   }}
                 >
-                  <p>{i?.logo}</p>
-                  <p className="lg:!whitespace-nowrap !text-center !text-black !text-[10px]">
+                  <p className="">{i?.logo}</p>
+                  <p className="lg:!whitespace-nowrap !text-center !text-black !text-[15px]">
                     {i.name}
                   </p>
                 </Box>

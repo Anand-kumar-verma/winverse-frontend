@@ -14,6 +14,8 @@ import bankcardinactive from '../../../assets/images/bankcardinactive.png';
 import { withdrawlHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from '../../../utils/theme';
+import copy from "clipboard-copy";
+import toast from "react-hot-toast";
 
 function Depositehistory() {
   const [isAllValue, setIsAllValue] = useState(false);
@@ -56,6 +58,11 @@ function Depositehistory() {
 
   const handleChange = (newValue) => {
     setValue(newValue);
+  };
+
+  const functionTOCopy = (value) => {
+    copy(value);
+    toast.success("Copied to clipboard!");
   };
 
   return (
@@ -259,7 +266,12 @@ function Depositehistory() {
               <Typography variant="body1" color="initial">
                 {i?.tr09_req_trid}
               </Typography>
-              <IconButton sx={{ padding: 0 }}>
+              <IconButton sx={{ padding: 0 }}
+              onClick={() =>
+                functionTOCopy(
+                  i?.tr09_req_trid
+                )
+              }>
                 <ContentCopyIcon sx={{ color: "#888", width: "15px", ml: 1 }} />
               </IconButton>
             </Stack>

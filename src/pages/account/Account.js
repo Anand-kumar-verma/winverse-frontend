@@ -141,7 +141,8 @@ function Account() {
                   <img src={vip} alt="" className=" w-10 mt-6" />
                 </Typography>
               </Box>
-              <Box className="!cursor-pointer bg-gray-600 w-40 h-6 rounded-full p-1   realtive !left-40 flex gap-3 justify-center"  onClick={() =>
+              <Box className="!cursor-pointer bg-gray-600 w-40 h-6 rounded-full p-1   realtive !left-40 flex gap-3 justify-center"  
+              onClick={() =>
                         functionTOCopy(
                           profile?.rec?.Login_Id
                         )
@@ -226,18 +227,19 @@ function Account() {
 
         </Box>
         <Box className="flex justify-center gap-2 border-b-2 p-2 m-3 py-5shadow rounded-lg "
-          onClick={() => navigate("/account/Teamincome")} sx={{ background: '#89ff0054' }}
+          onClick={() => navigate("/account/income-main")} sx={{ background: '#89ff0054' }}
         >
           <Typography> <GroupAddRounded className="text-[#63BA0E] !mt-1" /></Typography>
-          <Typography className="!mt-1 !text-lg  cursor-pointer" sx={{ color: 'white' }}> Team/Income</Typography>
+          <Typography className="!mt-1 !text-lg  !cursor-pointer " sx={{ color: 'white' }}> Income</Typography>
         </Box>
 
         <Box sx={{ background: '#89ff0054' }} className=" shadow-xl rounded-lg !m-3 py-5">
           <Typography className=" px-3" sx={{ color: 'white' }}>Service Center</Typography>
-          <Box className="grid grid-cols-3 m-5 justify-center gap-5">
-            <Box className="flex flex-col justify-center items-center m-2">
+          <Box className="grid grid-cols-3 m-5 justify-center gap-5"
+          >
+            <Box className="flex flex-col justify-center items-center m-2 !cursor-pointer" onClick={()=>navigate('/password/account')}>
               <Typography><img src={s1} alt="" className="w-8 " style={{ filter: 'hue-rotate(45deg)' }} /></Typography>
-              <Typography className="!text-sm !text-white">Settings</Typography>
+              <Typography className="!text-sm !text-white " >Settings</Typography>
             </Box>
             <Box className="flex flex-col justify-center items-center">
               <Typography><img src={f1} alt="" className="w-8 " style={{ filter: 'hue-rotate(45deg)' }} /></Typography>

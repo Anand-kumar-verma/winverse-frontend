@@ -1,4 +1,4 @@
-import { ArrowBackIos, Edit } from "@mui/icons-material";
+import { ArrowBackIos, ContentPaste, Edit } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
@@ -7,6 +7,7 @@ import {
   Dialog,
   Divider,
   IconButton,
+  InputAdornment,
   Stack,
   TextField,
   Typography
@@ -140,6 +141,24 @@ export default function UPIDetails() {
   };
 
   const navigate = useNavigate()
+
+  const handlePasteClick = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('upi_no', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
+  };
+  const handlePasteClick1 = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('upi_id', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
+  };
+
   return (
     <Layout>
       <Container
@@ -154,7 +173,7 @@ export default function UPIDetails() {
         <CustomCircularProgress isLoading={isLoading} />
         <Box sx={style.header}>
           <Box >
-            <ArrowBackIos className="!text-white !cursor-pointer"  onClick={()=>navigate('/bank')}/>
+            <ArrowBackIos className="!text-white !cursor-pointer"  onClick={()=>navigate('/withdraw')}/>
           </Box>
           <Typography variant="body1" sx={{ color: 'white' }} >
              UPI Details
@@ -321,6 +340,16 @@ export default function UPIDetails() {
               value={fk.values.upi_no}
               onChange={fk.handleChange}
               className="!w-[100%]"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ContentPaste 
+                      onClick={handlePasteClick} 
+                      style={{ cursor: 'pointer' }} 
+                    />
+                  </InputAdornment>
+                ),
+              }}
             />
             <span>UPI Id*</span>
             <TextField
@@ -329,16 +358,26 @@ export default function UPIDetails() {
               value={fk.values.upi_id}
               onChange={fk.handleChange}
               className="!w-[100%]"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ContentPaste 
+                      onClick={handlePasteClick1} 
+                      style={{ cursor: 'pointer' }} 
+                    />
+                  </InputAdornment>
+                ),
+              }}
             />
             <div className="col-span-2 flex gap-2 mt-4">
               <Button
-                className="!bg-[#FD565C] !text-white"
+               className="!bg-[#da1c22] !text-white"
                 onClick={() => setOpenDialogBox(false)}
               >
                 Cancel
               </Button>
               <Button
-                className="!bg-[#BF6DFE] !text-white"
+             className="!bg-[#0D0335] !text-white"
                 onClick={() => fk.handleSubmit()}
               >
                 Submit

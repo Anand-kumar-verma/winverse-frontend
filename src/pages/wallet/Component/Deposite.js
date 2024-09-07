@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  InputAdornment,
   MenuItem,
   Stack,
   TextField,
@@ -28,10 +29,15 @@ import {
 } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
-import { History } from "@mui/icons-material";
+import { ContentPaste, CurrencyLiraRounded, History } from "@mui/icons-material";
 import { endpoint } from "../../../services/urls";
 import { deCryptData } from "../../../shared/secret";
 import { Deposit } from "../../../services/validation";
+import trx from "../../../assets/images/trx.png";
+import atmchip from "../../../assets/images/atmchip.png";
+import pyramid from "../../../assets/images/py.png";
+import p2p from "../../../assets/images/p2.png";
+
 
 function Deposite() {
   const [receipt, setReceipt] = React.useState();
@@ -166,6 +172,15 @@ function Deposite() {
       </audio>
     );
   }, []);
+  const handlePasteClick = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('transaction_no', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
+  };
+  
   const payment_button = React.useMemo(() => {
     return (
       <>
@@ -329,6 +344,152 @@ function Deposite() {
           </Stack>
         </Box>
       </Box>
+      <Box sx={{ mt: 2, px: 2 }}>
+        <Stack direction="row"
+        justifyContent="center"
+        gap="6px">
+          <Stack
+            sx={{
+              background: theme.palette.primary.light,
+              padding: 2,
+              borderRadius: 2,
+              width: "120px",
+            }}
+          >
+            <Box
+              component="img"
+              src={atmchip}
+              width={30}
+              sx={{ margin: "0px auto" }}
+            ></Box>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "white ",
+                fontSize: "14px",
+                fontWeight: "500",
+                textAlign: "center",
+                mt: 1,
+              }}
+            >
+              BANK / UPI
+            </Typography>
+          </Stack>
+          <Stack
+          className="!cursor-pointer"
+            sx={{
+              width: "120px",
+              background:
+              theme.palette.secondary.light,
+              padding: 2,
+              borderRadius: 2,
+              boxShadow:
+                " rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+                transition: 'background-color 0.3s ease', 
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.light,
+                  
+                },
+            }}
+            
+             onClick={()=>navigate('/p2p')}   >
+            <Box
+            component="img"
+            src={p2p}
+              width={40}
+              sx={{ margin: "0px auto" }}
+            >
+            </Box>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "white",
+                fontSize: "14px",
+                fontWeight: "500",
+                textAlign: "center",
+                mt: 1,
+              }}
+
+            >
+              P2P TopUP
+            </Typography>
+          </Stack>
+          <Stack
+          onClick={()=>(toast("comming soon",{id:-1}))}
+             className="!cursor-pointer"
+            sx={{
+              width: "120px",
+              background:
+              theme.palette.secondary.light,
+              padding: 2,
+              borderRadius: 2,
+              boxShadow:
+                " rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+                transition: 'background-color 0.3s ease', 
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.light,
+                  
+                },
+            }}
+          >
+            <Box
+              component="img"
+              src={trx}
+              width={40}
+              sx={{ margin: "0px auto" }}
+            ></Box>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "white",
+                fontSize: "14px",
+                fontWeight: "500",
+                textAlign: "center",
+                mt: 1,
+              }}
+          >
+              USDT 
+            </Typography>
+          </Stack>
+          <Stack
+          onClick={()=>(toast("comming soon",{id:-1}))}
+             className="!cursor-pointer"
+            sx={{
+              width: "120px",
+              background:
+              theme.palette.secondary.light,
+              padding: 2,
+              borderRadius: 2,
+              boxShadow:
+                " rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+                transition: 'background-color 0.3s ease', 
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.light,
+                  
+                },
+            }}
+          >
+            <Box
+              component="img"
+              src={pyramid}
+              width={100}
+              sx={{ margin: "0px auto" }}
+         ></Box>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "white",
+                fontSize: "14px",
+                fontWeight: "500",
+                textAlign: "center",
+                mt: 1,
+              }}
+          >
+              TRX 
+            </Typography>
+          </Stack>
+        </Stack>
+      </Box>
       <div className="!m-5">
       {payment_button}
       </div>
@@ -440,7 +601,7 @@ function Deposite() {
                         <div className="error">{fk.errors.req_amount}</div>
                     )}
         <span className="!text-white !text-sm ">Transaction Id*</span>
-        <TextField
+        {/* <TextField
           type="text"
           id="transaction_no"
           name="transaction_no"
@@ -448,7 +609,26 @@ function Deposite() {
           onChange={fk.handleChange}
           placeholder="Transaction"
           className="!w-[100%] !bg-white !mt-5"
-        />
+        /> */}
+         <TextField
+        type="text"
+        id="transaction_no"
+        name="transaction_no"
+        value={fk.values.transaction_no}
+        onChange={fk.handleChange}
+        placeholder="Transaction"
+        className="!w-[100%] !bg-white !mt-5"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <ContentPaste 
+                onClick={handlePasteClick} 
+                style={{ cursor: 'pointer' }} 
+              />
+            </InputAdornment>
+          ),
+        }}
+      />
         {fk.touched.transaction_no && fk.errors.transaction_no && (
                         <div className="error">{fk.errors.transaction_no}</div>
                     )}
@@ -464,13 +644,13 @@ function Deposite() {
         />
         <div className="col-span-2 flex justify-end gap-2 mt-8">
           <Button
-            className="!bg-[#FD565C] !text-white"
+          className="!bg-[#da1c22] !text-white"
             onClick={() => fk.handleReset()}
           >
             Cancel
           </Button>
           <Button
-            className="!bg-[#BF6DFE] !text-white"
+            className="!bg-green-800 !text-white"
             onClick={fk.handleSubmit}
           >
             Submit

@@ -1,4 +1,4 @@
-import { AccountBalanceOutlined, ArrowBackIos, Edit } from "@mui/icons-material";
+import { AccountBalanceOutlined, ArrowBackIos, ContentPaste, Edit } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
@@ -7,6 +7,7 @@ import {
   Dialog,
   Divider,
   IconButton,
+  InputAdornment,
   MenuItem,
   Stack,
   TextField,
@@ -132,7 +133,6 @@ export default function Banks() {
     }
     client.refetchQueries("bank_details")
   }
-
   const downloadExcel = () => {
     const ws = XLSX.utils.json_to_sheet(visibleRows);
     const wb = XLSX.utils.book_new();
@@ -162,6 +162,24 @@ export default function Banks() {
     doc.autoTable({ html: "#my-table" });
     doc.save("table.pdf");
   };
+
+  const handlePasteClick = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('ifsc', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
+  };
+  const handlePasteClick2 = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('account', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
+  };
+
   const navigate = useNavigate()
   return (
     <Layout>
@@ -178,7 +196,7 @@ export default function Banks() {
   
            <Box sx={style.header}>
           <Box >
-            <ArrowBackIos className="!text-white !cursor-pointer"  onClick={()=>navigate('/bank')}/>
+            <ArrowBackIos className="!text-white !cursor-pointer"  onClick={()=>navigate('/withdraw')}/>
           </Box>
           <Typography variant="body1" sx={{ color: 'white' }} >
              Bank Details
@@ -186,7 +204,7 @@ export default function Banks() {
           <Box></Box>
         </Box>
         <CustomCircularProgress isLoading={isLoading} />
-        <div className="flex justify-center gap-5 w-full px-1 pt-2 pb-1">
+        {/* <div className="flex justify-center gap-5 w-full px-1 pt-2 pb-1">
           <div className="flex gap-1">
             <Button
               className="!bg-[#BF6DFE] !py-0 !text-white"
@@ -208,7 +226,7 @@ export default function Banks() {
               placeholder="Search.."
             />
           </div>
-        </div>
+        </div> */}
        
          <Box>
           <Box
@@ -358,6 +376,16 @@ export default function Banks() {
               value={fk.values.ifsc}
               onChange={fk.handleChange}
               className="!w-[100%]"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ContentPaste 
+                      onClick={handlePasteClick} 
+                      style={{ cursor: 'pointer' }} 
+                    />
+                  </InputAdornment>
+                ),
+              }}
             />
             <span>Account No*</span>
             <TextField
@@ -366,16 +394,26 @@ export default function Banks() {
               value={fk.values.account}
               onChange={fk.handleChange}
               className="!w-[100%]"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ContentPaste 
+                      onClick={handlePasteClick2} 
+                      style={{ cursor: 'pointer' }} 
+                    />
+                  </InputAdornment>
+                ),
+              }}
             />
             <div className="col-span-2 flex gap-2 mt-4">
               <Button
-                className="!bg-[#FD565C] !text-white"
+                className="!bg-[#da1c22] !text-white"
                 onClick={() => setOpenDialogBox(false)}
               >
                 Cancel
               </Button>
               <Button
-                className="!bg-[#BF6DFE] !text-white"
+                className="!bg-[#0D0335] !text-white"
                 onClick={() => fk.handleSubmit()}
               >
                 Submit

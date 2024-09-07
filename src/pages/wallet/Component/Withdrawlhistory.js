@@ -8,6 +8,7 @@ import {
   Typography
 } from "@mui/material";
 import moment from "moment";
+import copy from "clipboard-copy";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ import { withdrawlHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
 import upi from  "../../../assets/images/upi (2).png"
+import toast from "react-hot-toast";
 
 function Withdrawlhistory() {
   const [isAllValue, setIsAllValue] = useState(false);
@@ -62,6 +64,11 @@ function Withdrawlhistory() {
 
     setVisibleData(isAllValue ? filteredData : filteredData.slice(0, 3));
   }, [isAllValue, value, res]);
+
+  const functionTOCopy = (value) => {
+    copy(value);
+    toast.success("Copied to clipboard!");
+  };
 
   return (
     <Container sx={{ background: theme.palette.secondary.main }}>
@@ -272,7 +279,12 @@ function Withdrawlhistory() {
               <Typography variant="body1" color="initial">
                 {i?.m_w_trans_id}
               </Typography>
-              <IconButton sx={{ padding: 0 }}>
+              <IconButton sx={{ padding: 0 }}
+               onClick={() =>
+                functionTOCopy(
+                  i?.m_w_trans_id
+                )
+              }>
                 <ContentCopyIcon sx={{ color: "#888", width: "15px", ml: 1 }} />
               </IconButton>
             </Stack>

@@ -61,17 +61,18 @@ const AccountPassword = () => {
           height: "100vh",
           overflow: "auto",
           mb: 5,
+          background: theme.palette.primary.main,
         }}
         className="no-scrollbar"
       >
         <Box
         sx={{
-          background: theme.palette.primary.main,
+          background: "white",
           width: "100%",
           height: "100vh",
         }}>
-          <div className="font-bold !text-center  !pt-5">Change Password</div>
-        <div className="!m-5  !text-white !font-bold">
+          <div className="font-extrabold !text-center !pt-5">Change Password</div>
+        <div className="!mx-2 my-5  !text-white !font-bold bg-green-500 p-5 py-10 !shadow-xl !rounded-xl">
           <span>Old Password*</span>
             <TextField
               id="oldpassword"
@@ -99,16 +100,15 @@ const AccountPassword = () => {
               onChange={fk.handleChange}
               className="!w-[100%] !bg-white !rounded"
             />
-          </div>
-            <div className="col-span-2 flex gap-2 mt-4 m-4">
+             <div className="col-span-2 flex gap-2 mt-4">
               <Button
-                className="!bg-[#FD565C] !text-white"
+              className="!bg-[#da1c22] !text-white"
                 onClick={() => fk.handleReset()}
               >
                 Cancel
               </Button>
               <Button
-                className="!bg-[#BF6DFE] !text-white"
+              className="!bg-[#0D0335] !text-white"
                 onClick={() => fk.handleSubmit()}
               >
                 Submit
@@ -116,6 +116,8 @@ const AccountPassword = () => {
               {Loading && (
                 <CustomCircularProgress isLoading={Loading} />)}
             </div>
+          </div>
+           
         </Box>
 
       </Container>

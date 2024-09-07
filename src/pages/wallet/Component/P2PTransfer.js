@@ -1,5 +1,5 @@
-import { ArrowBackIos } from "@mui/icons-material";
-import { Box, Button, Container, MenuItem, TextField, Typography } from "@mui/material";
+import { ArrowBackIos, ContentPaste } from "@mui/icons-material";
+import { Box, Button, Container, InputAdornment, MenuItem, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import copy from "clipboard-copy";
 import { useFormik } from "formik";
@@ -72,6 +72,16 @@ const P2PTransfer = () => {
       P2PFundFn(reqBody);
     },
   });
+
+  const handlePasteClick = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('transfer_id', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
+  };
+  
   async function P2PFundFn(reqBody) {
     try {
       setLoading(true)
@@ -179,61 +189,74 @@ const P2PTransfer = () => {
           <Box></Box>
         </Box>
         <div className="text-white flex justify-between px-5 mt-5">
-        <div className="">P2P Wallet Available Balance :</div>
-        <div className="">{wallet_amount_data?.p2pwallet}</div>
+        <div className="font-bold">P2P Wallet Available Balance :</div>
+        <div className="font-bold">{wallet_amount_data?.p2pwallet}</div>
         </div>
        
-        <div className=" items-center !text-white !font-bold p-5">
-          <div className="!text-white !text-sm !mt-1">Transfer To*</div>
-          <TextField
+        <div className=" items-center  bg-white shadow-xl rounded-xl mt-5 mx-2 !font-bold p-5">
+          <div className=" !text-sm !mt-1">Transfer To</div>
+          {/* <TextField
             type="text"
             id="transfer_id"
             name="transfer_id"
             value={fk.values.transfer_id}
             onChange={fk.handleChange}
             placeholder="User Id"
-            className="!w-[100%] !bg-white rounded"
-          />
+            className="!w-[100%]  rounded"
+          />  functiontopaste when click paste icon then paste data fix*/}
+            <TextField
+       type="text"
+       id="transfer_id"
+       name="transfer_id"
+       value={fk.values.transfer_id}
+       onChange={fk.handleChange}
+        placeholder="User Id"
+        className="!w-[100%]  rounded"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <ContentPaste 
+                onClick={handlePasteClick} 
+                style={{ cursor: 'pointer' }} 
+              />
+            </InputAdornment>
+          ),
+        }}
+      />
          
-          <div className="mt-2">TopUp Amount*</div>
+          <div className="mt-2">TopUp Amount</div>
           <TextField
             id="amount"
             name="amount"
             placeholder="Enter Amount"
             value={fk.values.amount}
             onChange={fk.handleChange}
-            className="!w-[100%] !bg-white !mb-2 !rounded "
+            className="!w-[100%]  !mb-2 !rounded "
           />
              {fk.touched.amount && fk.errors.amount && (
                         <div className="error">{fk.errors.amount}</div>
                     )}
 
-         <div className="mt-2">P2P Amount*</div>
-          <TextField
-            id="p2pamount"
-            name="p2pamount"
-            placeholder="Enter Amount"
-            value={fk.values.p2pamount}
-            onChange={fk.handleChange}
-            className="!w-[100%] !bg-white !mb-2 !rounded "
-          />
-
-          <div className="mt-2">Request Amount*</div>
-          <TextField
+         <div className="mt-1">P2P Amount - 
+          <span className="ml-2" >
+          {fk.values.p2pamount}
+          </span>
+          </div>
+          <div className="mb-2 ">Request Amount - 
+          <span
+           className="ml-2"
             id="txt_req_amt"
-            name="txt_req_amt"
-            placeholder="Enter password"
-            value={fk.values.txt_req_amt}
-            onChange={fk.handleChange}
-            className="!w-[100%] !bg-white !mb-2 !rounded "
-          />
-          <div className="!text-white !text-sm !mt-2">Select Payment *</div>
+            name="txt_req_amt">
+           {fk.values.txt_req_amt}
+          </span>
+          </div>
+          <div className=" !text-sm !mt-2">Select Payment </div>
           <TextField
             id="deposit_type"
             name="deposit_type"
             value={fk.values.deposit_type}
             onChange={fk.handleChange}
-            className="!w-[100%] !bg-white "
+            className="!w-[100%]  "
             select
             size="small"
           >  
@@ -246,14 +269,14 @@ const P2PTransfer = () => {
         )}
           {fk.values.deposit_type === "Bank" && (
             <>
-              <div className="!text-white !text-sm !mt-2">Select Bank *</div>
+              <div className=" !text-sm !mt-2">Select Bank </div>
               <TextField
                 id="txtbank"
                 name="txtbank"
                 value={fk.values.txtbank}
                 onChange={fk.handleChange}
                 placeholder="Select Bank"
-                className="!w-[100%] !bg-white !mb-2"
+                className="!w-[100%]  !mb-2"
                 select
                 size="small"
               >
@@ -270,14 +293,14 @@ const P2PTransfer = () => {
           )}
           {fk.values.deposit_type === "UPI" && (
             <>
-              <div className="!text-white !text-sm !mt-2">Select UPI *</div>
+              <div className=" !text-sm !mt-2">Select UPI </div>
               <TextField
                 id="txtupi"
                 name="txtupi"
                 value={fk.values.txtupi}
                 onChange={fk.handleChange}
                 placeholder="Select UPI"
-                className="!w-[100%] !bg-white !mb-2"
+                className="!w-[100%]  !mb-2"
                 select
                 size="small"
               >
@@ -294,13 +317,13 @@ const P2PTransfer = () => {
                     <img src={selectedUPIDetails.m37_profile} alt="" />
                   </div>
                   <div className="pt-4 gap-2">
-                    <p className="!bg-white !text-xl font-bold px-8 !text-black">
+                    <p className=" !text-xl font-bold px-8 !text-black">
                       {selectedUPIDetails.m37_value}
                     </p>
                     <div className="w-full flex justify-center mt-5">
                       <Button
                         size="small !py-1"
-                        className="!bg-[#0ee6ac] !text-white place-items-center"
+                        className="!bg-[#0ee6ac]  place-items-center"
                         onClick={() =>
                           functionTOCopy(
                             selectedUPIDetails.m37_value
@@ -315,7 +338,7 @@ const P2PTransfer = () => {
             </>
           )}
 
-          <div className="!text-white !text-sm !mt-2">Transaction Id*</div>
+          <div className=" !text-sm !mt-2">Transaction Id</div>
           <TextField
             type="text"
             id="transaction_id"
@@ -323,12 +346,12 @@ const P2PTransfer = () => {
             value={fk.values.transaction_id}
             onChange={fk.handleChange}
             placeholder="Transaction"
-            className="!w-[100%] !bg-white "
+            className="!w-[100%]  "
           />
             {fk.touched.transaction_id && fk.errors.transaction_id && (
                         <div className="error">{fk.errors.transaction_id}</div>
                     )}
-          <div className="!text-white !text-sm !mt-2 !mr-5">Receipt*</div>
+          <div className=" !text-sm !mt-2 !mr-5">Receipt</div>
           <input
             type="file"
             id="txtfile"
@@ -339,13 +362,13 @@ const P2PTransfer = () => {
           />
             <div className="col-div-2 flex justify-end gap-2 mb-8">
             <Button
-              className="!bg-[#FD565C] !text-white"
+             className="!bg-[#da1c22] !text-white"
               onClick={() => fk.handleReset()}
             >
               Cancel
             </Button>
             <Button
-              className="!bg-[#BF6DFE] !text-white"
+            className="!bg-[#0D0335] !text-white"
               onClick={fk.handleSubmit}
             >
               Submit

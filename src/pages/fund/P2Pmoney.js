@@ -80,12 +80,12 @@ const P2Pmoney = () => {
                     </Typography>
                     <Box></Box>
                 </Box>
-                <div className="text-white flex justify-between px-5 mt-5">
-                    <div className="">Main Wallet :</div>
-                    <div className="">{wallet_amount_data?.wallet}</div>
+                <div className="text-white flex justify-between px-5 mt-10">
+                    <div className="font-bold">Main Wallet :</div>
+                    <div className="!font-bold">{wallet_amount_data?.wallet}</div>
                 </div>
 
-                <div className=" items-center !text-white !font-bold p-5 mt-1 ">
+                <div className="shadow-xl bg-white rounded-xl m-4 mt-5 items-center  !font-bold p-5 ">
 
 
                     <span>Transfer Amount*</span>
@@ -99,12 +99,12 @@ const P2Pmoney = () => {
 
                     <div className="col-span-2 flex gap-2 mt-4">
                         <Button
-                            className="!bg-[#FD565C] !text-white"
+                           className="!bg-[#da1c22] !text-white"
                             onClick={() => fk.handleReset()} >
                             Cancel
                         </Button>
                         <Button
-                            className="!bg-[#BF6DFE] !text-white"
+                           className="!bg-[#0D0335] !text-white"
                             onClick={() => fk.handleSubmit()}  >
                             Submit
                         </Button>
