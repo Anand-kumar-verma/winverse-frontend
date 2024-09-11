@@ -1,6 +1,6 @@
 import VolumeUpIcon from "@mui/icons-material/VolumeUpOutlined";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogContent, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -51,10 +51,12 @@ import PVC from "./component/PVC";
 import Populer from "./component/Populer";
 import Slots from "./component/Slots";
 import Sports from "./component/Sports";
+import { Close } from "@mui/icons-material";
 
 function Dashboard() {
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
+  const [open, setopen] = React.useState(true);
   const onAutoplayTimeLeft = (s, time, progress) => {
     progressCircle.current.style.setProperty("--progress", 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
@@ -96,6 +98,27 @@ function Dashboard() {
     }
   };
 
+  const Banner = async () => {
+    try {
+      const response = await axios.get(endpoint.banner_request);
+      return response;
+    } catch (e) {
+      toast(e?.message);
+      console.log(e);
+    }
+  };
+  const { data: image } = useQuery(["banner"], () => Banner(), {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    retry: false,
+    retryOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+
+
+  const ban = image?.data?.data?.[0]?.m33_image || [];
+  // console.log(ban ,"jfk")
+
   useEffect(() => {
     localStorage.removeItem("betApplied1")
     localStorage.removeItem("betApplied2")
@@ -107,18 +130,7 @@ function Dashboard() {
     }
   }, []);
 
-  const { isLoading: profileLoding, data: user } = useQuery(
-    ["profile"],
-    () => ProfileDataFunction(),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-  const profile = user?.data?.earning || [];
+
   const imageSources = [
     "https://mui.com/static/images/avatar/2.jpg",
     "https://mui.com/static/images/avatar/3.jpg",
@@ -129,6 +141,15 @@ function Dashboard() {
     profile2,
     "https://mui.com/static/images/avatar/5.jpg",
   ];
+  const isAvailableUser = sessionStorage.getItem("user_id");
+  const handleClosepolicy = (() => {
+    setopen(false)
+  })
+  useEffect(() => {
+    if (isAvailableUser) {
+      setopen(true);
+    }
+  }, []);
 
   return (
     <Layout>
@@ -468,8 +489,8 @@ function Dashboard() {
                 ></Box>
                 <Box sx={style.winner2amt}>
                   <Typography variant="body1" >
-               
-                 {res?.[1]?.or_m_email?.substring(0, 7) + '***'}
+
+                    {res?.[1]?.or_m_email?.substring(0, 7) + '***'}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -507,7 +528,7 @@ function Dashboard() {
                 ></Box>
                 <Box sx={style.winner2amt}>
                   <Typography variant="body1" >
-                  {res?.[0]?.or_m_email?.substring(0, 7) + '***'}
+                    {res?.[0]?.or_m_email?.substring(0, 7) + '***'}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -545,7 +566,7 @@ function Dashboard() {
                 ></Box>
                 <Box sx={style.winner2amt}>
                   <Typography variant="body1" >
-                  {res?.[2]?.or_m_email?.substring(0, 7) + '***'}
+                    {res?.[2]?.or_m_email?.substring(0, 7) + '***'}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -699,6 +720,19 @@ function Dashboard() {
           })}
         </Box>
       </Box>
+      <Dialog open={open} onClose={handleClosepolicy}>
+        <DialogContent className="">
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography variant="h6"></Typography>
+            <Close onClick={handleClosepolicy} className=" !text-black" />
+          </Stack>
+          <img src={ban} alt="" className=" !rounded !my-1 w-[230px] h-[180px]" />
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 }

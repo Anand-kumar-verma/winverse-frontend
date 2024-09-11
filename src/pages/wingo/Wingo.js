@@ -93,7 +93,7 @@ function Wingo() {
     }
   }, []);
   return (
-    <Container>
+    <Container className="!bg-[#09041d]">
       <Box
         sx={{
           padding: 1,
@@ -225,6 +225,7 @@ function Wingo() {
           </Typography>
         </Stack>
       </Box>
+      
       <Box
         sx={{
           width: "95%",
@@ -280,24 +281,12 @@ function Wingo() {
           </NavLink>
         </Box>
       </Box>
+     
+   
       {value === 1 && <Wingo1Min />}
       {value === 2 && <Wingo3Min />}
       {value === 3 && <Wingo5Min />}
       {value === 4 && <Wingo10Min />}
-      {/* opendialogbox */}
-      {/* {opendialogbox && (
-        <Dialog
-          open={opendialogbox}
-          PaperProps={{
-            style: {
-              backgroundColor: "transparent",
-              boxShadow: "none",
-            },
-          }}
-        >
-          <WinLossPopup gid={isAppliedbet?.split("_")?.[0]} />
-        </Dialog>
-      )} */}
     </Container>
   );
 }

@@ -13,7 +13,9 @@ export const usdt_base_url = "https://zupeegame.info";
 export const download_app_url = "https://zupeeter.com/ZUPEETER.pdf";
 
 export const endpoint = {
+
   
+  banner_request: `${baseUrl}/api/panel_banner`,
   with_request: `${baseUrl}/api/withdrawal_wallet`,
   p2p_request: `${baseUrl}/api/insert_user_topup`,
   deposite_request: `${domain_ovi_node}/fund-request`,
