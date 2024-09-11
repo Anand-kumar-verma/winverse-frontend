@@ -422,11 +422,10 @@ const BetNumber = ({ timing, gid }) => {
                 : selectNumber === "Big"
                 ? "!bg-[#6DA7F4]"
                 : selectNumber === "0"
-                ? "!bg-[#BF6DFE]"
-                : selectNumber === "5" && "!bg-[#BF6DFE]"
+                ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                : selectNumber === "5" && "bg-gradient-to-t from-violet-400 to-green-600"
             }
           >
-            {" "}
           </Box>
           <Box px={1}>
             <Typography
@@ -505,10 +504,10 @@ const BetNumber = ({ timing, gid }) => {
                               ? "!bg-[#6DA7F4]"
                               : selectNumber === "0" &&
                                 String(fk?.values?.balance) === String(i)
-                              ? "!bg-[#BF6DFE]"
+                              ? "!bg-gradient-to-t from-violet-400 to-red-600"
                               : selectNumber === "5" &&
                                 String(fk?.values?.balance) === String(i) &&
-                                "!bg-[#BF6DFE]"
+                                "!bg-gradient-to-t from-violet-400 to-green-600"
                           }
                        `}
                       >
@@ -553,8 +552,8 @@ const BetNumber = ({ timing, gid }) => {
                           : selectNumber === "Big"
                           ? "!bg-[#6DA7F4]"
                           : selectNumber === "0"
-                          ? "!bg-[#BF6DFE]"
-                          : selectNumber === "5" && "!bg-[#BF6DFE]"
+                          ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                          : selectNumber === "5" && "!bg-gradient-to-t from-violet-400 to-green-600"
                       }
                     `}
                     sx={style.addsumbtn}
@@ -598,8 +597,8 @@ const BetNumber = ({ timing, gid }) => {
                          : selectNumber === "Big"
                          ? "!bg-[#6DA7F4]"
                          : selectNumber === "0"
-                         ? "!bg-[#BF6DFE]"
-                         : selectNumber === "5" && "!bg-[#BF6DFE]"
+                          ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                         : selectNumber === "5" && "!bg-gradient-to-t from-violet-400 to-green-600"
                      }
                     `}
                     sx={style.addsumbtn}
@@ -652,14 +651,14 @@ const BetNumber = ({ timing, gid }) => {
                               ? "!bg-[#6DA7F4]"
                               : selectNumber === "0" &&
                                 String(fk.values.qnt) === String(i)
-                              ? "!bg-[#BF6DFE]"
-                              : selectNumber === "5" &&
-                                String(fk.values.qnt) === String(i) &&
-                                "!bg-[#BF6DFE]"
+                                ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                                : selectNumber === "5" &&
+                                  String(fk.values.qnt) === String(i) &&
+                                  "!bg-gradient-to-t from-violet-400 to-green-600"
                           }`}
                       >
                         X{i}
-                      </Box>
+                      </Box> 
                     );
                   })}
                 </Stack>
@@ -728,14 +727,14 @@ const BetNumber = ({ timing, gid }) => {
                       : selectNumber === "Big"
                       ? "!bg-[#6DA7F4]"
                       : selectNumber === "0"
-                      ? "!bg-[#BF6DFE]"
-                      : selectNumber === "5" && "!bg-[#BF6DFE]"
+                      ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                      : selectNumber === "5" && "!bg-gradient-to-t from-violet-400 to-green-600"
                   } !cursor-pointer !font-extrabold`}
                 variant="contained"
                 sx={style.submitbtn}
                 onClick={() => {
                   fk.handleSubmit();
-                }}
+                }}    
               >
                 Total amount ₹
                 {Number(fk.values.balance || 1) * Number(fk.values.qnt || 1)}

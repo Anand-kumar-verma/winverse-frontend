@@ -169,7 +169,24 @@ const P2PTransfer = () => {
       }
     }
   }, [wallet_amount_data?.p2pwallet, fk.values?.amount])
+  const [username, setusername] = useState("");
 
+  async function getIntroFn() {
+    const reqBody = {
+      userid: fk.values.transfer_id,
+    };
+    try {
+      const res = await axios.post(endpoint?.get_user_intro_name, reqBody);
+      setusername(res?.data?.earning?.name);
+    } catch (e) {
+      console.log(e);
+    }
+    // client.refetchQueries("bank_details");
+  }
+
+  useEffect(() => {
+    getIntroFn();
+  }, [fk.values.transfer_id]);
  
   return (
     <Layout header={false}
@@ -223,7 +240,14 @@ const P2PTransfer = () => {
           ),
         }}
       />
-         
+         {username !== "false" ? (
+              <div className="no-error !text-blue-600 !text-sm">{username}</div>
+            ) : (
+              fk.touched.transfer_id &&
+              fk.errors.transfer_id && (
+                <div className="error">{fk.errors.transfer_id}</div>
+              )
+            )} 
           <div className="mt-2">TopUp Amount</div>
           <TextField
             id="amount"

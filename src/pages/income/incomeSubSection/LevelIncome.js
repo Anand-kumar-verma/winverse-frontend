@@ -47,7 +47,7 @@ function LevelIncome() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p>Level Income</p>
+            <p>Team Trading Bonus</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -71,7 +71,7 @@ function LevelIncome() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Level Income</p>
+          <p>Team Trading Bonus</p>
         </Box>
         <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {
@@ -90,11 +90,11 @@ function LevelIncome() {
                     {moment(i?.LEDGER_DATE)?.format("HH:mm:ss")}
                   </span>
                 </div>
-                <div className="!w-full !flex !justify-between">
+                {/* <div className="!w-full !flex !justify-between">
                   <span className="!text-white !text-[12px]">
                     {i?.LEDGER_LEDGERID}
                   </span>
-                </div>
+                </div> */}
               </div>
             );
           })}

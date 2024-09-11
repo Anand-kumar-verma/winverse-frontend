@@ -27,7 +27,7 @@ function MainPageOFIncome() {
     },
     {
       to: "/account/income-main/level-income",
-      name: "LeveL Income",
+      name: "Team Trading Bonus",
       logo: (
         <LocalConvenienceStoreIcon
           className="!w-[50px] !h-[50px] !text-[#63BA0E]"

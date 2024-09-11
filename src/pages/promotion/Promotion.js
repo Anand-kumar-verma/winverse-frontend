@@ -268,7 +268,7 @@ function Promotion() {
                 or_m_user_type === "Dummy User"
                   ? toast("Dummy User")
                   : functionTOCopy(
-                    `${front_end_domain}/register/?inviteid=${profile?.rec?.Login_Id}`
+                    profile?.rec?.Login_Id
                   );
               }}>
               <Stack direction="row">
