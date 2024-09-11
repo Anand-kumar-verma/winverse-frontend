@@ -93,7 +93,7 @@ function Wingo() {
     }
   }, []);
   return (
-    <Container className="!bg-[#09041d]">
+    <Container className="!bg-[#1e0e58]">
       <Box
         sx={{
           padding: 1,
