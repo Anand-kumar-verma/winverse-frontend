@@ -95,7 +95,8 @@ function Wingo3Min() {
   })
 
   React.useEffect(() => {
-    const handleThreeMin = (threemin) => {
+    const handleThreeMin = (onemin) => {
+      let threemin = `${2 - (new Date()?.getMinutes() % 3)}_${onemin}`;
       setThree_min_time(threemin);
       if (
         threemin?.split("_")?.[1] === "1" &&
@@ -151,10 +152,10 @@ function Wingo3Min() {
       }
     };
 
-    socket.on("threemin", handleThreeMin);
+    socket.on("onemin", handleThreeMin);
 
     return () => {
-      socket.off("threemin", handleThreeMin);
+      socket.off("onemin", handleThreeMin);
     };
   }, []);
 

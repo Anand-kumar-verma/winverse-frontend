@@ -11,12 +11,20 @@ function Howtoplay() {
             backgroundImage: `url(${PreSaleBg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
             width: '336px', padding: '12px', position: 'fixed', filter: 'hue-rotate(45deg)',
           }}>
-          <Typography variant="body1" color="initial" sx={{ textAlign: 'center', color: 'white', fontSize: '15px', fontWeight: 600 }} >How To Play</Typography>
+          <Typography variant="body1" color="initial" sx={{ textAlign: 'center', color: 'white', 
+            fontSize: '15px', fontWeight: 600 }} >How To Play</Typography>
         </Box>
       </Box>
       <Box sx={{ padding: '70px 10px 10px 10px', }}>
         <Typography variant="body1" color="initial" sx={{ ...style.pilwal, mb: 1 }}>
-          "In order to protect the legitimate rights and interests of users participating in the pre-sale and maintain the normal operating order of the pre-sale,  these rules are formulated in accordance with relevant agreements and laws and regulations.<br /><br /> country Chapter 1 Definition1.1 Pre-sale definition: refers to a sales model in which a seller offers a bundle of a product or service, collects consumer orders through product tools before selling, and makes it available to customers.<br /> <br />consumers of goods and/or services by prior agreement1.2 Presale mode is "deposit" mode. <br /><br />"Consignment" refers to the pre-delivery of a fixed number of items prior to sale. <br />"Deposit" Scam Join mini games for a chance to win more deposits.<br /> Deposits can be exchanged directly for goods. Deposit is not refundable.1.3 Pre-sale product: A product that is shipped by the seller using the pre-sale product tool. Only highlight the word presale on the product name or product detail page, and products that do not use the presale product tool are not presale.<br /><br /> 1.4 Pre-sale system: refers to the system product tool that helps sellers to sell samples before selling.1.5 Product price before selling: is the selling price of the product before selling. The price of pre-sale items consists of two parts: deposit and final payment. "
+        3 minutes 1 issue, 2 minutes and 30 seconds to order, 30 seconds to show the lottery result. It opens all day. The total number of trade is 480 issues.<br /><br /> 
+        If you spend 100 to trade, after deducting 5 service fee, your contract amount is 95.<br /> <br />
+        1. JOIN GREEN: if the result shows 1,3,7,9, you will get (95*2) 190 <br />
+        If the result shows 5, you will get (95*1.5) 142.5 <br /><br />
+        2. JOIN RED: if the result shows 2,4,6,8, you will get (95*2) 190; If the result shows 0, you will get (95*1.5) 142.5 <br /><br />
+        3. JOIN VIOLET: if the result shows 0 or 5, you will get (95*2.5) 237.5 <br /><br />
+        4. SELECT NUMBER:if the result is the same as the number you selected, you will get(95*8)760 .
+ 
         </Typography>
 
 
