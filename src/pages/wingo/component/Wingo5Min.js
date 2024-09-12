@@ -96,7 +96,7 @@ function Wingo5Min() {
 
   React.useEffect(() => {
     const handleFiveMin = (onemin) => {
-      let fivemin = `${2 - (new Date()?.getMinutes() % 5)}_${onemin}`;
+      let fivemin = `${4 - (new Date()?.getMinutes() % 5)}_${onemin}`;
       setOne_min_time(fivemin);
 
       if (fivemin?.split("_")?.[1] === "1" && fivemin?.split("_")?.[0] === "0")
