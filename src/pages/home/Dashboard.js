@@ -141,15 +141,10 @@ function Dashboard() {
     profile2,
     "https://mui.com/static/images/avatar/5.jpg",
   ];
-  const isAvailableUser = sessionStorage.getItem("user_id");
+
   const handleClosepolicy = (() => {
     setopen(false)
   })
-  useEffect(() => {
-    if (isAvailableUser) {
-      setopen(true);
-    }
-  }, []);
 
   return (
     <Layout>
@@ -720,19 +715,22 @@ function Dashboard() {
           })}
         </Box>
       </Box>
-      <Dialog open={open} onClose={handleClosepolicy}>
-        <DialogContent className="">
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="h6"></Typography>
-            <Close onClick={handleClosepolicy} className=" !text-black" />
-          </Stack>
-          <img src={ban} alt="" className=" !rounded !my-1 w-[230px] h-[180px]" />
-        </DialogContent>
-      </Dialog>
+  {ban?.length > 0 && (
+  <Dialog open={open} onClose={handleClosepolicy}>
+    <DialogContent className="">
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Typography variant="h6"></Typography>
+        <Close onClick={handleClosepolicy} className="!text-black" />
+      </Stack>
+      <img src={ban} alt="" className="!rounded !my-1 w-[230px] h-[180px]" />
+    </DialogContent>
+  </Dialog>
+)}
+
     </Layout>
   );
 }

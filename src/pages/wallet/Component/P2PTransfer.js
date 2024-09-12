@@ -44,7 +44,10 @@ const P2PTransfer = () => {
     validationSchema:topup,
     enableReinitialize: true,
     onSubmit: () => {
-    
+      // if ( wallet_amount_data?.p2pwallet < fk.values.amount) {
+      //   toast('Insufficient balance. Please check your P2P Wallet and try again.');
+      //   return; 
+      // }
       const reqBody = {
         userid: user_id,
         deposit_type: fk.values.deposit_type === "UPI" ? "1" : "2",
@@ -257,9 +260,12 @@ const P2PTransfer = () => {
             onChange={fk.handleChange}
             className="!w-[100%]  !mb-2 !rounded "
           />
-             {fk.touched.amount && fk.errors.amount && (
-                        <div className="error">{fk.errors.amount}</div>
-                    )}
+          {Number(wallet_amount_data?.p2pwallet)<=0 ? (
+             <div className="error">your wallet amount is Low</div>
+          )
+           : fk.touched.amount && fk.errors.amount && (
+              <div className="error">{fk.errors.amount}</div>
+          )}
 
          <div className="mt-1">P2P Amount : 
           <span className="ml-2" >
