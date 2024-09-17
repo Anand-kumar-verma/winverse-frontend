@@ -74,7 +74,7 @@ const FundTransfer = () => {
   async function getIntroFn() {
     console.log("Function is hit now");
     const reqBody = {
-      userid: fk.values.userid,
+      userid: fk.values.transfer_id,
     };
     try {
       const res = await axios.post(endpoint?.get_user_intro_name, reqBody);
@@ -87,7 +87,7 @@ const FundTransfer = () => {
 
   useEffect(() => {
     getIntroFn();
-  }, [fk.values.userid]);
+  }, [fk.values.transfer_id]);
 
   const { data: wallet_amount } = useQuery(
     ["wallet_amount_amount"],
@@ -149,6 +149,14 @@ const FundTransfer = () => {
                 ),
               }}
             />
+             {username !== "false" ? (
+              <div className="no-error !text-blue-600 !mb-2 !text-sm">{username}</div>
+            ) : (
+              fk.touched.transfer_id &&
+              fk.errors.transfer_id && (
+                <div className="error">{fk.errors.transfer_id}</div>
+              )
+            )} 
           </div>
 
           <span>Transfer Amount*</span>

@@ -132,7 +132,7 @@ function Footer() {
           component={NavLink}
           onClick={() => navigation(4)}
           to="/wallet"
-        >
+         >
           {nav === 4 ? (
             <Box component="img" src={walletactive} width={20}></Box>
           ) : (

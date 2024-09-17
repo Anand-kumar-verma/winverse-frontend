@@ -3,10 +3,11 @@ import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import LocalConvenienceStoreIcon from "@mui/icons-material/LocalConvenienceStore";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import StoreIcon from "@mui/icons-material/Store";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import * as React from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../component/layout/Layout";
+import theme from "../../utils/theme";
 const zubgback = "#63BA0E";
 const zubgmid = "#63BA0E";
 
@@ -79,16 +80,21 @@ function MainPageOFIncome() {
     
   ];
   return (
-    <Layout>
+    <Layout header={false}>
       <Container
         sx={{
           width: "100%",
           height: "100vh",
           overflow: "auto",
           mb: 5,
-          background:"green"
+          background:"#0D0335"
         }}
       >
+        <Box sx={style.root}>
+        <Typography variant="body1" color="initial" className="!pb-3">
+          Income
+        </Typography>
+      </Box>
         <Box
           sx={{
             // width: "95%",
@@ -100,12 +106,11 @@ function MainPageOFIncome() {
               color: "white",
               fontSize: "15px",
               fontWeight: "600",
-               background:"white"
               // mb: "25px",
             },
           }}
         >
-          <div className="!w-full gap-2 !grid py-5 px-2 !grid-cols-2 !place-items-center !shadow-xl rounded-xl ">
+          <div className="!w-full gap-2 !grid py-5 px-2 !grid-cols-2 !place-items-center ">
             {data_array?.map((i) => {
               return (
                 <Box
@@ -126,7 +131,7 @@ function MainPageOFIncome() {
                   }}
                 >
                   <p className="">{i?.logo}</p>
-                  <p className="lg:!whitespace-nowrap !text-center !text-black !text-[15px]">
+                  <p className="lg:!whitespace-nowrap !text-center !text-white !text-[12px]">
                     {i.name}
                   </p>
                 </Box>
@@ -158,6 +163,15 @@ const style = {
       color: "white",
       fontSize: "35px",
     },
+  },
+  root: {
+    background: theme.palette.primary.main,
+    pt: 2,
+    px: 1,
+    "&>p": { color: "white" },
+    "&>p:nth-child(1)": { fontSize: "17px", fontWeight: 600 },
+    "&>p:nth-child(2)": { fontSize: "12px", fontWeight: 400, mt: 1 },
+    "&>p:nth-child(3)": { fontSize: "12px", fontWeight: 400, pb: 1 },
   },
   wthui: {
     textAlign: "center",

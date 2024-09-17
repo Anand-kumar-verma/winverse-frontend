@@ -60,18 +60,6 @@ const P2PTransfer = () => {
         txtbank: fk.values.txtbank,
         p2pamount:fk.values.p2pamount
       };
-      
-      // if (
-      //   !reqBody.deposit_type ||
-      //   !reqBody.txtfile ||
-      //   !reqBody.amount ||
-      //   !reqBody.txtbank ||
-      //   !reqBody.transaction_id ||
-      //   !reqBody.transfer_id ||
-      //   !reqBody.txt_req_amt ||
-      //   !reqBody.txtupi
-      // )
-      // return toast("Plese enter all data");
       P2PFundFn(reqBody);
     },
   });
@@ -93,7 +81,6 @@ const P2PTransfer = () => {
       setLoading(false)
       fk.handleReset();
       client.refetchQueries("wallet_amount_amount");
-      // client.refetchQueries("fund_recive_details");
     } catch (e) {
       console.log(e);
     }
@@ -158,11 +145,9 @@ const P2PTransfer = () => {
       const p2pwalletAmount = wallet_amount_data?.p2pwallet;
       const topUpAmount = fk?.values?.amount;
       
-      if (p2pwalletAmount < topUpAmount) {
-        const p2pAmount = p2pwalletAmount; 
-        const reqAmount = Math?.floor(topUpAmount - p2pAmount); 
-        fk.setFieldValue("p2pamount", p2pAmount);
-        fk.setFieldValue("txt_req_amt", reqAmount);
+      if (p2pwalletAmount < topUpAmount*0.6) {
+        fk.setFieldValue("p2pamount", p2pwalletAmount);
+        fk.setFieldValue("txt_req_amt", topUpAmount-p2pwalletAmount);
       } else {
     //  case1
         const p2pAmount = Math?.floor(topUpAmount * 0.6); 

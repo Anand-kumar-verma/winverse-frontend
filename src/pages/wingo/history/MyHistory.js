@@ -267,7 +267,7 @@ const MyHistory = ({ gid }) => {
                     >
                       {" "}
                       {rupees}{" "}
-                      {i?.tr_status === "Win" ? i?.tr_income : i?.tr_pv}
+                      {i?.tr_status === "Success" ? i?.tr_income : i?.tr_final_amt}
                     </span>
                   </div>
                 </AccordionSummary>
