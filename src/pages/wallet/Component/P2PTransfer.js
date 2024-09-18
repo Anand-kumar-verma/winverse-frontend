@@ -257,7 +257,7 @@ const P2PTransfer = () => {
           {fk.values.p2pamount}
           </span>
           </div>
-          <div className="mb-2 ">Request Amount : 
+          <div className="mb-2 text-green-600 !font-extrabold">Request Amount : 
           <span
            className="ml-2"
             id="txt_req_amt"

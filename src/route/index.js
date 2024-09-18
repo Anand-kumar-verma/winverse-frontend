@@ -46,12 +46,22 @@ import WithdrawalAccount from "../pages/wallet/Component/WithdrawalAccount";
 import Withdrawlhistory from "../pages/wallet/Component/Withdrawlhistory";
 import Wallet from "../pages/wallet/Wallet";
 import Wingo from "../pages/wingo/Wingo";
+import TRX from "../pages/trx/TRX";
+import TronScanPage from "../pages/trx/component/TronScanPage";
 
 
 export const routes = [
     {
         path: "/RiskDisclosureAgreement",
         element: <RiskDisclosureAgreement />
+    },
+    {
+        path:"/trx",
+        element:<TRX />
+    },
+    {
+        path:"/trx/tron-scan",
+        element:<TronScanPage />
     },
     {
         path: "/supportPage",

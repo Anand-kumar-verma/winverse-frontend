@@ -69,7 +69,7 @@ function Login() {
         storeCookies();
         toast(res?.data?.message ,{id:1});
         localStorage.setItem("user_id", enCryptData(res?.data?.data?.or_user_id || null));
-        localStorage.setItem("or_m_user_type", res?.data?.data?.or_m_user_type);
+        localStorage.setItem("or_m_user_type", enCryptData(res?.data?.data?.or_m_user_type));
         window.location.reload();
         navigate("/before-login");
       } else {

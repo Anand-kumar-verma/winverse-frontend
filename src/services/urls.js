@@ -11,10 +11,15 @@ export const baseUrl = "https://admin.zupeegame.info";
 export const front_end_domain = "https://winversegame.com";
 export const usdt_base_url = "https://zupeegame.info";
 export const download_app_url = "https://zupeeter.com/ZUPEETER.pdf";
+export const domain_ovi_nodee = "https://api.zupeeter.com";
 
 export const endpoint = {
 
-  
+  trx_bet_placed_node: `${domain_ovi_nodee}/bid-placed-node`,
+  trx_game_history: `${domain_ovi_nodee}/trx_result-node`, //////// done in node js
+  trx_my_history_new: `${domain_ovi_nodee}/trx-my-history-node`, /// done  in node js
+
+
   banner_request: `${baseUrl}/api/panel_banner`,
   with_request: `${baseUrl}/api/withdrawal_wallet`,
   p2p_request: `${baseUrl}/api/insert_user_topup`,
@@ -77,10 +82,7 @@ export const endpoint = {
   payin_status: `${baseUrl}/api/payin_api`,
   swnl_pay_in_api: `${baseUrl}/api/insert_fund_request_vapayout`,
 
-  // ovi panel api's
-  trx_bet_placed_node: `${domain_ovi_node}/bid-placed-node`,
-  trx_game_history: `${domain_ovi_node}/trx_result-node`, //////// done in node js
-  trx_my_history_new: `${domain_ovi_node}/trx-my-history-node`, /// done  in node js
+  
 
   ////////////////// wingo api //////////////////
   game_history:`${domain_ovi_node}/wingo-result`,

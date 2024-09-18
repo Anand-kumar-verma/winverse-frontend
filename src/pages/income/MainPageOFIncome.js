@@ -8,8 +8,8 @@ import * as React from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../component/layout/Layout";
 import theme from "../../utils/theme";
-const zubgback = "#63BA0E";
-const zubgmid = "#63BA0E";
+const zubgback = "#9cec01";
+const zubgmid = "#9cec01";
 
 function MainPageOFIncome() {
 
@@ -21,7 +21,7 @@ function MainPageOFIncome() {
       name: "Direct Income",
       logo: (
         <RedeemIcon
-          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
@@ -31,7 +31,7 @@ function MainPageOFIncome() {
       name: "Team Trading Bonus",
       logo: (
         <LocalConvenienceStoreIcon
-          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
@@ -41,7 +41,7 @@ function MainPageOFIncome() {
       name: "Sponsor Income",
       logo: (
         <ReportGmailerrorredTwoTone
-          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
@@ -52,7 +52,7 @@ function MainPageOFIncome() {
       name: "Joining Bonus" ,
       logo: (
         <Recommend
-          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
@@ -62,7 +62,7 @@ function MainPageOFIncome() {
       name: "Daily Cashback",
       logo: (
         <CardGiftcardIcon
-          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
@@ -72,7 +72,7 @@ function MainPageOFIncome() {
       name: "Fund Level Commission",
       logo: (
         <StoreIcon
-          className="!w-[50px] !h-[50px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
@@ -165,7 +165,7 @@ const style = {
     },
   },
   root: {
-    background: theme.palette.primary.main,
+    background: "linear-gradient(180deg, #9cec01, #028f7e)",
     pt: 2,
     px: 1,
     "&>p": { color: "white" },

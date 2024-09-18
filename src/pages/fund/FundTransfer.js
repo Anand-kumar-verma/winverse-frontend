@@ -199,7 +199,7 @@ export default FundTransfer;
 const style = {
   header: {
     padding: 1,
-    background: theme.palette.primary.main,
+    background: "linear-gradient(180deg, #9cec01, #028f7e)",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",

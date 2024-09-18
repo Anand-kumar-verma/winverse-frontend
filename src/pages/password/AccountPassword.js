@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField } from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
@@ -8,8 +8,11 @@ import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
 import { deCryptData } from "../../shared/secret";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AccountPassword = () => {
+
+  const navigate = useNavigate()
   const [Loading, setLoading] = useState(false);
   const user_id = deCryptData(localStorage.getItem("user_id"));
   const initialValue = {
@@ -47,6 +50,7 @@ const AccountPassword = () => {
       toast(res?.data?.msg);
       if ("Password Changed Successfully" === res?.data?.msg)
         fk.handleReset();
+      navigate("/dashboard")
       setLoading(false)
     } catch (e) {
       console.log(e);
@@ -54,26 +58,26 @@ const AccountPassword = () => {
   }
 
   return (
-    <Layout>
+    <Layout header={false}>
       <Container
         sx={{
           width: "100%",
           height: "100vh",
           overflow: "auto",
           mb: 5,
-          background: theme.palette.primary.main,
+          background: "#0d0335",
         }}
         className="no-scrollbar"
       >
-        <Box
-        sx={{
-          background: "white",
-          width: "100%",
-          height: "100vh",
-        }}>
-          <div className="font-extrabold !text-center !pt-5">Change Password</div>
-        <div className="!mx-2 my-5  !text-white !font-bold bg-green-500 p-5 py-10 !shadow-xl !rounded-xl">
-          <span>Old Password*</span>
+         <Box sx={style.root}>
+         
+        <Typography variant="body1" color="initial" className="!pb-3 !text-center">
+          Change Password
+        </Typography>
+      </Box>
+      
+        <div className="!mx-2 my-5  !text-white  bg-[#22025f] p-5 py-10 !shadow-xl !rounded">
+          <span>Old Password </span>
             <TextField
               id="oldpassword"
               name="oldpassword"
@@ -82,7 +86,7 @@ const AccountPassword = () => {
               placeholder="Enter Old Password"
               className="!w-[100%] !bg-white !mb-5 !rounded"
             ></TextField>
-            <span className="!my-2">New Password*</span>
+            <span className="!my-2">New Password</span>
             <TextField
               id="newpassword"
               name="newpassword"
@@ -91,7 +95,7 @@ const AccountPassword = () => {
               onChange={fk.handleChange}
               className="!w-[100%] !bg-white !mb-5 !rounded" 
             />
-            <span className="!my-2">Confirm Password*</span>
+            <span className="!my-2">Confirm Password</span>
             <TextField
               id="confirmpassword"
               name="confirmpassword"
@@ -102,13 +106,13 @@ const AccountPassword = () => {
             />
              <div className="col-span-2 flex gap-2 mt-4">
               <Button
-              className="!bg-[#da1c22] !text-white"
+              className="!bg-[#f03239] !text-white"
                 onClick={() => fk.handleReset()}
               >
                 Cancel
               </Button>
               <Button
-              className="!bg-[#0D0335] !text-white"
+              className="!bg-[#28d630] !text-white"
                 onClick={() => fk.handleSubmit()}
               >
                 Submit
@@ -117,8 +121,6 @@ const AccountPassword = () => {
                 <CustomCircularProgress isLoading={Loading} />)}
             </div>
           </div>
-           
-        </Box>
 
       </Container>
     </Layout>
@@ -126,3 +128,16 @@ const AccountPassword = () => {
 };
 
 export default AccountPassword;
+
+const style = {
+  root: {
+    background: "linear-gradient(180deg, #9cec01, #028f7e)",
+    pt: 2,
+    px: 1,
+    "&>p": { color: "white" },
+    "&>p:nth-child(1)": { fontSize: "17px", fontWeight: 600 },
+    "&>p:nth-child(2)": { fontSize: "12px", fontWeight: 400, mt: 1 },
+    "&>p:nth-child(3)": { fontSize: "12px", fontWeight: 400, pb: 1 },
+  },
+ 
+};
