@@ -175,7 +175,6 @@ function Wingo5Min() {
       return response;
     } catch (e) {
       toast(e?.message);
-      console.log(e);
     }
   };
 
