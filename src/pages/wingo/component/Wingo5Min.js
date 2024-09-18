@@ -31,7 +31,7 @@ import timerbg2 from "../../../assets/images/timerbg2.png";
 import backbanner from "../../../assets/images/winbackbanner.png";
 import {
   gameHistory_trx_one_minFn,
-  updateNextCounter
+  updateNextCounter,
 } from "../../../redux/slices/counterSlice";
 import { endpoint } from "../../../services/urls";
 import { changeImages } from "../../../shared/nodeSchedular";
@@ -103,7 +103,7 @@ function Wingo5Min() {
         handlePlaySoundLast();
 
       if (
-        Number(fivemin?.split("_")?.[1]) <= 30 &&
+        Number(fivemin?.split("_")?.[1]) <= 10 &&
         Number(fivemin?.split("_")?.[1]) > 1 && // this is for sec
         fivemin?.split("_")?.[0] === "0" // this is for minut
       ) {
@@ -111,14 +111,11 @@ function Wingo5Min() {
       }
 
       if (
-        Number(fivemin?.split("_")?.[1]) <= 30 && // this is for sec
+        Number(fivemin?.split("_")?.[1]) <= 45 && // this is for sec
         fivemin?.split("_")?.[0] === "0" // this is for minut
       ) {
         fk.setFieldValue("openTimerDialog", true);
-      }
-      if (fivemin?.split("_")?.[1] === "59") {
-        fk.setFieldValue("openTimerDialog", false);
-      }
+      } else fk.setFieldValue("openTimerDialog", false);
       if (
         fivemin?.split("_")?.[1] === "40" && // this is for sec
         fivemin?.split("_")?.[0] === "0" // this is for minut

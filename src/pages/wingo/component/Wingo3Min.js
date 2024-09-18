@@ -5,7 +5,7 @@ import {
   DialogActions,
   Grid,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -29,7 +29,10 @@ import nine from "../../../assets/images/n9-a20f6f42 (1).png";
 import timerbg1 from "../../../assets/images/timerbg.png";
 import timerbg2 from "../../../assets/images/timerbg2.png";
 import backbanner from "../../../assets/images/winbackbanner.png";
-import { gameHistory_trx_one_minFn, updateNextCounter } from "../../../redux/slices/counterSlice";
+import {
+  gameHistory_trx_one_minFn,
+  updateNextCounter,
+} from "../../../redux/slices/counterSlice";
 import { endpoint } from "../../../services/urls";
 import { changeImages } from "../../../shared/nodeSchedular";
 import { useSocket } from "../../../shared/socket/SocketContext";
@@ -50,8 +53,8 @@ function Wingo3Min() {
   const audioRefMusic = React.useRef(null);
   const audioRefMusiclast = React.useRef(null);
   const [isImageChange, setIsImageChange] = useState("1_2_3_4_5");
-  const next_step = useSelector((state) => state.aviator.next_step)
-  const dispatch = useDispatch()
+  const next_step = useSelector((state) => state.aviator.next_step);
+  const dispatch = useDispatch();
   const [opendialogbox, setOpenDialogBox] = useState(false);
   const img1 = Number(isImageChange?.split("_")[0]);
   const img2 = Number(isImageChange?.split("_")[1]);
@@ -85,14 +88,12 @@ function Wingo3Min() {
   );
 
   const initialValue = {
-    openTimerDialog: false
-  }
+    openTimerDialog: false,
+  };
   const fk = useFormik({
     initialValues: initialValue,
-    onSubmit: () => {
-
-    }
-  })
+    onSubmit: () => {},
+  });
 
   React.useEffect(() => {
     const handleThreeMin = (onemin) => {
@@ -112,14 +113,11 @@ function Wingo3Min() {
       }
 
       if (
-        Number(threemin?.split("_")?.[1]) <= 10 && // 1 index means second
+        Number(threemin?.split("_")?.[1]) <= 30 && // 1 index means second
         threemin?.split("_")?.[0] === "0" // 0 index means min
       ) {
         fk.setFieldValue("openTimerDialog", true);
-      }
-      if (threemin?.split("_")?.[1] === "59") {
-        fk.setFieldValue("openTimerDialog", false);
-      }
+      } else fk.setFieldValue("openTimerDialog", false);
       if (
         threemin?.split("_")?.[1] === "25" &&
         threemin?.split("_")?.[0] === "0"
@@ -140,7 +138,8 @@ function Wingo3Min() {
 
         setTimeout(() => {
           if (
-            localStorage.getItem("betApplied2")?.split("_")?.[1] === String(true)
+            localStorage.getItem("betApplied2")?.split("_")?.[1] ===
+            String(true)
           ) {
             setOpenDialogBox(true);
             setTimeout(() => {
@@ -159,7 +158,7 @@ function Wingo3Min() {
     };
   }, []);
 
-  const {  data: game_history } = useQuery(
+  const { data: game_history } = useQuery(
     ["gamehistory_2min"],
     () => GameHistoryFn("2"),
     {
@@ -167,7 +166,7 @@ function Wingo3Min() {
       refetchOnReconnect: false,
       retry: false,
       retryOnMount: false,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -196,7 +195,6 @@ function Wingo3Min() {
     dispatch(gameHistory_trx_one_minFn(game_history?.data?.data));
   }, [game_history?.data?.data]);
 
-
   const handlePlaySoundLast = async () => {
     try {
       if (audioRefMusiclast?.current?.pause) {
@@ -221,8 +219,6 @@ function Wingo3Min() {
       console.error("Error during play:", error);
     }
   };
-
-
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -258,8 +254,14 @@ function Wingo3Min() {
         >
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Button variant="text" color="primary" className="htpbutton" onClick={handleClickOpen}>
-                <Box component='img' src={htp} width={20} sx={{ mr: 1 }}></Box>  How To Play
+              <Button
+                variant="text"
+                color="primary"
+                className="htpbutton"
+                onClick={handleClickOpen}
+              >
+                <Box component="img" src={htp} width={20} sx={{ mr: 1 }}></Box>{" "}
+                How To Play
               </Button>
               <Typography
                 variant="body1"
@@ -318,7 +320,14 @@ function Wingo3Min() {
                   Time remaining{" "}
                 </Typography>
                 <Box sx={{ display: "flex" }}>
-                  <Box className="timer !text-red-500 !bg-white" sx={{ backgroundImage: `url(${timerbg1})`, backgroundSize: '100%', backgroundPosition: 'center' }}>
+                  <Box
+                    className="timer !text-red-500 !bg-white"
+                    sx={{
+                      backgroundImage: `url(${timerbg1})`,
+                      backgroundSize: "100%",
+                      backgroundPosition: "center",
+                    }}
+                  >
                     {show_this_three_min_time_min?.substring(0, 1)}
                   </Box>
                   <Box className="timer1 !text-red-500 !bg-white">
@@ -326,11 +335,18 @@ function Wingo3Min() {
                     {show_this_three_min_time_min?.substring(1, 2)}
                   </Box>
                   <Box className="timer1 !text-red-500 !bg-white">:</Box>
-                  <Box className="timer1 !text-red-500 !bg-white" >
+                  <Box className="timer1 !text-red-500 !bg-white">
                     {" "}
                     {show_this_three_min_time_sec?.substring(0, 1)}
                   </Box>
-                  <Box className="timer2 !text-red-500 !bg-white" sx={{ backgroundImage: `url(${timerbg2})`, backgroundSize: '100%', backgroundPosition: 'center' }}>
+                  <Box
+                    className="timer2 !text-red-500 !bg-white"
+                    sx={{
+                      backgroundImage: `url(${timerbg2})`,
+                      backgroundSize: "100%",
+                      backgroundPosition: "center",
+                    }}
+                  >
                     {show_this_three_min_time_sec?.substring(1, 2)}
                   </Box>
                 </Box>
@@ -346,9 +362,11 @@ function Wingo3Min() {
           </Grid>
         </Box>
         <div className="relative">
-          <BetNumber timing={`${show_this_three_min_time_min}_${show_this_three_min_time_sec}`} gid={"2"} />
+          <BetNumber
+            timing={`${show_this_three_min_time_min}_${show_this_three_min_time_sec}`}
+            gid={"2"}
+          />
           {fk.values.openTimerDialog && (
-
             <div className="ti !w-full !z-50 top-0 !absolute rounded p-5 flex justify-center items-center">
               <div
                 className="flex gap-2 justify-cente !bg-opacity-5 !py-5"

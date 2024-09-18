@@ -31,7 +31,7 @@ import timerbg2 from "../../../assets/images/timerbg2.png";
 import backbanner from "../../../assets/images/winbackbanner.png";
 import {
   gameHistory_trx_one_minFn,
-  updateNextCounter
+  updateNextCounter,
 } from "../../../redux/slices/counterSlice";
 import { endpoint } from "../../../services/urls";
 import { changeImages } from "../../../shared/nodeSchedular";
@@ -107,7 +107,8 @@ function Wingo1Min() {
         fk.setFieldValue("openTimerDialog", false);
         setTimeout(() => {
           if (
-            localStorage.getItem("betApplied1")?.split("_")?.[1] === String(true)
+            localStorage.getItem("betApplied1")?.split("_")?.[1] ===
+            String(true)
           ) {
             setOpenDialogBox(true);
             setTimeout(() => {
