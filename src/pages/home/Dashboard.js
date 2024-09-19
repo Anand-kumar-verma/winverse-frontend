@@ -1,6 +1,13 @@
 import VolumeUpIcon from "@mui/icons-material/VolumeUpOutlined";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
-import { Box, Button, Dialog, DialogContent, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  Stack,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -73,10 +80,8 @@ function Dashboard() {
     retryOnMount: false,
     refetchOnWindowFocus: false,
   });
-  console.log(data);
   const res = data?.data?.data || [];
 
-  console.log(data, "HJH")
   const { data: Trade } = useQuery(["last_trade"], () => LastTrade(), {
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -84,7 +89,6 @@ function Dashboard() {
     retryOnMount: false,
     refetchOnWindowFocus: false,
   });
-
 
   const trade = Trade?.data?.data || [];
 
@@ -115,21 +119,19 @@ function Dashboard() {
     refetchOnWindowFocus: false,
   });
 
-
   const ban = image?.data?.data?.[0]?.m33_image || [];
   // console.log(ban ,"jfk")
 
   useEffect(() => {
-    localStorage.removeItem("betApplied1")
-    localStorage.removeItem("betApplied2")
-    localStorage.removeItem("betApplied3")
+    localStorage.removeItem("betApplied1");
+    localStorage.removeItem("betApplied2");
+    localStorage.removeItem("betApplied3");
     if (!checkTokenValidity()) {
       localStorage.clear();
       sessionStorage.clear();
       window.location.href = "/"; // Redirect to login page
     }
   }, []);
-
 
   const imageSources = [
     "https://mui.com/static/images/avatar/2.jpg",
@@ -142,9 +144,9 @@ function Dashboard() {
     "https://mui.com/static/images/avatar/5.jpg",
   ];
 
-  const handleClosepolicy = (() => {
-    setopen(false)
-  })
+  const handleClosepolicy = () => {
+    setopen(false);
+  };
 
   return (
     <Layout>
@@ -193,7 +195,6 @@ function Dashboard() {
         <VolumeUpIcon sx={{ color: theme.palette.primary.main, mr: 1 }} />
         <Typography
           variant="body1"
-
           sx={{
             fontWeight: 500,
             fontSize: "10px",
@@ -204,7 +205,10 @@ function Dashboard() {
         >
           1.All recharge methods only available in RECHARGE menu on OFFICIAL
         </Typography>
-        <Typography sx={{ background: theme.palette.secondary.main }} className=" !text-white !text-xs  !font-bold rounded-2xl px-2 !flex justify-center">
+        <Typography
+          sx={{ background: theme.palette.secondary.main }}
+          className=" !text-white !text-xs  !font-bold rounded-2xl px-2 !flex justify-center"
+        >
           <WhatshotIcon fontSize="small" />{" "}
           <span className="my-1">Details</span>
         </Typography>
@@ -375,8 +379,12 @@ function Dashboard() {
           ></Box>
           <Typography
             variant="body1"
-
-            sx={{ fontSize: "18px", fontWeight: 700, ml: 1, color: theme.palette.error.main }}
+            sx={{
+              fontSize: "18px",
+              fontWeight: 700,
+              ml: 1,
+              color: theme.palette.error.main,
+            }}
           >
             Winning information
           </Typography>
@@ -407,14 +415,10 @@ function Dashboard() {
                     sx={style.winnerprofile}
                   ></Box>
                 </div>
-                <Typography
-                  variant="body1"
-
-                  sx={style.winnername}
-                >
-                  <p className="!flex !flex-col" style={{ color: 'white' }}>
-                    <span>{i?.or_m_user_id?.substring(0, 7) + '***'}</span>
-                    <span>{i?.or_m_email?.substring(0, 7) + '***'}</span>
+                <Typography variant="body1" sx={style.winnername}>
+                  <p className="!flex !flex-col" style={{ color: "white" }}>
+                    <span>{i?.or_m_user_id?.substring(0, 7) + "***"}</span>
+                    <span>{i?.or_m_email?.substring(0, 7) + "***"}</span>
                   </p>
                 </Typography>
                 <Box sx={style.winnerbannerouter}>
@@ -426,18 +430,10 @@ function Dashboard() {
                   ></Box>
                 </Box>
                 <Box>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winneramout || 0}
-                  >
+                  <Typography variant="body1" sx={style.winneramout || 0}>
                     Receive ₹{i?.tr_income}
                   </Typography>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winnertitle}
-                  >
+                  <Typography variant="body1" sx={style.winnertitle}>
                     Winning amount
                   </Typography>
                 </Box>
@@ -457,8 +453,7 @@ function Dashboard() {
           ></Box>
           <Typography
             variant="body1"
-
-            sx={{ fontSize: "18px", fontWeight: 700, ml: 1, color: 'white' }}
+            sx={{ fontSize: "18px", fontWeight: 700, ml: 1, color: "white" }}
           >
             Today's earnings chart
           </Typography>
@@ -483,15 +478,10 @@ function Dashboard() {
                   sx={style.winnerposition}
                 ></Box>
                 <Box sx={style.winner2amt}>
-                  <Typography variant="body1" >
-
-                    {res?.[1]?.or_m_email?.substring(0, 7) + '***'}
+                  <Typography variant="body1">
+                    {res?.[1]?.or_m_email?.substring(0, 7) + "***"}
                   </Typography>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winningamount}
-                  >
+                  <Typography variant="body1" sx={style.winningamount}>
                     ₹{res?.[1]?.tr_income}
                   </Typography>
                 </Box>
@@ -522,14 +512,10 @@ function Dashboard() {
                   sx={style.winnerposition}
                 ></Box>
                 <Box sx={style.winner2amt}>
-                  <Typography variant="body1" >
-                    {res?.[0]?.or_m_email?.substring(0, 7) + '***'}
+                  <Typography variant="body1">
+                    {res?.[0]?.or_m_email?.substring(0, 7) + "***"}
                   </Typography>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winningamount}
-                  >
+                  <Typography variant="body1" sx={style.winningamount}>
                     ₹{res?.[0]?.tr_income}
                   </Typography>
                 </Box>
@@ -560,14 +546,10 @@ function Dashboard() {
                   sx={style.winnerposition}
                 ></Box>
                 <Box sx={style.winner2amt}>
-                  <Typography variant="body1" >
-                    {res?.[2]?.or_m_email?.substring(0, 7) + '***'}
+                  <Typography variant="body1">
+                    {res?.[2]?.or_m_email?.substring(0, 7) + "***"}
                   </Typography>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winningamount}
-                  >
+                  <Typography variant="body1" sx={style.winningamount}>
                     ₹{res?.[2]?.tr_income}
                   </Typography>
                 </Box>
@@ -594,14 +576,10 @@ function Dashboard() {
                     sx={style.winnerprofile}
                   ></Box>
                 </div>
-                <Typography
-                  variant="body1"
-
-                  sx={style.winnername}
-                >
-                  <p className="!flex !flex-col" style={{ color: 'white' }}>
-                    <span>{i?.or_m_user_id?.substring(0, 7) + '***'}</span>
-                    <span>{i?.or_m_email?.substring(0, 7) + '***'}</span>
+                <Typography variant="body1" sx={style.winnername}>
+                  <p className="!flex !flex-col" style={{ color: "white" }}>
+                    <span>{i?.or_m_user_id?.substring(0, 7) + "***"}</span>
+                    <span>{i?.or_m_email?.substring(0, 7) + "***"}</span>
                   </p>
                 </Typography>
                 <Box sx={style.winnerbannerouter}>
@@ -613,18 +591,10 @@ function Dashboard() {
                   ></Box>
                 </Box>
                 <Box>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winneramout || 0}
-                  >
+                  <Typography variant="body1" sx={style.winneramout || 0}>
                     Receive ₹{i?.tr_income}
                   </Typography>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winnertitle}
-                  >
+                  <Typography variant="body1" sx={style.winnertitle}>
                     Winning amount
                   </Typography>
                 </Box>
@@ -643,19 +613,15 @@ function Dashboard() {
             ></Box>
             <Typography
               variant="body1"
-
-              sx={{ fontSize: "18px", fontWeight: 700, ml: 1, color: 'white' }}
+              sx={{ fontSize: "18px", fontWeight: 700, ml: 1, color: "white" }}
             >
               Last Trade Top Winner
             </Typography>
           </Stack>
           <Typography
             variant="body1"
-
-            sx={{ fontSize: "18px", fontWeight: 700, ml: 1, color: 'white' }}
-          >
-
-          </Typography>
+            sx={{ fontSize: "18px", fontWeight: 700, ml: 1, color: "white" }}
+          ></Typography>
           {trade?.slice(0, 5)?.map((i, index) => {
             return (
               <Stack key={index} direction="row" sx={style.winnerslider}>
@@ -676,14 +642,10 @@ function Dashboard() {
                     sx={style.winnerprofile}
                   ></Box>
                 </div>
-                <Typography
-                  variant="body1"
-
-                  sx={style.winnername}
-                >
-                  <p className="!flex !flex-col" style={{ color: 'white' }}>
-                    <span>{i?.or_m_user_id?.substring(0, 7) + '***'}</span>
-                    <span>{i?.or_m_email?.substring(0, 7) + '***'}</span>
+                <Typography variant="body1" sx={style.winnername}>
+                  <p className="!flex !flex-col" style={{ color: "white" }}>
+                    <span>{i?.or_m_user_id?.substring(0, 7) + "***"}</span>
+                    <span>{i?.or_m_email?.substring(0, 7) + "***"}</span>
                   </p>
                 </Typography>
                 <Box sx={style.winnerbannerouter}>
@@ -695,18 +657,10 @@ function Dashboard() {
                   ></Box>
                 </Box>
                 <Box>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winneramout || 0}
-                  >
+                  <Typography variant="body1" sx={style.winneramout || 0}>
                     Receive ₹{i?.tr_income}
                   </Typography>
-                  <Typography
-                    variant="body1"
-
-                    sx={style.winnertitle}
-                  >
+                  <Typography variant="body1" sx={style.winnertitle}>
                     Winning amount
                   </Typography>
                 </Box>
@@ -715,36 +669,39 @@ function Dashboard() {
           })}
         </Box>
       </Box>
-  {ban?.length > 0 && (
-  <Dialog open={open} onClose={handleClosepolicy}>
-    <DialogContent className="">
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Typography variant="h6"></Typography>
-        <Close onClick={handleClosepolicy} className="!text-black" />
-      </Stack>
-      <img src={ban} alt="" className="!rounded !my-1 w-[230px] h-[180px]" />
-    </DialogContent>
-  </Dialog>
-)}
-
+      {ban?.length > 0 && (
+        <Dialog open={open} onClose={handleClosepolicy}>
+          <DialogContent className="">
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Typography variant="h6"></Typography>
+              <Close onClick={handleClosepolicy} className="!text-black" />
+            </Stack>
+            <img
+              src={ban}
+              alt=""
+              className="!rounded !my-1 w-[230px] h-[180px]"
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </Layout>
   );
 }
 
 export default Dashboard;
 const style = {
-  banner: { height: "230px !important", filter: 'hue-rotate(330deg)' },
+  banner: { height: "230px !important", filter: "hue-rotate(330deg)" },
   gamecattext: {
     textAlign: "center",
     textDecoration: "none !important",
     fontSize: "11px",
     fontWeight: 500,
     mt: 1,
-    color: 'white !important',
+    color: "white !important",
   },
   winbox: {
     background: "#F4F5F8",
@@ -760,8 +717,8 @@ const style = {
     alignItems: "center",
     padding: "10px 0px 10px 5px",
     backgroundImage: `url(${winning_bg})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: '100% 100%',
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "100% 100%",
     borderRadius: "10px",
     my: 1.5,
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -771,8 +728,8 @@ const style = {
     borderRadius: "50%",
     objectPosition: "center",
     objectFit: "cover",
-    marginTop: '-25px',
-    marginLeft: '-3px',
+    marginTop: "-25px",
+    marginLeft: "-3px",
   },
   winnername: { fontSize: "12px", fontWeight: 400, mx: 1 },
   winnerbannerouter: {
@@ -787,8 +744,18 @@ const style = {
     objectPosition: "center",
     objectFit: "cover",
   },
-  winneramout: { fontSize: "12px", fontWeight: 600, marginLeft: 1, color: 'white' },
-  winnertitle: { fontSize: "11px", fontWeight: 400, marginLeft: 1, color: 'white' },
+  winneramout: {
+    fontSize: "12px",
+    fontWeight: 600,
+    marginLeft: 1,
+    color: "white",
+  },
+  winnertitle: {
+    fontSize: "11px",
+    fontWeight: 400,
+    marginLeft: 1,
+    color: "white",
+  },
   podiumbox: {
     backgroundImage: `url(${podium})`,
     width: "100%",
@@ -847,7 +814,7 @@ const style = {
     padding: "5px",
     borderRadius: "10px",
     background: theme.palette.secondary.main,
-    marginLeft: '5%',
-    width: '90%',
+    marginLeft: "5%",
+    width: "90%",
   },
 };

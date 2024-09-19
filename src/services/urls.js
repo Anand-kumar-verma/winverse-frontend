@@ -1,5 +1,5 @@
-export const domain = "https://winverse-timer.onrender.com"
-export const domain1 = "https://adminew.winversegame.com"
+export const domain = "https://winverse-timer.onrender.com";
+export const domain1 = "https://adminew.winversegame.com";
 export const domain_ovi_node = "https://api.zupeegame.info";
 // export const domain = "http://192.168.18.183:9002";
 
@@ -14,11 +14,9 @@ export const download_app_url = "https://zupeeter.com/ZUPEETER.pdf";
 export const domain_ovi_nodee = "https://api.zupeeter.com";
 
 export const endpoint = {
-
   trx_bet_placed_node: `${domain_ovi_nodee}/bid-placed-node`,
   trx_game_history: `${domain_ovi_nodee}/trx_result-node`, //////// done in node js
   trx_my_history_new: `${domain_ovi_nodee}/trx-my-history-node`, /// done  in node js
-
 
   banner_request: `${baseUrl}/api/panel_banner`,
   with_request: `${baseUrl}/api/withdrawal_wallet`,
@@ -61,7 +59,7 @@ export const endpoint = {
   payin_response_ico_token_akash: `${baseUrl}/api/payin_response_upi_token`,
 
   indian_insert_deposite: `${baseUrl}/api/indian_insert_deposite`,
- 
+
   bet_placed: `${domain_ovi_node}/bid-placing-wingo`, //////////// done in node js
   trx_my_history: `${baseUrl}/api/trx_one_min_myhistory`, /// done  in node js
   // trx_my_history_new: `${baseUrl}/api/trx_one_min_myhistory_new`, /// done  in node js
@@ -82,10 +80,7 @@ export const endpoint = {
   payin_status: `${baseUrl}/api/payin_api`,
   swnl_pay_in_api: `${baseUrl}/api/insert_fund_request_vapayout`,
 
-  
-
   ////////////////// wingo api //////////////////
-  game_history:`${domain_ovi_node}/wingo-result`,
+  game_history: `${domain_ovi_node}/wingo-result`,
   win_list_top: `${domain_ovi_node}/top-winners`,
-
 };

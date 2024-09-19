@@ -1,20 +1,15 @@
 import { Box, Stack, Typography } from "@mui/material";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import avaitorcategory3 from "../../../assets/images/image-removebg-preview.png";
 import lotteryimg from "../../../assets/images/lottery.png";
 import lotterycategory1 from "../../../assets/images/lotterycategory1.png";
-import lotterycategory2 from "../../../assets/images/lotterycategory2.png";
-import lotterycategory3 from "../../../assets/images/lotterycategory3.png";
-import lotterycategory4 from "../../../assets/images/lotterycategory4.png";
-import avaitorcategory3 from "../../../assets/images/image-removebg-preview.png";
 import win from "../../../assets/images/win.png";
-import win2 from "../../../assets/images/win2.png";
 import win3 from "../../../assets/images/win3.png";
-import win4 from "../../../assets/images/win4.png";
-import axios from "axios";
 import { endpoint } from "../../../services/urls";
 
 function Lottery() {
