@@ -269,7 +269,7 @@ function Wingo3Min() {
                 className="psize"
                 mt={1}
               >
-                Win Go 1Min
+                Win Go 3 Min
               </Typography>
               <Stack
                 direction="row"

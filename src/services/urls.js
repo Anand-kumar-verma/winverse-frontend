@@ -1,16 +1,15 @@
 export const domain = "https://winverse-timer.onrender.com";
-export const domain1 = "https://adminew.winversegame.com";
-export const domain_ovi_node = "https://api.zupeegame.info";
+export const domain1 = "https://admin.winversegame.com";
+export const domain_ovi_node = "https://api.winversegame.com";
+
+// export const domain_ovi_node = "https://api.zupeegame.info";
 // export const domain = "http://192.168.18.183:9002";
 
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
-
-// export const baseUrl = "https://adminew.winversegame.com";
-export const baseUrl = "https://admin.zupeegame.info";
+export const baseUrl = "https://admin.winversegame.com"
 export const front_end_domain = "https://winversegame.com";
-export const usdt_base_url = "https://zupeegame.info";
-export const download_app_url = "https://zupeeter.com/ZUPEETER.pdf";
+export const download_app_url = "";
 export const domain_ovi_nodee = "https://api.zupeeter.com";
 
 export const endpoint = {
@@ -20,6 +19,7 @@ export const endpoint = {
 
   banner_request: `${baseUrl}/api/panel_banner`,
   with_request: `${baseUrl}/api/withdrawal_wallet`,
+  p2p_history :`${baseUrl}/api/view_fund_transfer_main`,
   p2p_request: `${baseUrl}/api/insert_user_topup`,
   deposite_request: `${domain_ovi_node}/fund-request`,
   wallet_withdrawl: `${baseUrl}/api/insert_withdrawal_request`,
