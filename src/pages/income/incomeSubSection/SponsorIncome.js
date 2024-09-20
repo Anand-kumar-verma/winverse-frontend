@@ -47,7 +47,7 @@ function SponsorIncome() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p>Sponsor Income</p>
+            <p>Direct ReTopUp Bonus</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -71,7 +71,7 @@ function SponsorIncome() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Sponsor Income</p>
+          <p>Direct ReTopUp Bonus</p>
         </Box>
         <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {

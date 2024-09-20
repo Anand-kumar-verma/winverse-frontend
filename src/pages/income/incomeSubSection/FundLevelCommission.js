@@ -48,7 +48,7 @@ function FundLevelCommission() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p>Fund Level Commission</p>
+            <p>Team Level Bonus</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -72,7 +72,7 @@ function FundLevelCommission() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Fund Level Commission</p>
+          <p>Team Level Bonus</p>
         </Box>
         <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {

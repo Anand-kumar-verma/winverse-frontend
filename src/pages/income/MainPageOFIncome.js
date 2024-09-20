@@ -18,7 +18,7 @@ function MainPageOFIncome() {
   
     {
       to: "/account/income-main/direct-income",
-      name: "Direct Income",
+      name: "Direct Refer Bonus",
       logo: (
         <RedeemIcon
           className="!w-[50px] !h-[50px] !text-[#9cec01]"
@@ -38,7 +38,7 @@ function MainPageOFIncome() {
     },
     {
       to: "/account/income-main/sponsor",
-      name: "Sponsor Income",
+      name: "Direct ReTopup Bonus",
       logo: (
         <ReportGmailerrorredTwoTone
           className="!w-[50px] !h-[50px] !text-[#9cec01]"
@@ -49,7 +49,7 @@ function MainPageOFIncome() {
     
     {
       to: "/account/income-main/joining",
-      name: "Joining Bonus" ,
+      name: "Welcome Bonus" ,
       logo: (
         <Recommend
           className="!w-[50px] !h-[50px] !text-[#9cec01]"
@@ -59,7 +59,7 @@ function MainPageOFIncome() {
     },
     {
       to: "/account/income-main/level-bonus",
-      name: "Daily Cashback",
+      name: "Daily Cashback Bonus",
       logo: (
         <CardGiftcardIcon
           className="!w-[50px] !h-[50px] !text-[#9cec01]"
@@ -69,7 +69,7 @@ function MainPageOFIncome() {
     },
     {
       to: "/account/income-main/fund-level",
-      name: "Fund Level Commission",
+      name: "Team Level Bonus",
       logo: (
         <StoreIcon
           className="!w-[50px] !h-[50px] !text-[#9cec01]"

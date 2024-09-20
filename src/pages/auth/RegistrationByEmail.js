@@ -73,9 +73,9 @@ const RegistrationByEmail = () => {
     try {
       const res = await axios.post(endpoint.register_candidate_email, reqBody);
       if (res?.data?.status === true) {
-        storeCookies();
+        // storeCookies();
         toast(res?.data?.msg);
-        localStorage.setItem("user_id", enCryptData(res?.data?.userid || null));
+        // localStorage.setItem("user_id", enCryptData(res?.data?.userid || null));
         navigate("/dashboard");
       } else {
         toast(res?.data?.msg);

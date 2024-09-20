@@ -79,8 +79,8 @@ const RegistrationByMobile = () => {
       if (res?.data?.status === true) {
         storeCookies();
         toast(res?.data?.msg);
-        localStorage.setItem("user_id",enCryptData(res?.data?.userid || null));
-        navigate("/dashboard");
+        // localStorage.setItem("user_id",enCryptData(res?.data?.userid || null));
+        navigate("/");
       } else {
         toast(res?.data?.msg);
       }

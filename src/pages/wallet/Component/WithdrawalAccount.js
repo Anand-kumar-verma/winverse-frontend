@@ -69,9 +69,9 @@ function WithdrawalAccount() {
         setLoading(true);
         try {
             const res = await axios.post(endpoint?.wallet_withdrawl, reqBody);
-            toast(res?.data?.message);
+            toast(res?.data?.msg);
             setLoading(false);
-            if ("Withdrawal Request Placed Successfully" === res?.data?.message)
+            if ("Withdrawal Successful. AMOUNT will be processed in Next 2 Working Days." === res?.data?.msg)
                 fk.handleReset();
             client.refetchQueries("wallet_amount");
             client.refetchQueries("withdrawl_history");
@@ -326,7 +326,7 @@ function WithdrawalAccount() {
                 }}
             >
                 <Stack direction="row" >
-                    <Box sx={{ width: "35%" }}>
+                    <Box sx={{ width: "35%" }} >
                         <Box
                             component="img"
                             src={bankicon}
@@ -352,7 +352,7 @@ function WithdrawalAccount() {
                         >
                             {game_history_data?.AcNo?.substring(0, 5) + "****"}
                         </Typography>
-                        <KeyboardArrowRightIcon sx={{ color: 'white' }} />
+                        <KeyboardArrowRightIcon sx={{ color: 'white' }} onClick={()=>navigate('/banks-details')}/>
                     </Stack>
                 </Stack>
             </Box>
@@ -371,7 +371,7 @@ function WithdrawalAccount() {
                 }}
             >
                 <Stack direction="row" >
-                    <Box sx={{ width: "35%" }}>
+                    <Box sx={{ width: "35%" }} >
                         <Box
                             component="img"
                             src={bankicon}
@@ -399,7 +399,7 @@ function WithdrawalAccount() {
                         >
                             {upi_detail?.data?.earning?.bank_details?.[0]?.Branch?.substring(0, 5) + "****"}
                         </Typography>
-                        <KeyboardArrowRightIcon sx={{ color: 'white' }} />
+                        <KeyboardArrowRightIcon sx={{ color: 'white' }} onClick={()=>navigate('/banks-upi')}/>
                     </Stack>
                 </Stack>
             </Box>
