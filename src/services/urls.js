@@ -1,4 +1,5 @@
 export const domain = "https://winverse-timer.onrender.com";
+// export const domain = "https://funxplora-timer.onrender.com";
 export const domain1 = "https://admin.winversegame.com";
 export const domain_ovi_node = "https://api.winversegame.com";
 
@@ -26,7 +27,7 @@ export const endpoint = {
 
   banner_request: `${baseUrl}/api/panel_banner`,
   with_request: `${baseUrl}/api/withdrawal_wallet`,
-  p2p_history :`${baseUrl}/api/view_fund_transfer_main`,
+  p2p_history: `${baseUrl}/api/view_fund_transfer_main`,
   p2p_request: `${baseUrl}/api/insert_user_topup`,
   deposite_request: `${domain_ovi_node}/fund-request`,
   wallet_withdrawl: `${baseUrl}/api/insert_withdrawal_request`,
