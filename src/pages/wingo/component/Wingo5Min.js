@@ -93,10 +93,13 @@ function Wingo5Min() {
     initialValues: initialValue,
     onSubmit: () => {},
   });
-/////////////
+  /////////////
   React.useEffect(() => {
     const handleFiveMin = (onemin) => {
-      let fivemin = `${4 - (new Date()?.getMinutes() % 5)}_${onemin}`;
+      const t = Number(String(onemin)?.split("_")?.[1]);
+      const min = Number(String(onemin)?.split("_")?.[0]);
+      const time_to_be_intro = t > 0 ? 60 - t : t;
+      let fivemin = `${4 - (Number(min) % 5)}_${time_to_be_intro}`;
       setOne_min_time(fivemin);
 
       if (fivemin?.split("_")?.[1] === "1" && fivemin?.split("_")?.[0] === "0")
@@ -124,7 +127,7 @@ function Wingo5Min() {
         // oneMinColorWinning();
       }
       if (
-        fivemin?.split("_")?.[1] === "58" &&
+        fivemin?.split("_")?.[1] === "0" &&
         fivemin?.split("_")?.[0] === "4"
       ) {
         client.refetchQueries("gamehistory_3min");
@@ -146,9 +149,7 @@ function Wingo5Min() {
         }, 1000);
       }
     };
-
     socket.on("onemin", handleFiveMin);
-
     return () => {
       socket.off("onemin", handleFiveMin);
     };
@@ -159,7 +160,6 @@ function Wingo5Min() {
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retry: false,
       retryOnMount: false,
       refetchOnWindowFocus: false,
     }

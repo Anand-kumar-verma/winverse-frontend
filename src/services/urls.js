@@ -1,4 +1,5 @@
 export const domain = "https://winverse-timer.onrender.com";
+// export const domain = "https://funxplora-timer.onrender.com";
 export const domain1 = "https://admin.winversegame.com";
 export const domain_ovi_node = "https://api.winversegame.com";
 
@@ -7,10 +8,17 @@ export const domain_ovi_node = "https://api.winversegame.com";
 
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
-export const baseUrl = "https://admin.winversegame.com"
+///////
+// export const baseUrl = "https://adminew.winversegame.com";
+export const baseUrl = "https://admin.winversegame.com";
 export const front_end_domain = "https://winversegame.com";
-export const download_app_url = "";
-export const domain_ovi_nodee = "https://api.zupeeter.com";
+export const download_app_url = "https://api.winversegame.com/ZUPEETER.pdf";
+
+export const domain_ovi_nodee = "https://api.winversegame.com";
+export const usdt_base_url = "https://api.winversegame.com";
+// export const domain_ovi_nodee = "http://192.168.43.246:9002";
+// export const domain_ovi_node = "http://192.168.43.246:9002";
+// export const usdt_base_url = "http://192.168.43.246:9002";
 
 export const endpoint = {
   trx_bet_placed_node: `${domain_ovi_nodee}/bid-placed-node`,
