@@ -93,7 +93,7 @@ function Wingo5Min() {
     initialValues: initialValue,
     onSubmit: () => {},
   });
-
+/////////////
   React.useEffect(() => {
     const handleFiveMin = (onemin) => {
       let fivemin = `${4 - (new Date()?.getMinutes() % 5)}_${onemin}`;
