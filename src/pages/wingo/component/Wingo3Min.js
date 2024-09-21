@@ -101,6 +101,7 @@ function Wingo3Min() {
       const min = Number(String(onemin)?.split("_")?.[0]);
       const time_to_be_intro = t > 0 ? 60 - t : t;
       let threemin = `${2 - (Number(min) % 3)}_${time_to_be_intro}`;
+      console.log(threemin)
       setThree_min_time(threemin);
       if (
         threemin?.split("_")?.[1] === "1" &&
@@ -116,8 +117,11 @@ function Wingo3Min() {
       }
 
       if (
-        Number(threemin?.split("_")?.[1]) <= 30 && // 1 index means second
-        threemin?.split("_")?.[0] === "0" // 0 index means min
+        (Number(threemin?.split("_")?.[1]) <= 30 &&
+          Number(threemin?.split("_")?.[1]) >= 1 && // 1 index means second
+          threemin?.split("_")?.[0] === "0") ||
+        (Number(threemin?.split("_")?.[1]) === 0 &&
+          threemin?.split("_")?.[0] === "2") // 0 index means min
       ) {
         fk.setFieldValue("openTimerDialog", true);
       } else {

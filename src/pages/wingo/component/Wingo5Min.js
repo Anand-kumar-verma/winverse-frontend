@@ -114,18 +114,15 @@ function Wingo5Min() {
       }
 
       if (
-        Number(fivemin?.split("_")?.[1]) <= 45 && // this is for sec
-        fivemin?.split("_")?.[0] === "0" // this is for minut
+        (Number(fivemin?.split("_")?.[1]) <= 45 &&
+          Number(fivemin?.split("_")?.[1]) >= 1 && // 1 index means second
+          fivemin?.split("_")?.[0] === "0") ||
+        (Number(fivemin?.split("_")?.[1]) === 0 &&
+          fivemin?.split("_")?.[0] === "4") // 0 index means min
       ) {
         fk.setFieldValue("openTimerDialog", true);
       } else fk.setFieldValue("openTimerDialog", false);
-      if (
-        fivemin?.split("_")?.[1] === "40" && // this is for sec
-        fivemin?.split("_")?.[0] === "0" // this is for minut
-      ) {
-        // oneMinCheckResult();
-        // oneMinColorWinning();
-      }
+
       if (
         fivemin?.split("_")?.[1] === "0" &&
         fivemin?.split("_")?.[0] === "4"
