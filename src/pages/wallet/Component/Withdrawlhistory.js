@@ -71,7 +71,7 @@ function Withdrawlhistory() {
   };
 
   return (
-    <Container sx={{ background: theme.palette.secondary.main }}>
+    <Container className="" sx={{ background: theme.palette.secondary.main }}>
       <Box sx={{ background: theme.palette.primary.main, padding: 1 }}>
         <Stack
           direction="row"

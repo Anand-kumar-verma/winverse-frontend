@@ -43,7 +43,7 @@ const P2Pmoney = () => {
         setLoading(true)
         try {
             const res = await axios.post(endpoint?.p2padd_money, reqBody);
-            toast(res?.data?.message);
+            toast(res?.data?.msg);
             fk.handleReset();
             setLoading(false)
             client.refetchQueries("wallet_amount_amount");

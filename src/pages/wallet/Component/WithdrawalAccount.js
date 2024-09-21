@@ -69,9 +69,9 @@ function WithdrawalAccount() {
         setLoading(true);
         try {
             const res = await axios.post(endpoint?.wallet_withdrawl, reqBody);
-            toast(res?.data?.message);
+            toast(res?.data?.msg);
             setLoading(false);
-            if ("Withdrawal Request Placed Successfully" === res?.data?.message)
+            if ("Withdrawal Successful. AMOUNT will be processed in Next 2 Working Days." === res?.data?.msg)
                 fk.handleReset();
             client.refetchQueries("wallet_amount");
             client.refetchQueries("withdrawl_history");
@@ -325,8 +325,8 @@ function WithdrawalAccount() {
                     borderRadius: '10px'
                 }}
             >
-                <Stack direction="row" component={NavLink} to="/banks-details">
-                    <Box sx={{ width: "35%" }}>
+                <Stack direction="row" >
+                    <Box sx={{ width: "35%" }} >
                         <Box
                             component="img"
                             src={bankicon}
@@ -352,7 +352,7 @@ function WithdrawalAccount() {
                         >
                             {game_history_data?.AcNo?.substring(0, 5) + "****"}
                         </Typography>
-                        <KeyboardArrowRightIcon sx={{ color: 'white' }} />
+                        <KeyboardArrowRightIcon sx={{ color: 'white' }} onClick={()=>navigate('/banks-details')}/>
                     </Stack>
                 </Stack>
             </Box>
@@ -370,8 +370,8 @@ function WithdrawalAccount() {
                     borderRadius: '10px'
                 }}
             >
-                <Stack direction="row" component={NavLink} to="/banks-upi">
-                    <Box sx={{ width: "35%" }}>
+                <Stack direction="row" >
+                    <Box sx={{ width: "35%" }} >
                         <Box
                             component="img"
                             src={bankicon}
@@ -399,7 +399,7 @@ function WithdrawalAccount() {
                         >
                             {upi_detail?.data?.earning?.bank_details?.[0]?.Branch?.substring(0, 5) + "****"}
                         </Typography>
-                        <KeyboardArrowRightIcon sx={{ color: 'white' }} />
+                        <KeyboardArrowRightIcon sx={{ color: 'white' }} onClick={()=>navigate('/banks-upi')}/>
                     </Stack>
                 </Stack>
             </Box>
@@ -429,22 +429,6 @@ function WithdrawalAccount() {
                         <div className="error">{fk.errors.amount}</div>
                     )}
 
-                    {/* <span className="!text-white !text-sm">Withdrawal Type *</span>
-                    <TextField
-                        id="type"
-                        name="type"
-                        value={fk.values.type}
-                        onChange={fk.handleChange}
-                        className="!w-[100%] !bg-white !mt-5"
-                        select
-                        size="small"
-                    >
-                        <MenuItem value={"Bank"}>Bank Type</MenuItem>
-                        <MenuItem value={"UPI"}>UPI Type</MenuItem>
-                    </TextField>
-                    {fk.touched.type && fk.errors.type && (
-                        <div className="error">{fk.errors.type}</div>
-                    )} */}
 
 
                     {fk.values.type === "Bank" && (
@@ -532,38 +516,7 @@ function WithdrawalAccount() {
              
 
                 <Box mt={3}>
-                    <Stack direction="row" alignItems="center" mt={1}>
-                        <Box
-                            sx={{
-                                width: "5px",
-                                height: "5px",
-                                background: theme.palette.primary.main,
-                                transform: "rotate(45deg)",
-                                mr: 1,
-                            }}
-                        ></Box>
-                        <Typography
-                            variant="body1"
-                            sx={{ fontSize: "12px", color: 'white' }}
-                        >
-                            You have to withdrawal upto {" "}
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                fontSize: "12px",
-                                color: theme.palette.secondary.main,
-                                mx: 0.5,
-                            }}
-                        >
-                            {" "}
-                            ₹   {((wallet_amount_data?.wallet)* 0.10 )?.toFixed(0,2)|| 0}
-                        </Typography>
-                     
-                    </Stack>
-
-
-                    <Stack direction="row" alignItems="center" mt={1}>
+                   <Stack direction="row" alignItems="center" mt={1}>
                         <Box
                             sx={{
                                 width: "5px",

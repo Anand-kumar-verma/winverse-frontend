@@ -339,6 +339,18 @@ export const LastTrade = async () => {
     console.log(e);
   }
 };
+export const P2pHistoryFunction = async () => {
+  try {
+    const reqBody = {
+      userid: deCryptData(localStorage.getItem("user_id")),
+    };
+    const response = await axios.post(endpoint.p2p_history, reqBody);
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
 export const withdrawlHistoryFunction = async () => {
   try {
     const reqBody = {

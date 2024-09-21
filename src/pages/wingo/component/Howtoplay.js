@@ -17,8 +17,7 @@ function Howtoplay() {
       </Box>
       <Box sx={{ padding: '70px 10px 10px 10px', }}>
         <Typography variant="body1" color="initial" sx={{ ...style.pilwal, mb: 1 }}>
-        3 minutes 1 issue, 2 minutes and 30 seconds to order, 30 seconds to show the lottery result. It opens all day. The total number of trade is 480 issues.<br /><br /> 
-        If you spend 100 to trade, after deducting 5 service fee, your contract amount is 95.<br /> <br />
+       If you spend 100 to trade, after deducting 5 service fee, your contract amount is 95.<br /> <br />
         1. JOIN GREEN: if the result shows 1,3,7,9, you will get (95*2) 190 <br />
         If the result shows 5, you will get (95*1.5) 142.5 <br /><br />
         2. JOIN RED: if the result shows 2,4,6,8, you will get (95*2) 190; If the result shows 0, you will get (95*1.5) 142.5 <br /><br />

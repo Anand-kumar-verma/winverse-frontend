@@ -110,36 +110,6 @@ export default function UPIDetails() {
     client.refetchQueries("upi_details");
   }
 
-  const downloadExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(visibleRows);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
-    const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "data.xlsx";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  };
-
-  // Function to convert s to array buffer
-  const s2ab = (s) => {
-    const buf = new ArrayBuffer(s.length);
-    const view = new Uint8Array(buf);
-    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
-    return buf;
-  };
-
-  const downloadPDF = () => {
-    const doc = new jsPDF();
-    doc.autoTable({ html: "#my-table" });
-    doc.save("table.pdf");
-  };
-
   const navigate = useNavigate()
 
   const handlePasteClick = async () => {
@@ -180,30 +150,7 @@ export default function UPIDetails() {
           </Typography>
           <Box></Box>
         </Box>
-        {/* <div className="flex justify-between w-full px-1 pt-2 pb-1">
-          <div className="flex gap-1">
-            <Button
-              className="!bg-[#BF6DFE] !py-0 !text-white"
-              onClick={() => downloadPDF()}
-            >
-              PDF
-            </Button>
-            <Button
-              className="!bg-[#FD565C] !py-0 !text-white"
-              onClick={() => downloadExcel()}
-            >
-              Excel
-            </Button>
-          </div>
-          <div>
-            <input
-              type="text"
-              className="!bg-gray-600 !text-white !rounded-md px-2 py-1"
-              placeholder="Search.."
-            />
-          </div>
-        </div> */}
-
+       
          <Box>
           <Box
             sx={{

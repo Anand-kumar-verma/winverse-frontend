@@ -48,6 +48,7 @@ import Wallet from "../pages/wallet/Wallet";
 import Wingo from "../pages/wingo/Wingo";
 import TRX from "../pages/trx/TRX";
 import TronScanPage from "../pages/trx/component/TronScanPage";
+import P2pHistory from "../pages/wallet/Component/P2pHistory";
 
 
 export const routes = [
@@ -58,6 +59,10 @@ export const routes = [
     {
         path:"/trx",
         element:<TRX />
+    },
+    {
+        path:"/p2phistory",
+        element:<P2pHistory />
     },
     {
         path:"/trx/tron-scan",
