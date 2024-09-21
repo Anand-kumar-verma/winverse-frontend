@@ -8,7 +8,7 @@ export const domain_ovi_node = "https://api.winversegame.com";
 
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
-///////
+
 // export const baseUrl = "https://adminew.winversegame.com";
 export const baseUrl = "https://admin.winversegame.com";
 export const front_end_domain = "https://winversegame.com";
