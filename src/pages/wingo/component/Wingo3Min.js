@@ -126,8 +126,8 @@ function Wingo3Min() {
         // oneMinColorWinning();
       }
       if (
-        threemin?.split("_")?.[1] === "0" &&
-        threemin?.split("_")?.[0] === "0"
+        threemin?.split("_")?.[1] === "2" &&
+        threemin?.split("_")?.[0] === "58"
       ) {
         client.refetchQueries("gamehistory_2min");
         client.refetchQueries("wallet_amount");

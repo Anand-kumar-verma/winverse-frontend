@@ -124,8 +124,8 @@ function Wingo5Min() {
         // oneMinColorWinning();
       }
       if (
-        fivemin?.split("_")?.[1] === "0" &&
-        fivemin?.split("_")?.[0] === "0"
+        fivemin?.split("_")?.[1] === "58" &&
+        fivemin?.split("_")?.[0] === "4"
       ) {
         client.refetchQueries("gamehistory_3min");
         client.refetchQueries("wallet_amount");

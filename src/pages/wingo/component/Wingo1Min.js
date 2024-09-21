@@ -98,13 +98,14 @@ function Wingo1Min() {
 
       if (onemin <= 10) {
         fk.setFieldValue("openTimerDialog", true);
+      } else {
+        fk.setFieldValue("openTimerDialog", false);
       }
-      if (onemin === 0) {
+      if (onemin === 58) {
         client.refetchQueries("wallet_amount");
         client.refetchQueries("gamehistory");
         client.refetchQueries("myAllhistory");
         // dispatch(dummycounterFun());
-        fk.setFieldValue("openTimerDialog", false);
         setTimeout(() => {
           if (
             localStorage.getItem("betApplied1")?.split("_")?.[1] ===
