@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -14,6 +14,7 @@ import { endpoint } from "../../../services/urls";
 
 function Lottery() {
   const [status, setStatus] = useState(false);
+  const navigate = useNavigate()
 
   const getStatus = async () => {
     try {
@@ -39,14 +40,14 @@ function Lottery() {
           Lottery
         </Typography>
       </Stack>
-      <NavLink to={status?.trx_status !== "0" && "/wingo"}>
+    
         <Box sx={style.winbox}>
           <Box
             component="img"
             src={win}
             sx={{ width: "100%", height: "70%", filter: 'hue-rotate(250deg)' }}
           ></Box>
-          <Box sx={style.positiongame}>
+          <Box sx={style.positiongame} component ={NavLink} to={status?.trx_status !== "0" && "/wingo"} >
             <Typography
               variant="body1"
               sx={style.gameheading}
@@ -70,16 +71,16 @@ function Lottery() {
             ></Box>
           </Box>
         </Box>
-      </NavLink>
-      <NavLink to="/comingsoonavaitor">
-        <Box sx={style.winbox}>
+    
+   
+        <Box sx={style.winbox} onClick ={()=>navigate("/comingsoonavaitor")}>
           <Box
             component="img"
             src={win3}
             sx={{ width: "100%", height: "70%", filter: 'hue-rotate(105deg)' }}
           ></Box>
           <Box sx={style.positiongame}>
-            <Typography variant="body1" color="initial" sx={style.gameheading}>
+            <Typography variant="body1" color="initial" sx={style.gameheading}  >
               Aviator{" "}
             </Typography>
             <Box sx={{ mt: "15px" }}>
@@ -101,7 +102,7 @@ function Lottery() {
             ></Box>
           </Box>
         </Box>
-      </NavLink>
+     
       {/* <NavLink to='/k3'> */}
       {/* <NavLink to="/comingsoon">
         <Box sx={style.winbox}>

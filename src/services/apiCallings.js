@@ -351,6 +351,33 @@ export const P2pHistoryFunction = async () => {
     console.log(e);
   }
 };
+
+export const P2pTransferHistoryFunction = async () => {
+  try {
+    const reqBody = {
+      userid: deCryptData(localStorage.getItem("user_id")),
+    };
+    const response = await axios.post(endpoint.p2p_tranfer_history, reqBody);
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
+export const P2pTopupHistoryFunction = async () => {
+  try {
+      const userid = deCryptData(localStorage.getItem("user_id"));
+    const response = await axios.get(
+      `${endpoint.p2p_topup_history}?user_id=${userid}`
+    );
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
+
+
 export const withdrawlHistoryFunction = async () => {
   try {
     const reqBody = {

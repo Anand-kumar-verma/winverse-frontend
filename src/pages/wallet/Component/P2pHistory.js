@@ -1,25 +1,20 @@
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
-    Box,
-    Button,
-    Container,
-    IconButton,
-    Stack,
-    Typography
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Stack,
+  Typography
 } from "@mui/material";
 import copy from "clipboard-copy";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
-import allinactive from "../../../assets/images/allactive.png";
-import allactive from "../../../assets/images/allinactive.png";
 import backbtn from "../../../assets/images/backBtn.png";
-import bankcardactive from "../../../assets/images/bankcardactive.png";
-import bankcardinactive from "../../../assets/images/bankcardinactive.png";
-import upi from "../../../assets/images/upi (2).png";
-import { P2pHistoryFunction } from "../../../services/apiCallings";
+import { P2pHistoryFunction, P2pTopupHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
 
@@ -30,7 +25,7 @@ function P2pHistory()
 
   const { isLoading, data } = useQuery(
     ["p2p_history"],
-    () => P2pHistoryFunction(),
+    () => P2pTopupHistoryFunction(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -40,7 +35,8 @@ function P2pHistory()
     }
   );
 
-  const res = data?.data?.earning?.records || [];
+  const res = data?.data?.rid || [];
+  console.log(res)
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -101,7 +97,7 @@ function P2pHistory()
                 className=" !text-white rounded px-2 py-1 !flex justify-center "
                 sx={{ background: theme.palette.primary.main }}
               >
-                P2P
+                {i?.m_bal_type}
               </Typography>
             </Box>
         
@@ -118,7 +114,7 @@ function P2pHistory()
                 py: 1,
               },
               "&>p:nth-child(2)": {
-                color: theme.palette.primary.main,
+                // color: theme.palette.primary.main,
                 fontSize: "13px",
                 fontWeight: "600",
                 py: 1,
@@ -126,9 +122,28 @@ function P2pHistory()
             }}
           >
             <Typography variant="body1" color="initial">
-              Balance
+            {i?.m_ledger_type=== "Dr" ?
+             <Typography>Debit </Typography>
+           :
+           <Typography>Credit </Typography>
+            }
             </Typography>
-            <Typography variant="body1">₹ {i?.m_cramount}</Typography>
+            <Typography variant="body1" 
+            className={`${
+              i?.m_ledger_type=== "Dr" ?
+              " text-red-600"
+              :
+               " text-green-600"
+               
+            }`}>
+            
+            {i?.m_ledger_type=== "Dr" ?
+             <Typography> - {i?.m_dramount} </Typography>
+           :
+           <Typography> + {i?.m_cramount} </Typography>
+            }
+
+            </Typography>
           </Stack>
         
           <Stack
@@ -145,10 +160,10 @@ function P2pHistory()
             }}
           >
             <Typography variant="body1" color="initial">
-              Charges
+              Status
             </Typography>
             <Typography variant="body1" color="initial" className="!text-red-400">
-            ₹ {i?.m_admin_charges}
+             {i?.m_status}
             </Typography>
           </Stack>
           <Stack
