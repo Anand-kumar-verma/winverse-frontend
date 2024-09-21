@@ -128,7 +128,6 @@ function Wingo3Min() {
         threemin?.split("_")?.[1] === "0" &&
         threemin?.split("_")?.[0] === "2"
       ) {
-        console.log("Function call ");
         client.refetchQueries("gamehistory_2min");
         client.refetchQueries("wallet_amount");
         // client.refetchQueries("gamehistory_chart");

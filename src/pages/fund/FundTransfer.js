@@ -1,4 +1,4 @@
-import { Box, Button, Container, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, IconButton, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -6,9 +6,13 @@ import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
 import Layout from "../../component/layout/Layout";
 import {
+  P2pTransferHistoryFunction,
   ProfileDataFunction,
   getBalanceFunction,
 } from "../../services/apiCallings";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import copy from "clipboard-copy";
+import moment from "moment";
 import { endpoint } from "../../services/urls";
 import theme from "../../utils/theme";
 import { NavLink } from "react-router-dom";
@@ -100,6 +104,27 @@ const FundTransfer = () => {
     }
   );
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
+  const [isAllValue, setIsAllValue] = useState(false);
+
+  const { isLoading, data } = useQuery(
+    ["p2p_transfer_history"],
+    () => P2pTransferHistoryFunction(),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false
+    }
+  );
+
+  const res = data?.data?.earning?.records || [];
+  
+  const functionTOCopy = (value) => {
+    copy(value);
+    toast.success("Copied to clipboard!");
+  };
+
   return (
     <Layout header={false}
     > <Container
@@ -122,25 +147,18 @@ const FundTransfer = () => {
           <div className="!font-bold">{wallet_amount_data?.p2pwallet}</div>
         </div>
 
-        <div className=" items-center shadow-xl rounded-xl bg-white my-5 mx-3  !font-bold p-5 mt-2 ">
+        <div className=" items-center !text-white  my-5 mx-3  !font-bold p-5 mt-2 ">
 
           <span>Transfer To *</span>
           <div>
-            {/* <TextField
-              id="transfer_id"
-              name="transfer_id"
-              value={fk.values.transfer_id}
-               onChange={fk.handleChange}
-               placeholder="User ID"
-              className="!w-[100%]  !my-2 !rounded "
-            /> */}
+           
             <TextField
               id="transfer_id"
               name="transfer_id"
               value={fk.values.transfer_id}
               onChange={fk.handleChange}
               placeholder="User ID"
-              className="!w-[100%] !my-2 !rounded"
+              className="!w-[100%] !my-2 !rounded !bg-white !text-black"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -166,7 +184,7 @@ const FundTransfer = () => {
             placeholder="Enter Amount"
             value={fk.values.amount}
             onChange={fk.handleChange}
-            className="!w-[100%]  !my-2 !rounded "
+            className="!w-[100%]  !my-2 !rounded !bg-white !text-black"
           />
 
           <div className="col-span-2 flex gap-2 mt-4">
@@ -177,7 +195,7 @@ const FundTransfer = () => {
               Cancel
             </Button>
             <Button
-             className="!bg-[#0D0335] !text-white"
+             className="!bg-[#26ac1a] !text-white"
               onClick={() => fk.handleSubmit()}
             >
               Submit
@@ -186,7 +204,201 @@ const FundTransfer = () => {
               <CustomCircularProgress isLoading={Loading} />)}
           </div>
         </div>
+        <Box >
+        <Stack
+          direction="row"
+          sx={{ alignItems: "end", justifyContent: "space-between", position: "relative" }}
+        >
+        
+          <Box sx={{ position: "absolute", left: "30%", top: "10%" }} >
+            <Typography
+              variant="body1" 
+              sx={{ color: "white", fontSize: "16px", fontWeight: "600" }}
+            >
+              P2P User Transfer History
+            </Typography>
+          </Box>
+        </Stack>
+      </Box>
+      
+      <CustomCircularProgress isLoading={isLoading} />
+      {res?.map((i, index) => (
+        <Box
+          key={index}
+          sx={{
+            mb: 2,
+            padding: "10px",
+            borderRadius: "10px",
+            background: "#fff",
+            width: "92%",
+            margin: "auto",
+            mt: 2,
+          }}
+          className="!mt-10"
+        >
+          <Stack
+            direction="row"
+            sx={{
+              paddingBottom: "10px",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottom: "1px solid #efefef",
+            }}
+          >
+            <Box>
+              <Typography
+                className=" !text-white rounded px-2 py-1 !flex justify-center "
+                sx={{ background: theme.palette.primary.main }}
+              >
+                P2P Transfer
+              </Typography>
+            </Box>
+        
+          </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p:nth-child(1)": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+              "&>p:nth-child(2)": {
+                color: theme.palette.primary.main,
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+            {i?.m_ledger_type=== "Dr" ?
+             <Typography>Debit </Typography>
+           :
+           <Typography>Credit </Typography>
+            }
+            </Typography>
+            <Typography variant="body1" 
+            className={`${
+              i?.m_ledger_type=== "Dr" ?
+              " !text-red-600"
+              :
+               "!text-green-600"  
+            }`}>
+            
+            {i?.m_ledger_type=== "Dr" ?
+             <Typography> - {i?.m_dramount} </Typography>
+           :
+           <Typography> + {i?.m_cramount} </Typography>
+            }
 
+            </Typography>
+          </Stack>
+        
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Charges
+            </Typography>
+            <Typography variant="body1" color="initial" className="!text-red-400">
+            ₹ {i?.m_admin_charges}
+            </Typography>
+          </Stack>
+          <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+                "&>p": {
+                  color: "#888",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  py: 1,
+                },
+              }}
+            >
+              <Typography variant="body1" color="initial">
+           Date/Time
+              </Typography>
+              <Typography
+                variant="body1"
+                color="initial"
+                className="!text-green-500"
+              >
+                {moment(i?.m_transdate)?.format("DD-MM-YYYY HH:mm:ss")}
+              </Typography>
+            </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Transaction ID
+            </Typography>
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+                "&>p:nth-child(1)": {
+                  color: "#888",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  py: 1,
+                },
+                "&>p:nth-child(2)": {
+                  color: theme.palette.primary.main,
+                  fontSize: "13px",
+                  fontWeight: "600",
+                },
+              }}
+            >
+              <Typography variant="body1" color="initial">
+                {i?.m_trans_id}
+              </Typography>
+              <IconButton sx={{ padding: 0 }}
+               onClick={() =>
+                functionTOCopy(
+                  i?.m_trans_id
+                )
+              }>
+                <ContentCopyIcon sx={{ color: "#888", width: "15px", ml: 1 }} />
+              </IconButton>
+            </Stack>
+          </Stack>
+        </Box>
+      ))}
+
+      <Button
+        sx={{ marginTop: 2, margin:5, borderColor: theme.palette.primary.main, color: theme.palette.primary.main }}
+        variant="outlined"
+        onClick={() => setIsAllValue(!isAllValue)}
+      >
+        {isAllValue ? "Show Less" : "Show All"}
+      </Button>
 
       </Container>
 
