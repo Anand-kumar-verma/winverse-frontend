@@ -57,7 +57,8 @@ function Wingo3Min() {
   });
 
   React.useEffect(() => {
-    const handleThreeMin = (threemin) => {
+    const handleThreeMin = (onemin) => {
+      let threemin = `${2 - (new Date()?.getMinutes() % 3)}_${onemin}`;
       setThree_min_time(threemin);
       if (
         threemin?.split("_")?.[1] === "1" &&
@@ -107,10 +108,10 @@ function Wingo3Min() {
       }
     };
 
-    socket.on("threemintrx", handleThreeMin);
+    socket.on("onemintrx", handleThreeMin);
 
     return () => {
-      socket.off("threemintrx", handleThreeMin);
+      socket.off("onemintrx", handleThreeMin);
     };
   }, []);
 
@@ -143,19 +144,19 @@ function Wingo3Min() {
   
   React.useEffect(() => {
     console.log(
-      game_history?.data?.data
-        ? Number(game_history?.data?.data?.[0]?.tr_transaction_id) + 1
+      game_history?.data?.result
+        ? Number(game_history?.data?.result?.[0]?.tr_transaction_id) + 1
         : 1
     );
     dispatch(
       updateNextCounter(
         game_history?.data?.data
-          ? Number(game_history?.data?.data?.[0]?.tr_transaction_id) + 1
+          ? Number(game_history?.data?.result?.[0]?.tr_transaction_id) + 1
           : 1
       )
     );
     const tr_digit =
-      game_history?.data?.data && game_history?.data?.data?.[0]?.tr_digits;
+      game_history?.data?.result && game_history?.data?.result?.[0]?.tr_digits;
     let array = [];
     for (let i = 0; i < tr_digit?.length; i++) {
       if (/[a-zA-Z]/.test(tr_digit[i])) {
