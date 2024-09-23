@@ -12,7 +12,7 @@ import { TeamsubFunction } from "./services/apiCallings";
 import { deCryptData } from "./shared/secret";
 function App() {
   const isAuthenticated = deCryptData(localStorage.getItem("user_id"));
-  useQuery(["team_count"], () => TeamsubFunction(), {
+  useQuery(["team_count"], () => isAuthenticated && TeamsubFunction(), {
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnMount: false,
@@ -34,6 +34,27 @@ function App() {
   //       <SplashScreen />
   //     </Layout>
   //   );
+  //   function addTimeToCurrentIST() {
+  //     // Get the current time in IST (Indian Standard Time)
+  //     const currentIST = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+  //     let currentTime = new Date(currentIST);
+
+  //     // Add 1 hour, 14 minutes, and 19 seconds
+  //     currentTime.setHours(currentTime.getHours() + 1);
+  //     currentTime.setMinutes(currentTime.getMinutes() + 14);
+  //     currentTime.setSeconds(currentTime.getSeconds() + 19);
+
+  //     // Format the updated time
+  //     const updatedTime = currentTime.toLocaleTimeString("en-US", { timeZone: "Asia/Kolkata" });
+
+  //     return updatedTime;
+  // }
+
+  // useEffect(()=>{
+  //   setTimeout(()=>{
+  //     console.log(addTimeToCurrentIST());
+  //   },1000)
+  // },[])
 
   return (
     <Routes>
