@@ -283,7 +283,7 @@ function Deposite() {
             position: "relative",
           }}
         >
-          <NavLink onClick={goBack}>
+          <NavLink to='/wallet'>
             <Box component="img" src={backbtn} width={25}></Box>
           </NavLink>
           <Box sx={{ position: "absolute", left: "40%", top: "10%" }}>

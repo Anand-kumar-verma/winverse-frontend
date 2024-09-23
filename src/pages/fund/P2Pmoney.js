@@ -23,7 +23,7 @@ const P2Pmoney = () => {
     const [isAllValue, setIsAllValue] = useState(false);
 
     const { isLoading, data } = useQuery(
-      ["p2p_history"],
+      ["p2p_money_history"],
       () => P2pHistoryFunction(),
       {
         refetchOnMount: false,
@@ -72,6 +72,7 @@ const P2Pmoney = () => {
             fk.handleReset();
             setLoading(false)
             client.refetchQueries("wallet_amount_amount");
+            client.refetchQueries("p2p_money_history");
 
         } catch (e) {
             console.log(e);

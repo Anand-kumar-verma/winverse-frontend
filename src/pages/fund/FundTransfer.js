@@ -69,6 +69,7 @@ const FundTransfer = () => {
       fk.handleReset();
       setLoading(false)
       client.refetchQueries("wallet_amount_amount");
+      client.refetchQueries("p2p_transfer_history")
 
     } catch (e) {
       console.log(e);
