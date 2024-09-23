@@ -39,6 +39,7 @@ const GameHistory = ({ gid }) => {
     [page, rowsPerPage, game_history_data]
   );
 
+
   if (isLoading)
     return (
       <div className="!w-full flex justify-center">
@@ -80,10 +81,32 @@ const GameHistory = ({ gid }) => {
                   <TableCell align="center" sx={{ color: 'white' }}>{i?.tr_transaction_id}</TableCell>
                   <TableCell
                     align="center"
-                    sx={{ fontSize: "20px", fontWeight: 900, color: "red" }}
+                    sx={{ fontSize: "20px", fontWeight: 900 }}
+                    className={`
+                        ${(() => {
+                        const slotId = i?.tr41_slot_id - 1;
+
+                        if (slotId === 0) {
+                          return "bg-gradient-to-t from-violet-400 to-red-600";
+                        }
+                        if (slotId === 5) {
+                          return "bg-gradient-to-t from-violet-400 to-green-600";
+                        }
+                        if ([1, 3, 7, 9].includes(slotId)) {
+                          return "bg-green-600";
+                        }
+                        if ([2, 4, 6, 8].includes(slotId)) {
+                          return "bg-red-600";
+                        }
+
+                        return "";
+                      })()}
+               transparentColor font-bold
+  `}
                   >
                     {i?.tr41_slot_id - 1}
                   </TableCell>
+
                   <TableCell align="center " sx={{ color: 'white' }}>
                     {i?.tr41_slot_id - 1 > 4 ? "Big" : "Small"}
                   </TableCell>

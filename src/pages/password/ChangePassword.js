@@ -1,8 +1,7 @@
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-import RedeemIcon from "@mui/icons-material/Redeem";
 import { Box, Container } from "@mui/material";
 import * as React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Layout from "../../component/layout/Layout";
 
 function ChangePassword() {
@@ -17,16 +16,16 @@ function ChangePassword() {
         />
       ),
     },
-    {
-      to: "/password/transction",
-      name: "Transaction Password",
-      logo: (
-        <RedeemIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
+    // {
+    //   to: "/password/transction",
+    //   name: "Transaction Password",
+    //   logo: (
+    //     <RedeemIcon
+    //       className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+    //       color="#8f5206"
+    //     />
+    //   ),
+    // },
   ];
   return (
     <Layout>

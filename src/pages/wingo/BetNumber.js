@@ -34,37 +34,23 @@ import SuccessCheck from "../../shared/check/SuccessCheck";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
 import Howtoplay from "./component/Howtoplay";
+import { deCryptData, enCryptData } from "../../shared/secret";
 
 const BetNumber = ({ timing, gid }) => {
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const [opend, setOpend] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectNumber, setSelectNumber] = useState("");
   const [random, setRandomNumber] = useState(null);
   const [loding, setLoding] = useState(false);
   const client = useQueryClient();
-  const wallet_amount_data = useSelector((state) => state.aviator.wallet_real_balance);
+  const wallet_amount_data = useSelector(
+    (state) => state.aviator.wallet_real_balance
+  );
   const initialValue = {
     balance: "1",
     qnt: "1",
   };
-  // useEffect(() => {
-  //   getBalanceFunction(setBalance);
-  // }, []);
-
-  // const { data: wallet_amount } = useQuery(
-  //   ["wallet_amount_amount"],
-  //   () => getBalanceFunction(setBalance),
-  //   {
-
-  //     refetchOnMount: false,
-  //     refetchOnReconnect: false,
-  //     retry:false,
-  //     retryOnMount:false,
-  //     refetchOnWindowFocus:false
-  //   }
-  // );
-  // const wallet_amount_data = wallet_amount?.data?.earning || 0;
 
   const fk = useFormik({
     initialValues: initialValue,
@@ -82,22 +68,22 @@ const BetNumber = ({ timing, gid }) => {
   useEffect(() => {
     if (gid === "1") {
       if (Number(timing) <= 10) {
-        setOpen(false)
-        fk.handleReset()
-      };
+        setOpen(false);
+        fk.handleReset();
+      }
     } else if (gid === "2") {
       if (Number(String(timing)?.split("_")?.[0]) === 0) {
         if (Number(String(timing)?.split("_")?.[1]) <= 10) {
-          setOpen(false)
-          fk.handleReset()
-        };
+          setOpen(false);
+          fk.handleReset();
+        }
       }
     } else {
       if (Number(String(timing)?.split("_")?.[0]) === 0) {
         if (Number(String(timing)?.split("_")?.[1]) <= 10) {
-          setOpen(false)
-          fk.handleReset()
-        };
+          setOpen(false);
+          fk.handleReset();
+        }
       }
     }
   }, [timing]);
@@ -116,45 +102,44 @@ const BetNumber = ({ timing, gid }) => {
         Number(selectNumber) + 1,
       gameid: Number(gid),
     };
-
+    const encrypted_data = {
+      payload: enCryptData(reqBody)
+    };
     try {
-      const response = await axios.post(`${endpoint.bet_placed}`, reqBody);
-      if (response?.data?.error === "200") {
-        if (response?.data?.msg === "Bid Placed Successfully.") {
-          const toastID = toast(
-            <SuccessCheck
-              message={<span className="!text-sm">{response?.data?.msg}</span>}
-            />,
-            setTimeout(() => {
-              toast.dismiss(toastID);
-            }, 1000)
-          );
-          fk.setFieldValue("isSuccessPlaceBet", true);
-          localStorage.setItem("betApplied", `${gid}_true`);
-        } else {
-          const toastID = toast(
-            <FalseCheck
-              message={<span className="!text-sm">{response?.data?.msg}</span>}
-            />,
-            setTimeout(() => {
-              toast.dismiss(toastID);
-            }, 1000)
-          );
-        }
+      const response = await axios.post(`${endpoint.bet_placed}`, encrypted_data);
+      if (response?.data?.msg === "Bid Placed Successfully.") {
+        const toastID = toast(
+          <SuccessCheck
+            message={<span className="!text-sm">{response?.data?.msg}</span>}
+          />,
+          setTimeout(() => {
+            toast.dismiss(toastID);
+          }, 1000)
+        );
+        fk.setFieldValue("isSuccessPlaceBet", true);
+        localStorage.setItem(`betApplied${gid}`, `${gid}_true`);
+        client.refetchQueries("wallet_amount");
+        client.refetchQueries("myAllhistory");
 
-        setOpen(false);
+        fk.setFieldValue("balance", "1");
+        fk.setFieldValue("qnt", "1");
       } else {
-        toast(response?.data?.msg);
+        const toastID = toast(
+          <FalseCheck
+            message={<span className="!text-sm">{response?.data?.msg}</span>}
+          />,
+          setTimeout(() => {
+            toast.dismiss(toastID);
+          }, 1000)
+        );
       }
+      setOpen(false);
     } catch (e) {
       toast(e?.message);
       console.log(e);
     }
     // client.refetchQueries("walletamount");
-    client.refetchQueries("wallet_amount");
-    client.refetchQueries("myAllhistory");
-    fk.setFieldValue("balance", "1");
-    fk.setFieldValue("qnt", "1");
+
     setLoding(false);
   }
 
@@ -167,15 +152,25 @@ const BetNumber = ({ timing, gid }) => {
   };
   const generatenumber = (i) => {
     const randomBitNumber = Math.floor(Math.random() * 9) + 1;
-    setLoding(true);
+    const elements = document.getElementsByClassName("rot");
+
+    Array.from(elements).forEach((e) => {
+      e.classList.add("rotate_coins");
+    });
+
+    // setLoding(true);
+
     setTimeout(() => {
-      setLoding(false);
+      // setLoding(false);
+      Array.from(elements).forEach((e) => {
+        e.classList.remove("rotate_coins");
+      });
+
       setRandomNumber(randomBitNumber);
       setSelectNumber(`${randomBitNumber}`);
       setOpen(true);
     }, 2000);
   };
-
 
   if (loding) return <CustomCircularProgress isLoading={loding} />;
   return (
@@ -233,7 +228,6 @@ const BetNumber = ({ timing, gid }) => {
             borderRadius: "10px",
             mt: 2,
           }}
-
         >
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -243,7 +237,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("0");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -253,7 +247,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("1");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -263,7 +257,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("2");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -273,7 +267,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("3");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -283,7 +277,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("4");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -293,7 +287,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("5");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -303,7 +297,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("6");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -313,7 +307,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("7");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -323,7 +317,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("8");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
@@ -333,7 +327,7 @@ const BetNumber = ({ timing, gid }) => {
               setOpen(true);
               setSelectNumber("9");
             }}
-            className="!cursor-pointer"
+            className="!cursor-pointer rot"
           ></Box>
         </Box>
         <Stack
@@ -342,18 +336,17 @@ const BetNumber = ({ timing, gid }) => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Button variant="outlined" onClick={generatenumber}
-          >
+          <Button variant="outlined" onClick={generatenumber}>
             Random
           </Button>
           {[1, 5, 10, 20, 50, 100]?.map((i) => {
             return (
               <Box
                 key={i}
-
                 onClick={() => fk.setFieldValue("qnt", i)}
                 sx={style.bacancebtn3}
-                className={`${fk.values.qnt === i ? "!bg-green-600" : "!bg-gray-400"}  cursor-pointer`}
+                className={`${fk.values.qnt === i ? "!bg-green-600" : "!bg-gray-400"
+                  }  cursor-pointer`}
               >
                 X{i}
               </Box>
@@ -428,11 +421,10 @@ const BetNumber = ({ timing, gid }) => {
                       : selectNumber === "Big"
                         ? "!bg-[#6DA7F4]"
                         : selectNumber === "0"
-                          ? "!bg-[#BF6DFE]"
-                          : selectNumber === "5" && "!bg-[#BF6DFE]"
+                          ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                          : selectNumber === "5" && "bg-gradient-to-t from-violet-400 to-green-600"
             }
           >
-            {" "}
           </Box>
           <Box px={1}>
             <Typography
@@ -440,7 +432,13 @@ const BetNumber = ({ timing, gid }) => {
               color="initial"
               sx={{ textAlign: "center", color: "white", fontWeight: "700 " }}
             >
-              Win Go {gid} Min
+
+           Win Go  {
+             `${gid}` === "1" ? "1" :
+             `${gid}` === "2" ? "3" :
+             `${gid}` === "3" ? "5" :
+                    null 
+                    } Min
             </Typography>
             <Typography
               variant="body1"
@@ -463,8 +461,7 @@ const BetNumber = ({ timing, gid }) => {
                   ? selectNumber?.toString()?.toLocaleUpperCase()
                   : Number(selectNumber) <= 4
                     ? `: ${selectNumber} Small`
-                    : ` : ${selectNumber} Big`
-              }
+                    : ` : ${selectNumber} Big`}
             </Typography>
           </Box>
           <Box mt={5} px={2}>
@@ -511,10 +508,10 @@ const BetNumber = ({ timing, gid }) => {
                                     ? "!bg-[#6DA7F4]"
                                     : selectNumber === "0" &&
                                       String(fk?.values?.balance) === String(i)
-                                      ? "!bg-[#BF6DFE]"
+                                      ? "!bg-gradient-to-t from-violet-400 to-red-600"
                                       : selectNumber === "5" &&
                                       String(fk?.values?.balance) === String(i) &&
-                                      "!bg-[#BF6DFE]"
+                                      "!bg-gradient-to-t from-violet-400 to-green-600"
                           }
                        `}
                       >
@@ -558,8 +555,8 @@ const BetNumber = ({ timing, gid }) => {
                               : selectNumber === "Big"
                                 ? "!bg-[#6DA7F4]"
                                 : selectNumber === "0"
-                                  ? "!bg-[#BF6DFE]"
-                                  : selectNumber === "5" && "!bg-[#BF6DFE]"
+                                  ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                                  : selectNumber === "5" && "!bg-gradient-to-t from-violet-400 to-green-600"
                       }
                     `}
                     sx={style.addsumbtn}
@@ -602,8 +599,8 @@ const BetNumber = ({ timing, gid }) => {
                               : selectNumber === "Big"
                                 ? "!bg-[#6DA7F4]"
                                 : selectNumber === "0"
-                                  ? "!bg-[#BF6DFE]"
-                                  : selectNumber === "5" && "!bg-[#BF6DFE]"
+                                  ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                                  : selectNumber === "5" && "!bg-gradient-to-t from-violet-400 to-green-600"
                       }
                     `}
                     sx={style.addsumbtn}
@@ -655,10 +652,10 @@ const BetNumber = ({ timing, gid }) => {
                                     ? "!bg-[#6DA7F4]"
                                     : selectNumber === "0" &&
                                       String(fk.values.qnt) === String(i)
-                                      ? "!bg-[#BF6DFE]"
+                                      ? "!bg-gradient-to-t from-violet-400 to-red-600"
                                       : selectNumber === "5" &&
                                       String(fk.values.qnt) === String(i) &&
-                                      "!bg-[#BF6DFE]"
+                                      "!bg-gradient-to-t from-violet-400 to-green-600"
                           }`}
                       >
                         X{i}
@@ -730,8 +727,8 @@ const BetNumber = ({ timing, gid }) => {
                           : selectNumber === "Big"
                             ? "!bg-[#6DA7F4]"
                             : selectNumber === "0"
-                              ? "!bg-[#BF6DFE]"
-                              : selectNumber === "5" && "!bg-[#BF6DFE]"
+                              ? "!bg-gradient-to-t from-violet-400 to-red-600"
+                              : selectNumber === "5" && "!bg-gradient-to-t from-violet-400 to-green-600"
                   } !cursor-pointer !font-extrabold`}
                 variant="contained"
                 sx={style.submitbtn}
@@ -811,7 +808,7 @@ const style = {
     ["@media (max-width:340px)"]: { fontSize: "13px" },
   },
   bacancebtn3active: {
-    backgroundColorolor: "#45a049", /* Darker green when clicked */
+    backgroundColorolor: "#45a049" /* Darker green when clicked */,
   },
 
   addsumbtn: {

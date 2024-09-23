@@ -5,10 +5,12 @@ import {
   DialogActions,
   Grid,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import countdownfirst from "../../../assets/images/countdownfirst.mp3";
@@ -27,18 +29,20 @@ import nine from "../../../assets/images/n9-a20f6f42 (1).png";
 import timerbg1 from "../../../assets/images/timerbg.png";
 import timerbg2 from "../../../assets/images/timerbg2.png";
 import backbanner from "../../../assets/images/winbackbanner.png";
-import { dummycounterFun, gameHistory_trx_one_minFn, updateNextCounter } from "../../../redux/slices/counterSlice";
+import {
+  gameHistory_trx_one_minFn,
+  updateNextCounter,
+} from "../../../redux/slices/counterSlice";
+import { endpoint } from "../../../services/urls";
 import { changeImages } from "../../../shared/nodeSchedular";
 import { useSocket } from "../../../shared/socket/SocketContext";
+import theme from "../../../utils/theme";
 import BetNumber from "../BetNumber";
 import Chart from "../history/Chart";
 import GameHistory from "../history/GameHistory";
 import MyHistory from "../history/MyHistory";
+import WinLossPopup from "../WinLossPopup";
 import Howtoplay from "./Howtoplay";
-import { endpoint } from "../../../services/urls";
-import axios from "axios";
-import toast from "react-hot-toast";
-import theme from "../../../utils/theme";
 
 function Wingo3Min() {
   const socket = useSocket();
@@ -49,8 +53,9 @@ function Wingo3Min() {
   const audioRefMusic = React.useRef(null);
   const audioRefMusiclast = React.useRef(null);
   const [isImageChange, setIsImageChange] = useState("1_2_3_4_5");
-  const next_step = useSelector((state) => state.aviator.next_step)
-  const dispatch = useDispatch()
+  const next_step = useSelector((state) => state.aviator.next_step);
+  const dispatch = useDispatch();
+  const [opendialogbox, setOpenDialogBox] = useState(false);
   const img1 = Number(isImageChange?.split("_")[0]);
   const img2 = Number(isImageChange?.split("_")[1]);
   const img3 = Number(isImageChange?.split("_")[2]);
@@ -83,17 +88,20 @@ function Wingo3Min() {
   );
 
   const initialValue = {
-    openTimerDialog: false
-  }
+    openTimerDialog: false,
+  };
   const fk = useFormik({
     initialValues: initialValue,
-    onSubmit: () => {
-
-    }
-  })
+    onSubmit: () => {},
+  });
 
   React.useEffect(() => {
-    const handleThreeMin = (threemin) => {
+    const handleThreeMin = (onemin) => {
+      const t = Number(String(onemin)?.split("_")?.[1]);
+      const min = Number(String(onemin)?.split("_")?.[0]);
+      const time_to_be_intro = t > 0 ? 60 - t : t;
+      let threemin = `${2 - (Number(min) % 3)}_${time_to_be_intro}`;
+      console.log(threemin)
       setThree_min_time(threemin);
       if (
         threemin?.split("_")?.[1] === "1" &&
@@ -109,50 +117,58 @@ function Wingo3Min() {
       }
 
       if (
-        Number(threemin?.split("_")?.[1]) <= 10 && // 1 index means second
-        threemin?.split("_")?.[0] === "0" // 0 index means min
+        (Number(threemin?.split("_")?.[1]) <= 30 &&
+          Number(threemin?.split("_")?.[1]) >= 1 && // 1 index means second
+          threemin?.split("_")?.[0] === "0") ||
+        (Number(threemin?.split("_")?.[1]) === 0 &&
+          threemin?.split("_")?.[0] === "2") // 0 index means min
       ) {
         fk.setFieldValue("openTimerDialog", true);
-      }
-      if (threemin?.split("_")?.[1] === "59") {
+      } else {
         fk.setFieldValue("openTimerDialog", false);
       }
-      if (
-        threemin?.split("_")?.[1] === "25" &&
-        threemin?.split("_")?.[0] === "0"
-      ) {
-        // oneMinCheckResult();
-        // oneMinColorWinning();
-      }
+
       if (
         threemin?.split("_")?.[1] === "0" &&
-        threemin?.split("_")?.[0] === "0"
+        threemin?.split("_")?.[0] === "2"
       ) {
         client.refetchQueries("gamehistory_2min");
         client.refetchQueries("wallet_amount");
         // client.refetchQueries("gamehistory_chart");
         client.refetchQueries("myAllhistory");
-        dispatch(dummycounterFun());
+        // dispatch(dummycounterFun());
         fk.setFieldValue("openTimerDialog", false);
+
+        setTimeout(() => {
+          if (
+            localStorage.getItem("betApplied2")?.split("_")?.[1] ===
+            String(true)
+          ) {
+            setOpenDialogBox(true);
+            setTimeout(() => {
+              setOpenDialogBox(false);
+              localStorage.setItem("betApplied2", false);
+            }, 5000);
+          }
+        }, 1000);
       }
     };
 
-    socket.on("threemin", handleThreeMin);
+    socket.on("onemin", handleThreeMin);
 
     return () => {
-      socket.off("threemin", handleThreeMin);
+      socket.off("onemin", handleThreeMin);
     };
   }, []);
 
-  const { isLoading, data: game_history } = useQuery(
+  const { data: game_history } = useQuery(
     ["gamehistory_2min"],
     () => GameHistoryFn("2"),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retry: false,
       retryOnMount: false,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -181,7 +197,6 @@ function Wingo3Min() {
     dispatch(gameHistory_trx_one_minFn(game_history?.data?.data));
   }, [game_history?.data?.data]);
 
-
   const handlePlaySoundLast = async () => {
     try {
       if (audioRefMusiclast?.current?.pause) {
@@ -206,8 +221,6 @@ function Wingo3Min() {
       console.error("Error during play:", error);
     }
   };
-
-
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -243,8 +256,14 @@ function Wingo3Min() {
         >
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Button variant="text" color="primary" className="htpbutton" onClick={handleClickOpen}>
-                <Box component='img' src={htp} width={20} sx={{ mr: 1 }}></Box>  How To Play
+              <Button
+                variant="text"
+                color="primary"
+                className="htpbutton"
+                onClick={handleClickOpen}
+              >
+                <Box component="img" src={htp} width={20} sx={{ mr: 1 }}></Box>{" "}
+                How To Play
               </Button>
               <Typography
                 variant="body1"
@@ -252,7 +271,7 @@ function Wingo3Min() {
                 className="psize"
                 mt={1}
               >
-                Win Go 1Min
+                Win Go 3 Min
               </Typography>
               <Stack
                 direction="row"
@@ -303,7 +322,14 @@ function Wingo3Min() {
                   Time remaining{" "}
                 </Typography>
                 <Box sx={{ display: "flex" }}>
-                  <Box className="timer !text-red-500 !bg-white" sx={{ backgroundImage: `url(${timerbg1})`, backgroundSize: '100%', backgroundPosition: 'center' }}>
+                  <Box
+                    className="timer !text-red-500 !bg-white"
+                    sx={{
+                      backgroundImage: `url(${timerbg1})`,
+                      backgroundSize: "100%",
+                      backgroundPosition: "center",
+                    }}
+                  >
                     {show_this_three_min_time_min?.substring(0, 1)}
                   </Box>
                   <Box className="timer1 !text-red-500 !bg-white">
@@ -311,11 +337,18 @@ function Wingo3Min() {
                     {show_this_three_min_time_min?.substring(1, 2)}
                   </Box>
                   <Box className="timer1 !text-red-500 !bg-white">:</Box>
-                  <Box className="timer1 !text-red-500 !bg-white" >
+                  <Box className="timer1 !text-red-500 !bg-white">
                     {" "}
                     {show_this_three_min_time_sec?.substring(0, 1)}
                   </Box>
-                  <Box className="timer2 !text-red-500 !bg-white" sx={{ backgroundImage: `url(${timerbg2})`, backgroundSize: '100%', backgroundPosition: 'center' }}>
+                  <Box
+                    className="timer2 !text-red-500 !bg-white"
+                    sx={{
+                      backgroundImage: `url(${timerbg2})`,
+                      backgroundSize: "100%",
+                      backgroundPosition: "center",
+                    }}
+                  >
                     {show_this_three_min_time_sec?.substring(1, 2)}
                   </Box>
                 </Box>
@@ -331,9 +364,11 @@ function Wingo3Min() {
           </Grid>
         </Box>
         <div className="relative">
-          <BetNumber timing={`${show_this_three_min_time_min}_${show_this_three_min_time_sec}`} gid={"2"} />
+          <BetNumber
+            timing={`${show_this_three_min_time_min}_${show_this_three_min_time_sec}`}
+            gid={"2"}
+          />
           {fk.values.openTimerDialog && (
-
             <div className="ti !w-full !z-50 top-0 !absolute rounded p-5 flex justify-center items-center">
               <div
                 className="flex gap-2 justify-cente !bg-opacity-5 !py-5"
@@ -433,100 +468,21 @@ function Wingo3Min() {
           </Button>
         </DialogActions>
       </Dialog>
+      {opendialogbox && (
+        <Dialog
+          open={opendialogbox}
+          PaperProps={{
+            style: {
+              backgroundColor: "transparent",
+              boxShadow: "none",
+            },
+          }}
+        >
+          <WinLossPopup gid={"2"} />
+        </Dialog>
+      )}
     </Box>
   );
 }
 
 export default Wingo3Min;
-
-const style = {
-  bacancebtn: {
-    backgroundColor: "#40AD72",
-    padding: "4px 13px",
-    borderRadius: "20px",
-    color: "white",
-    fontSize: "17px",
-    fontWeight: "500",
-    marginLeft: "5px",
-  },
-  bacancebtn2: {
-    backgroundColor: "#40AD72",
-    padding: "4px 13px",
-    borderRadius: "1px",
-    color: "white",
-    fontSize: "17px",
-    fontWeight: "500",
-    marginLeft: "5px",
-  },
-  bacancebtn3: {
-    backgroundColor: "#40AD72",
-    padding: "1px 5px",
-    borderRadius: "6px",
-    color: "white",
-    fontSize: "14px",
-    fontWeight: "500",
-    marginLeft: "5px",
-    display: "flex",
-    alignItems: "center",
-    height: "30px",
-    ["@media (max-width:340px)"]: { fontSize: "13px" },
-  },
-  addsumbtn: {
-    backgroundColor: "#40AD72",
-    padding: "4px 13px",
-    color: "white",
-    fontSize: "17px",
-    fontWeight: "500",
-    margin: "0px 5px",
-  },
-  cancelbtn: {
-    width: "100%",
-    borderRadius: "0px",
-    color: "white",
-    backgroundColor: "#25253C",
-    padding: 1,
-  },
-  submitbtn: {
-    width: "100%",
-    borderRadius: "0px",
-    color: "white",
-    backgroundColor: "#40AD72",
-    padding: 1,
-  },
-  bigbtn: {
-    width: "50%",
-    borderRadius: "20px 0px 0px 20px",
-    color: "white",
-    fontSize: "16px",
-    fontWeight: "500",
-  },
-  smlbtn: {
-    width: "50%",
-    borderRadius: "0px 20px 20px 0px",
-    color: "white",
-    fontSize: "16px",
-    fontWeight: "500",
-    background: "#6DA7F4",
-  },
-  linetable: {
-    "&>p": {
-      fontSize: "12px",
-      color: "gray",
-      border: "1px solid gray",
-      borderRadius: "50%",
-      width: "15px",
-      height: "15px",
-      textAlign: "center",
-      padding: "2px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    alignItems: "center",
-    justifyContent: "space-between",
-    "&>p:nth-last-child(1)": {
-      width: "20px !important",
-      height: "20px !important",
-    },
-  },
-};

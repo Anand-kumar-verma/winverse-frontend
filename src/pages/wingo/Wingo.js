@@ -33,9 +33,9 @@ function Wingo() {
   const [musicicon, setmusicicon] = useState(true);
   const [value, setValue] = useState(1);
   const [getBalance, setBalance] = useState(0);
-  const [opendialogbox, setOpenDialogBox] = useState(false);
-  const isAppliedbet = localStorage.getItem("betApplied");
-  const dummycounter = useSelector((state) => state.aviator.dummycounter);
+  // const [opendialogbox, setOpenDialogBox] = useState(false);
+  // const isAppliedbet = localStorage.getItem("betApplied");
+  // const dummycounter = useSelector((state) => state.aviator.dummycounter);
   const wallet_amount_data = useSelector((state) => state.aviator.wallet_real_balance);
   const client = useQueryClient();
   const navigate = useNavigate();
@@ -43,17 +43,17 @@ function Wingo() {
     setValue(newValue);
   };
   const dispatch = useDispatch()
-  React.useEffect(() => {
-    setTimeout(() => {
-      if (isAppliedbet?.split("_")?.[1] === String(true)) {
-        setOpenDialogBox(true);
-        setTimeout(() => {
-          setOpenDialogBox(false);
-          localStorage.setItem("betApplied", false);
-        }, 5000);
-      }
-    }, 1000);
-  }, [dummycounter]);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     if (isAppliedbet?.split("_")?.[1] === String(true)) {
+  //       setOpenDialogBox(true);
+  //       setTimeout(() => {
+  //         setOpenDialogBox(false);
+  //         localStorage.setItem("betApplied", false);
+  //       }, 5000);
+  //     }
+  //   }, 1000);
+  // }, [dummycounter]);
 
   const { isLoading, data: wallet_amount } = useQuery(
     ["wallet_amount"],
@@ -93,7 +93,7 @@ function Wingo() {
     }
   }, []);
   return (
-    <Container>
+    <Container className="!bg-[#1e0e58]">
       <Box
         sx={{
           padding: 1,
@@ -151,7 +151,7 @@ function Wingo() {
               fontSize="15px"
               fontWeight={600}
             >
-              ₹ {wallet_amount_data}{" "}
+              ₹ {wallet_amount_data?.wallet}{" "}
             </Typography>
             <div className="mx-1 rotate_refresh_image" id="refresh_button">
               <img
@@ -225,6 +225,7 @@ function Wingo() {
           </Typography>
         </Stack>
       </Box>
+      
       <Box
         sx={{
           width: "95%",
@@ -280,24 +281,12 @@ function Wingo() {
           </NavLink>
         </Box>
       </Box>
+     
+   
       {value === 1 && <Wingo1Min />}
       {value === 2 && <Wingo3Min />}
       {value === 3 && <Wingo5Min />}
       {value === 4 && <Wingo10Min />}
-      {/* opendialogbox */}
-      {opendialogbox && (
-        <Dialog
-          open={opendialogbox}
-          PaperProps={{
-            style: {
-              backgroundColor: "transparent",
-              boxShadow: "none",
-            },
-          }}
-        >
-          <WinLossPopup gid={isAppliedbet?.split("_")?.[0]} />
-        </Dialog>
-      )}
     </Container>
   );
 }

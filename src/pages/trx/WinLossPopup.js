@@ -232,12 +232,13 @@ import nine from "../../assets/images/n9-a20f6f42 (1).png";
 import win from "../../assets/images/winnner.png";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
+import { deCryptData } from "../../shared/secret";
 const WinLossPopup = ({ gid, setOpenDialogBox }) => {
   //   const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null;
   //   const user_id = login_data && JSON.parse(login_data).UserID;
   let array = [zero, one, two, three, four, five, six, seven, eight, nine];
   // const my_history = useSelector((state) => state.aviator.myHistory_trx_one_min);
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const [loding, setloding] = useState(false);
   const [status, setstatus] = useState("");
   const [newstatus, setstatusNew] = useState("");

@@ -215,35 +215,35 @@ const GameHistory = ({ gid }) => {
                     <span
                       className={`
                 ${
-                  (String(Number(i?.tr41_slot_id - 1)) === "0" &&
+                  (String(Number(i?.tr41_slot_id )) === "0" &&
                     "!bg-gradient-to-t from-red-400 to-violet-400") ||
-                  (String(Number(i?.tr41_slot_id - 1)) === "5" &&
+                  (String(Number(i?.tr41_slot_id )) === "5" &&
                     "!bg-gradient-to-t from-violet-400 to-green-400") ||
-                  ((String(Number(i?.tr41_slot_id - 1)) === "1" ||
-                    String(Number(i?.tr41_slot_id - 1)) === "3" ||
-                    String(Number(i?.tr41_slot_id - 1)) === "7" ||
-                    String(Number(i?.tr41_slot_id - 1)) === "9" ||
-                    String(Number(i?.tr41_slot_id - 1)) === "10") &&
+                  ((String(Number(i?.tr41_slot_id )) === "1" ||
+                    String(Number(i?.tr41_slot_id )) === "3" ||
+                    String(Number(i?.tr41_slot_id )) === "7" ||
+                    String(Number(i?.tr41_slot_id )) === "9" ||
+                    String(Number(i?.tr41_slot_id )) === "10") &&
                     "bg-gradient-to-t from-green-400 to-green-900") ||
-                  ((String(Number(i?.tr41_slot_id - 1)) === "2" ||
-                    String(Number(i?.tr41_slot_id - 1)) === "4" ||
-                    String(Number(i?.tr41_slot_id - 1)) === "6" ||
-                    String(Number(i?.tr41_slot_id - 1)) === "8" ||
-                    String(Number(i?.tr41_slot_id - 1)) === "30") &&
+                  ((String(Number(i?.tr41_slot_id )) === "2" ||
+                    String(Number(i?.tr41_slot_id )) === "4" ||
+                    String(Number(i?.tr41_slot_id )) === "6" ||
+                    String(Number(i?.tr41_slot_id )) === "8" ||
+                    String(Number(i?.tr41_slot_id )) === "30") &&
                     "bg-gradient-to-tl from-red-400 to-red-900") ||
-                  (String(Number(i?.tr41_slot_id - 1)) === "50" &&
+                  (String(Number(i?.tr41_slot_id )) === "50" &&
                     "bg-[#3183ee]") ||
-                  (String(Number(i?.tr41_slot_id - 1)) === "40" &&
+                  (String(Number(i?.tr41_slot_id )) === "40" &&
                     "bg-[#f1be24]") ||
-                  (String(Number(i?.tr41_slot_id - 1)) === "20" &&
+                  (String(Number(i?.tr41_slot_id )) === "20" &&
                     "bg-[#eb2feb]")
                 }
                 transparentColor font-bold  text-lg
                 `}
                     >
-                      {Number(i?.tr41_slot_id - 1)}
+                      {Number(i?.tr41_slot_id )}
                     </span>
-                    <span> {Number(i?.tr41_slot_id - 1) <= 4 ? "S" : "B"}</span>
+                    <span> {Number(i?.tr41_slot_id ) <= 4 ? "S" : "B"}</span>
                   </TableCell>
                 </TableRow>
               );

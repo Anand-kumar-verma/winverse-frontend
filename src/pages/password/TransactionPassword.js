@@ -6,10 +6,11 @@ import toast from "react-hot-toast";
 import Layout from "../../component/layout/Layout";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
+import { deCryptData } from "../../shared/secret";
 
 const TransactionPassword = () => {
   const [isloding, setisloding] = useState(false);
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const initialValue = {
     old_pass: "",
     new_pass: "",

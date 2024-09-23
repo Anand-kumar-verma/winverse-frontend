@@ -1,118 +1,104 @@
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { Recommend, RepeatOn, ReportGmailerrorredTwoTone, ReportSharp } from "@mui/icons-material";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-import Diversity2Icon from "@mui/icons-material/Diversity2";
 import LocalConvenienceStoreIcon from "@mui/icons-material/LocalConvenienceStore";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import StoreIcon from "@mui/icons-material/Store";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import * as React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Layout from "../../component/layout/Layout";
-const zubgback = "#63BA0E";
-const zubgmid = "#63BA0E";
+import theme from "../../utils/theme";
+const zubgback = "#9cec01";
+const zubgmid = "#9cec01";
 
 function MainPageOFIncome() {
-  const navigate = useNavigate();
-  const goBack = () => {
-    navigate(-1);
-  };
+
 
   const data_array = [
-    // {
-    //   to: "/account/income-main/registration-bonus",
-    //   name: "Registration Bonus",
-    //   logo: (
-    //     <CurrencyExchangeIcon
-    //       className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-    //       color="#8f5206"
-    //     />
-    //   ),
-    // },
+  
     {
-      to: "/account/income-main/referral-bonus",
-      name: "Referral Bonus",
+      to: "/account/income-main/direct-income",
+      name: "Direct Refer Bonus",
       logo: (
         <RedeemIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
     },
     {
-      to: "/account/income-main/team-betting-bonus",
-      name: "Team Betting Bonus",
+      to: "/account/income-main/level-income",
+      name: "Team Trading Bonus",
       logo: (
         <LocalConvenienceStoreIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
     },
-    // {
-    //   to: "/account/income-main/team-salary-bonus",
-    //   name: "Team Salary Bonus",
-    //   logo: (
-    //     <AccountBalanceIcon
-    //       className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-    //       color="#8f5206"
-    //     />
-    //   ),
-    // },
     {
-      to: "/account/income-main/royality-bonus",
-      name: "Royality Bonus",
+      to: "/account/income-main/sponsor",
+      name: "Direct ReTopup Bonus",
       logo: (
-        <StoreIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+        <ReportGmailerrorredTwoTone
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
+          color="#8f5206"
+        />
+      ),
+    },
+    
+    {
+      to: "/account/income-main/joining",
+      name: "Welcome Bonus" ,
+      logo: (
+        <Recommend
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
     },
     {
       to: "/account/income-main/level-bonus",
-      name: "Level Bonus",
+      name: "Daily Cashback Bonus",
       logo: (
         <CardGiftcardIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
     },
     {
-      to: "/account/income-main/ico-level-bonus",
-      name: "ICO Level Bonus",
+      to: "/account/income-main/fund-level",
+      name: "Team Level Bonus",
       logo: (
-        <Diversity2Icon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
+        <StoreIcon
+          className="!w-[50px] !h-[50px] !text-[#9cec01]"
           color="#8f5206"
         />
       ),
     },
-    {
-      to: "/account/income-main/betting-bonus",
-      name: "Betting Bonus",
-      logo: (
-        <AccountBalanceIcon
-          className="!w-[40px] !h-[40px] !text-[#63BA0E]"
-          color="#8f5206"
-        />
-      ),
-    },
+    
   ];
   return (
-    <Layout>
+    <Layout header={false}>
       <Container
         sx={{
           width: "100%",
           height: "100vh",
           overflow: "auto",
           mb: 5,
+          background:"#0D0335"
         }}
       >
+        <Box sx={style.root}>
+        <Typography variant="body1" color="initial" className="!pb-3">
+          Income
+        </Typography>
+      </Box>
         <Box
           sx={{
-            width: "95%",
-            marginLeft: "2.5%",
+            // width: "95%",
+            // marginLeft: "2.5%",
             borderRadius: "10px",
             padding: "10px",
             mt: "20px",
@@ -120,11 +106,11 @@ function MainPageOFIncome() {
               color: "white",
               fontSize: "15px",
               fontWeight: "600",
-              mb: "25px",
+              // mb: "25px",
             },
           }}
         >
-          <div className="!w-full !grid !grid-cols-3 !place-items-center">
+          <div className="!w-full gap-2 !grid py-5 px-2 !grid-cols-2 !place-items-center ">
             {data_array?.map((i) => {
               return (
                 <Box
@@ -138,14 +124,14 @@ function MainPageOFIncome() {
                     mb: "10px",
                     "&>p": {
                       color: "white",
-                      fontSize: "14px",
+                      fontSize: "18px",
                       fontWeight: "500",
                       mt: "5px",
                     },
                   }}
                 >
-                  <p>{i?.logo}</p>
-                  <p className="lg:!whitespace-nowrap !text-center !text-black !text-[10px]">
+                  <p className="">{i?.logo}</p>
+                  <p className="lg:!whitespace-nowrap !text-center !text-white !text-[12px]">
                     {i.name}
                   </p>
                 </Box>
@@ -177,6 +163,15 @@ const style = {
       color: "white",
       fontSize: "35px",
     },
+  },
+  root: {
+    background: "linear-gradient(180deg, #9cec01, #028f7e)",
+    pt: 2,
+    px: 1,
+    "&>p": { color: "white" },
+    "&>p:nth-child(1)": { fontSize: "17px", fontWeight: 600 },
+    "&>p:nth-child(2)": { fontSize: "12px", fontWeight: 400, mt: 1 },
+    "&>p:nth-child(3)": { fontSize: "12px", fontWeight: 400, pb: 1 },
   },
   wthui: {
     textAlign: "center",

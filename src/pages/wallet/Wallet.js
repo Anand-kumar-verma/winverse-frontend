@@ -1,6 +1,5 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
-import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import depositeimg from "../../assets/images/deposite.png";
@@ -13,7 +12,7 @@ import {
   checkTokenValidity,
   depositHistoryFunction,
   getBalanceFunction,
-  showRank,
+  withdrawlHistoryFunction,
 } from "../../services/apiCallings";
 import { rupees } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
@@ -21,8 +20,6 @@ import theme from "../../utils/theme";
 
 function Wallet() {
   const [balance, setBalance] = useState("");
-  const or_m_user_type = localStorage.getItem("or_m_user_type");
-
   const { isLoading, data: wallet_amount } = useQuery(
     ["wallet_amount_amount"],
     () => getBalanceFunction(setBalance),
@@ -37,7 +34,7 @@ function Wallet() {
   const navigate = useNavigate();
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
 
-  const { isLoading: profileLoding, data: user } = useQuery(
+  const {  data: user } = useQuery(
     ["profile"],
     () => ProfileDataFunction(),
     {
@@ -50,9 +47,9 @@ function Wallet() {
   );
   const profile = user?.data?.earning || [];
 
-  const { isLoading: total_deposit, data } = useQuery(
+  const { data } = useQuery(
     ["deposit_history"],
-    () => depositHistoryFunction(),
+    () => withdrawlHistoryFunction(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -61,19 +58,20 @@ function Wallet() {
       refetchOnWindowFocus: false
     }
   );
-  const res = data?.data?.earning?.rid || [];
+  const res = data?.data?.earning?.recharge || [];
+ 
   const total_deposit_amount = useMemo(() => {
     return res
-      ?.filter((i) => i?.tr15_status === "Success")
-      ?.reduce((a, b) => a + Number(b?.tr15_amt || 0), 0);
-  }, [data]);
+      ?.filter((i) => i?.m_top_status === "Approve")
+      ?.reduce((a, b) => a + Number(b?.tr09_req_amount || 0), 0);
+  }, [res]);
 
 
   useEffect(() => {
     if (!checkTokenValidity()) {
       localStorage.clear();
       sessionStorage.clear();
-      window.location.href = "/"; // Redirect to login page
+      window.location.href = "/"; 
     }
   }, []);
 
@@ -100,67 +98,17 @@ function Wallet() {
             background: theme.palette.primary.main,
           }}
         >
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-start"
-            gap={1}
-            sx={{ flexDirection: "row" }}
-            className="!mx-7"
-          >
-
-            <Typography
-              variant="body1"
-              color="initial"
-              sx={{ fontSize: "12px", fontWeight: "400", color: "white" }}
-            >
-              UserId/Name :
-            </Typography>
-            <Typography
-              variant="body1"
-              color="initial"
-              sx={{ fontSize: "14px", fontWeight: "500", color: "white" }}
-            >
-              {profile?.rec?.Login_Id} / {profile?.rec?.Associate_Name}
-            </Typography>
-
-          </Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-start"
-            gap={1}
-            sx={{ flexDirection: "row" }}
-            className="!mx-7"
-          >
-            <Typography
-              variant="body1"
-              color="initial"
-              sx={{ fontSize: "14px", fontWeight: "400", color: "white" }}
-            >
-              Wallet:
-            </Typography>
-            <Typography
-              variant="body1"
-              color="initial"
-              sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}
-            >
-              ₹{Number(wallet_amount_data || 0)?.toFixed(2)}
-            </Typography>
-            {profile?.rec?.Club !== 0 &&
-              <Typography
-                variant="body1"
-                color="initial"
-                className="!text-white"
-              >
-                Rank : {showRank(profile?.rec?.Club)}
-
-              </Typography>
-            }
-          </Stack>
+          <div className="!flex  justify-center">
+            <img src={profile?.rec?.User_image} alt="" className="!w-24 !-mt-5 rounded-full" />
+          </div>
+          <p className="!text-center !text-white !font-bold">
+            {profile?.rec?.Associate_Name} </p>
+            <p className="!text-center !text-white !font-bold">
+            {profile?.rec?.Login_Id}  </p>
+              
         </Box>
-        <CustomCircularProgress isLoading={isLoading || total_deposit} />
-        <Box sx={{ background: theme.palette.primary.main, pb: 2 }}>
+        <CustomCircularProgress isLoading={isLoading } />
+        <Box sx={{ background: theme.palette.primary.main, pb: 2 }} className="!pt-2">
           <Stack
             direction="row"
             alignItems="center"
@@ -172,14 +120,14 @@ function Wallet() {
                 color="initial"
                 sx={{ fontSize: "20px", fontWeight: "500", color: "white" }}
               >
-                ₹{Number(wallet_amount_data || 0)?.toFixed(2)}
+               ₹ {wallet_amount_data?.wallet || 0}
               </Typography>
               <Typography
                 variant="body1"
                 color="initial"
                 sx={{ fontSize: "14px", fontWeight: "400", color: "white" }}
               >
-                Total amount
+                Total Amount
               </Typography>
             </Box>
             <Box sx={{ textAlign: "center" }}>
@@ -188,14 +136,15 @@ function Wallet() {
                 color="initial"
                 sx={{ fontSize: "20px", fontWeight: "500", color: "white" }}
               >
-                {rupees} {total_deposit_amount || 0}
+                
+                ₹  {wallet_amount_data?.p2pwallet || 0}
               </Typography>
               <Typography
                 variant="body1"
                 color="initial"
                 sx={{ fontSize: "14px", fontWeight: "400", color: "white" }}
               >
-                Total deposit amount
+                P2P Wallet
               </Typography>
             </Box>
           </Stack>
@@ -222,26 +171,25 @@ function Wallet() {
 
               direction="row"
               sx={{
-                my: 5,
+                my: 2,
                 width: "100%",
                 alignItems: "center",
                 justifyContent: "space-between",
+                
               }}
             >
               <Box sx={{ width: "50%", position: "relative" }}>
-
-
-                <Box
+                   <Box
                   sx={{
                     textAlign: "center",
                     "&>p": { color: "black", fontSize: "13px", fontWeight: 500 },
                   }}
                 >
-                  <Typography variant="body1" color="initial">
-                    ₹ {wallet_amount_data}
+                  <Typography variant="body1" color="initial" className="!font-bold">
+                  ₹ {wallet_amount_data?.withdrawal || 0}
                   </Typography>
                   <Typography variant="body1" color="initial">
-                    Main wallet
+                  Total Withdrawal
                   </Typography>
                 </Box>
               </Box>
@@ -253,11 +201,11 @@ function Wallet() {
                     "&>p": { color: "black", fontSize: "13px", fontWeight: 500 },
                   }}
                 >
-                  <Typography variant="body1" color="initial">
-                    ₹ {wallet_amount?.data?.total_withdrawal}
+                  <Typography variant="body1" color="initial" className="!font-bold">
+               {rupees} {total_deposit_amount || 0}
                   </Typography>
                   <Typography variant="body1" color="initial">
-                    Total Withdrawl
+                  Total Deposit
                   </Typography>
                 </Box>
               </Box>
@@ -266,14 +214,12 @@ function Wallet() {
 
             <Stack direction="row" sx={style.stack}
             >
-              <Box sx={style.box}
-                onClick={() => {
-                  if (or_m_user_type === "Dummy User") {
-                    toast("Dummy User");
-                  } else {
-                    navigate('/deposit');
-                  }
-                }}>
+              <Box className="!cursor-pointer" sx={style.box}
+                onClick={() =>
+
+                  navigate('/deposit')
+
+                }>
                 <Box sx={style.innerBox}>
                   <Box
                     component="img"
@@ -286,14 +232,10 @@ function Wallet() {
                 </Typography>
               </Box>
 
-              <Box sx={style.box}
-                onClick={() => {
-                  if (or_m_user_type === "Dummy User") {
-                    toast("Dummy User");
-                  } else {
-                    navigate('/withdraw');
-                  }
-                }}>
+              <Box className="!cursor-pointer" sx={style.box}
+                onClick={() =>
+                  navigate('/withdraw')
+                }>
                 <Box sx={style.innerBox}>
                   <Box
                     component="img"
@@ -305,14 +247,12 @@ function Wallet() {
                   Withdraw
                 </Typography>
               </Box>
-              <Box sx={style.box}
-                onClick={() => {
-                  if (or_m_user_type === "Dummy User") {
-                    toast("Dummy User");
-                  } else {
-                    navigate('/depositehistory');
-                  }
-                }}>
+              <Box className="!cursor-pointer" sx={style.box}
+                onClick={() =>
+
+                  navigate('/depositehistory')
+
+                }>
                 <Box sx={style.innerBox}>
                   <Box
                     component="img"
@@ -321,18 +261,15 @@ function Wallet() {
                   ></Box>
                 </Box>
                 <Typography variant="body1" color="initial" sx={style.typography}>
-                  Deposit history
+                  Deposit History
                 </Typography>
               </Box>
-              <Box sx={style.box}
-                onClick={() => {
-                  if (or_m_user_type === "Dummy User") {
-                    toast("Dummy User");
-                  } else {
-                    navigate('/withdrawlhistory');
-                  }
-                }}>
-                <Box sx={style.innerBox}>
+              <Box className="!cursor-pointer" sx={style.box}
+                onClick={() =>
+                  navigate('/withdrawlhistory')
+
+                }>
+                <Box  sx={style.innerBox}>
                   <Box
                     component="img"
                     src={whistory}
@@ -340,11 +277,27 @@ function Wallet() {
                   ></Box>
                 </Box>
                 <Typography variant="body1" color="initial" sx={style.typography}>
-                  Withdrawal history
+                  Withdrawal History
+                </Typography>
+              </Box>
+              <Box className="!cursor-pointer" sx={style.box}
+                onClick={() =>
+                  navigate('/fund-main')
+
+                }>
+                <Box sx={style.innerBox}>
+                  <Box
+                    component="img"
+                    src={withdraw}
+                    sx={{ ...style.innerBoximg, filter: 'hue-rotate(231deg)', }}
+                  ></Box>
+                </Box>
+                <Typography variant="body1" color="initial" sx={style.typography}>
+                P2P 
                 </Typography>
               </Box>
             </Stack>
-
+          
           </Box>
         </Box>
       </Container>

@@ -17,7 +17,7 @@
 }
 
 .blinking {
-  animation: blinker is linear infinite
+  animation: blinker is linear infinite;
 }
 
 @keyframes blinker {
@@ -215,7 +215,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #63BA0E;
+  background: #63ba0e;
   max-width: 400px;
   margin: auto;
 }
@@ -291,7 +291,7 @@
   position: absolute;
   inset: 0px;
   border-radius: 50%;
-  border: 5px solid #63BA0E;
+  border: 5px solid #63ba0e;
   animation: prixClipFix 2s linear infinite;
 }
 
@@ -323,8 +323,10 @@
   }
 }
 
-
-
 svg {
-  color: #63BA0E;
+  color: #63ba0e;
+}
+
+.rotate_coins {
+  animation: rotate 1s linear infinite;
 }

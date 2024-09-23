@@ -70,7 +70,8 @@ function Wingo5Min() {
 
 
   React.useEffect(() => {
-    const handleFiveMin = (fivemin) => {
+    const handleFiveMin = (onemin) => {
+      let fivemin = `${4 - (new Date()?.getMinutes() % 5)}_${onemin}`;
       setOne_min_time(fivemin);
 
       if (fivemin?.split("_")?.[1] === "1" && fivemin?.split("_")?.[0] === "0")
@@ -117,10 +118,10 @@ function Wingo5Min() {
       }
     };
 
-    socket.on("fivemintrx", handleFiveMin);
+    socket.on("onemintrx", handleFiveMin);
 
     return () => {
-      socket.off("fivemintrx", handleFiveMin);
+      socket.off("onemintrx", handleFiveMin);
     };
   }, []);
 
@@ -152,19 +153,19 @@ function Wingo5Min() {
 
   React.useEffect(() => {
     console.log(
-      game_history?.data?.data
-        ? Number(game_history?.data?.data?.[0]?.tr_transaction_id) + 1
+      game_history?.data?.result
+        ? Number(game_history?.data?.result?.[0]?.tr_transaction_id) + 1
         : 1
     );
     dispatch(
       updateNextCounter(
         game_history?.data?.data
-          ? Number(game_history?.data?.data?.[0]?.tr_transaction_id) + 1
+          ? Number(game_history?.data?.result?.[0]?.tr_transaction_id) + 1
           : 1
       )
     );
     const tr_digit =
-      game_history?.data?.data && game_history?.data?.data?.[0]?.tr_digits;
+      game_history?.data?.data && game_history?.data?.result?.[0]?.tr_digits;
     let array = [];
     for (let i = 0; i < tr_digit?.length; i++) {
       if (/[a-zA-Z]/.test(tr_digit[i])) {

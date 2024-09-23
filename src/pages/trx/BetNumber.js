@@ -30,10 +30,11 @@ import FalseCheck from "../../shared/check/FalseCheck";
 import SuccessCheck from "../../shared/check/SuccessCheck";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import theme from "../../utils/theme";
+import { deCryptData } from "../../shared/secret";
 
 const BetNumber = ({ timing, gid }) => {
   // const next_step = useSelector((state) => state.aviator.next_step);
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const [open, setOpen] = useState(false);
   const [selectNumber, setSelectNumber] = useState("");
   const [random, setRandomNumber] = useState(null);
@@ -91,29 +92,28 @@ const BetNumber = ({ timing, gid }) => {
       return toast("Please Refresh your page.");
     }
     const reqBody = {
-      user_id: String(user_id),
+      userid: String(user_id),
       amount: (
         Number(fk.values.balance || 1) * Number(fk.values.qnt || 1) || 0
       )?.toString(),
-      bet_number: `${
-        (selectNumber === "green" && 11) ||
-        (selectNumber === "voilet" && 12) ||
-        (selectNumber === "red" && 13) ||
-        (selectNumber === "Big" && 15) || // this is big
-        (selectNumber === "Small" && 14) || // this is small
-        Number(selectNumber) + 1
-      }`,
-      type: `${Number(gid)}`,
-      round_no: 123456,
-      description: `${
-        selectNumber === "Small"
-          ? "Small"
-          : `${
-              Number(selectNumber + 1) >= 1 && Number(selectNumber) <= 4
-                ? "Small"
-                : "Big"
-            }`
-      }`,
+      bet_number:
+        (selectNumber === "green" && 10) ||
+        (selectNumber === "red" && 30) ||
+        (selectNumber === "voilet" && 20) ||
+        (selectNumber === "big" && 40) ||
+        (selectNumber === "small" && 50) ||
+        selectNumber,
+      gameid : `${Number(gid)}`,
+      gamesnio : 123456,
+      // description: `${
+      //   selectNumber === "Small"
+      //     ? "Small"
+      //     : `${
+      //         Number(selectNumber + 1) >= 1 && Number(selectNumber) <= 4
+      //           ? "Small"
+      //           : "Big"
+      //       }`
+      // }`,
     };
 
     try {
@@ -230,7 +230,7 @@ const BetNumber = ({ timing, gid }) => {
             Number(reqBody.bet_number) <= 10
               ? Number(reqBody.bet_number) - 1
               : reqBody.bet_number
-          }_${reqBody.amount}_${reqBody.round_no}`
+          }_${reqBody.amount}_${reqBody.gamesnio }`
         );
         setOpen(false);
       } else {
@@ -337,100 +337,100 @@ const BetNumber = ({ timing, gid }) => {
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={zero}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("0");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("0");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={one}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("1");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("1");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={two}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("2");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("2");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={three}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("3");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("3");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={four}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("4");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("4");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={five}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("5");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("5");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={six}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("6");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("6");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={seven}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("7");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("7");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={eight}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("8");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("8");
+            }}
             className="!cursor-pointer"
           ></Box>
           <Box
             sx={{ width: "17%", mb: 1 }}
             component="img"
             src={nine}
-            // onClick={() => {
-            //   setOpen(true);
-            //   setSelectNumber("9");
-            // }}
+            onClick={() => {
+              setOpen(true);
+              setSelectNumber("9");
+            }}
             className="!cursor-pointer"
           ></Box>
         </Box>
@@ -440,16 +440,13 @@ const BetNumber = ({ timing, gid }) => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Button
-            variant="outlined"
-            // onClick={generatenumber}
-          >
+          <Button variant="outlined" onClick={generatenumber}>
             Random
           </Button>
           {[1, 5, 10, 20, 50, 100]?.map((i) => {
             return (
               <Box
-                // onClick={() => fk.setFieldValue("qnt", i)}
+                onClick={() => fk.setFieldValue("qnt", i)}
                 sx={style.bacancebtn3}
                 className={`${
                   fk.values.qnt === i ? "!bg-green-600" : "!bg-gray-400"

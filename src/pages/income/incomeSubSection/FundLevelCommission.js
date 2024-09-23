@@ -10,20 +10,20 @@ import { NavLink, useNavigate } from "react-router-dom";
 import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 import Layout from "../../../component/layout/Layout";
 
+import { reportIncomeFn } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
-import { registrationBonusFn, reportIncomeFn } from "../../../services/apiCallings";
 const zubgback = "#63BA0E"
 const zubgmid = "#63BA0E"
 const zubgbackgrad = "#63BA0E"
-function LevelBonus() {
+function FundLevelCommission() {
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
   const { isLoading, data } = useQuery(
-    ["bonus"],
-    () => reportIncomeFn("7"),
+    ["Fund_level"],
+    () => reportIncomeFn("6"),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -48,7 +48,7 @@ function LevelBonus() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p> Daily Cashback Bonus</p>
+            <p>Team Level Bonus</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -72,7 +72,7 @@ function LevelBonus() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p> Daily Cashback Bonus</p>
+          <p>Team Level Bonus</p>
         </Box>
         <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {
@@ -87,11 +87,11 @@ function LevelBonus() {
                 <div className="!w-full !flex !justify-between">
                   <span className="!text-white">{i?.LEDGER_TRANSID}</span>
                   <span className="!text-white  !text-[12px]">
-                    {moment(i?.LEDGER_DATETIME)?.format("DD-MM-YYYY")}{" "}
-                    {moment(i?.LEDGER_DATETIME1)?.format("HH:mm:ss")}
+                  {moment(i?.LEDGER_DATETIME)?.format("DD-MM-YYYY")}{" "}
+                  {moment(i?.LEDGER_DATETIME1)?.format("HH:mm:ss")}
                   </span>
                 </div>
-              
+               
               </div>
             );
           })}
@@ -101,7 +101,7 @@ function LevelBonus() {
   );
 }
 
-export default LevelBonus;
+export default FundLevelCommission;
 
 const style = {
   header: {
@@ -188,13 +188,3 @@ const style = {
     "&>p": { marginLeft: "10px", color: "white !important", fontSize: "14px" },
   },
 };
-
-
-
-
-
-
-
-
-
-

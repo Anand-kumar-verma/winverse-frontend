@@ -1,7 +1,7 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
   Box,
-  Button,
   Checkbox,
   FilledInput,
   FormControl,
@@ -9,11 +9,9 @@ import {
   FormGroup,
   IconButton,
   InputAdornment,
-  MenuItem,
-  Select,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -21,18 +19,18 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import invite from "../../assets/images/invite.png";
+import logemaildeactive from "../../assets/images/logemaildeactive.png";
 import password from "../../assets/images/password.png";
 import phoneaa from "../../assets/images/phoneaa.png";
 import { storeCookies } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { signupSchemaValidataon } from "../../services/validation";
-import theme from "../../utils/theme";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
+import { enCryptData } from "../../shared/secret";
+import theme from "../../utils/theme";
 const RegistrationByMobile = () => {
   const [username, setusername] = useState("");
   const [showPassword, setShowPassword] = React.useState(false);
-  const [country, setCountry] = React.useState("");
   const navigate = useNavigate();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [isLoading, setisLoding] = useState(false);
@@ -40,9 +38,6 @@ const RegistrationByMobile = () => {
     event.preventDefault();
   };
 
-  const handleChangesetCountry = (event) => {
-    setCountry(event.target.value);
-  };
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const inviteid = params.get("inviteid");
@@ -52,6 +47,7 @@ const RegistrationByMobile = () => {
     confirmed_password: "",
     mobile: "",
     name: "",
+    // email :""
   };
 
   const fk = useFormik({
@@ -64,7 +60,7 @@ const RegistrationByMobile = () => {
         txtname: fk.values.name,
         txtintroducer_id: fk.values.invite_code,
         txtintroducer_name: username,
-        txtemail: "",
+        txtemail: fk.values.email,
         txtmobile: fk.values.mobile,
         txtpassword: fk.values.password,
       };
@@ -83,8 +79,8 @@ const RegistrationByMobile = () => {
       if (res?.data?.status === true) {
         storeCookies();
         toast(res?.data?.msg);
-        localStorage.setItem("user_id", res?.data?.userid);
-        navigate("/dashboard");
+        // localStorage.setItem("user_id",enCryptData(res?.data?.userid || null));
+        navigate("/");
       } else {
         toast(res?.data?.msg);
       }
@@ -161,6 +157,43 @@ const RegistrationByMobile = () => {
               />
               {fk.touched.mobile && fk.errors.mobile && (
                 <div className="error">{fk.errors.mobile}</div>
+              )}
+            </FormControl>
+          </Box>
+        </Stack>
+        <Stack direction="row" alignItems="center" className="!mt-2">
+          <Box
+            component="img"
+            src={logemaildeactive}
+            sx={{ width: "25px", mr: 1, filter: 'hue-rotate(60deg)', }}
+          ></Box>
+          <Typography
+            variant="body1"
+            color="initial"
+            sx={{ fontSize: "15px", fontWeight: "500", color: "white" }}
+          >
+           Email
+          </Typography>
+        </Stack>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Box sx={{ width: "100%" }}>
+            <FormControl fullWidth sx={{ ...style.inputfield }}>
+              <TextField
+                id="email"
+                name="email"
+                onChange={fk.handleChange}
+                value={fk.values.email}
+                label=""
+                placeholder=" Enter email"
+                fullWidth
+              
+              />
+              {fk.touched.email && fk.errors.email && (
+                <div className="error">{fk.errors.email}</div>
               )}
             </FormControl>
           </Box>
@@ -302,11 +335,11 @@ const RegistrationByMobile = () => {
               type="text"
             />
             {username !== "false" ? (
-              <div className="no-error">{username}</div>
+              <div className="no-error !text-white">{username}</div>
             ) : (
               fk.touched.invite_code &&
               fk.errors.invite_code && (
-                <div className="error">{fk.errors.invite_code}</div>
+                <div className="error !text-white">{fk.errors.invite_code}</div>
               )
             )}
           </FormControl>

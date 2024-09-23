@@ -4,6 +4,7 @@ import { Box, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import copy from "clipboard-copy";
 import { useQuery, useQueryClient } from "react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import a1 from "../../assets/images/a1.png";
@@ -15,30 +16,28 @@ import f1 from "../../assets/images/f1.png";
 import l1 from "../../assets/images/l1.png";
 import n1 from "../../assets/images/n1.png";
 import s1 from "../../assets/images/s1.png";
-import trx from "../../assets/images/trx.png";
+import upi from "../../assets/images/upi (2).png";
 import vip from "../../assets/images/vip.png";
 import wal from "../../assets/images/wal.png";
 import wih from "../../assets/images/with.png";
 import wit from "../../assets/images/witt.png";
 import Layout from "../../component/layout/Layout";
-import { ProfileDataFunction, Update_ProfileFn, getBalanceFunction, logOutFunction, showRank } from "../../services/apiCallings";
+import { ProfileDataFunction, Update_ProfileFn, getBalanceFunction, logOutFunction } from "../../services/apiCallings";
 import { endpoint, front_end_domain } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
-import ImageSelectorModal from "./ImageSelectorModal";
-import CustomDate from "../../shared/CustomiztionDate/CustomDate";
+import { deCryptData } from "../../shared/secret";
 import theme from "../../utils/theme";
-
+import ImageSelectorModal from "./ImageSelectorModal";
 function Account() {
   const or_m_user_type = localStorage.getItem("or_m_user_type");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const transactionId = searchParams?.get("orderid");
   const client = useQueryClient();
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const navigate = useNavigate();
   const [opend, setOpend] = useState(false);
   const [selectedImages, setselectedImages] = useState("");
-  console.log(selectedImages)
   const images = [
     "https://mui.com/static/images/avatar/2.jpg",
     "https://mui.com/static/images/avatar/3.jpg",
@@ -68,8 +67,8 @@ function Account() {
     }
   );
   const wallet_amount_data = wallet_amount?.data?.earning || 0;
-
-  const { data: update_pic } = useQuery(
+  
+ useQuery(
     ["Update_pic", selectedImages],
     () => Update_ProfileFn(selectedImages, client),
     {
@@ -104,9 +103,10 @@ function Account() {
     }
   }, []);
 
-
-
-
+  const functionTOCopy = (value) => {
+    copy(value);
+    toast.success("Copied to clipboard!");
+  };
   return (
     <Layout header={false}>
       <Container sx={{
@@ -141,25 +141,33 @@ function Account() {
                   <img src={vip} alt="" className=" w-10 mt-6" />
                 </Typography>
               </Box>
-              <Box className="bg-gray-600 w-40 h-6 rounded-full p-1   realtive !left-40 flex gap-3 justify-center">
+              <Box className="!cursor-pointer bg-gray-600 w-40 h-6 rounded-full p-1   realtive !left-40 flex gap-3 justify-center"  
+              onClick={() =>
+                        functionTOCopy(
+                          profile?.rec?.Login_Id
+                        )
+                      }>
                 <Typography className="text-white !text-xs">UID </Typography>
                 <Typography className="text-white !text-xs">| </Typography>
                 <Typography className="text-white !text-xs">{profile?.rec?.Login_Id} <CopyAll fontSize="small" /> </Typography>
               </Box>
 
-              {profile?.rec?.Club !== 0 &&
-                <Box className="  realtive !left-36 flex gap-3 justify-center">
-                  <Typography className="text-white !text-sm">Rank: </Typography>
-                  <Typography className="text-white !text-sm">{showRank(profile?.rec?.Club)}</Typography>
-                </Box>}
-              <CustomDate />
             </Box>
           </Box>
           <Box sx={{ background: 'rgb(26 28 40 / 95%)', }} className=" shadow-xl rounded-lg py-5 relative top-8">
-            <Typography sx={{ color: 'white' }} className=" px-3">Total Balance</Typography>
-            <Typography sx={{ color: 'white' }} className="!font-bold px-3"> ₹ {Number(wallet_amount_data || 0)?.toFixed(2)}
+            <div className="flex">
+           <div>
+           <Typography sx={{ color: 'white' }} className=" px-3">Total Balance</Typography>
+            <Typography sx={{ color: 'white' }} className="!font-bold px-3"> ₹ {Number(wallet_amount_data?.wallet || 0)?.toFixed(2)}
             </Typography>
-            <Box className="flex justify-center gap-8 pt-5">
+            </div>
+           <div>
+           <Typography sx={{ color: 'white' }} className=" px-3">P2P Balance</Typography>
+            <Typography sx={{ color: 'white' }} className="!font-bold px-3"> ₹ {Number(wallet_amount_data?.p2pwallet || 0)?.toFixed(2)}
+            </Typography>
+           </div>
+            </div>
+            <Box className="flex justify-center gap-5 pt-5">
               <NavLink to="/wallet">
                 <Box className="flex flex-col justify-center items-center">
                   <Typography><img src={wal} alt="" className="w-8" style={{ filter: 'hue-rotate(105deg)' }} /></Typography>
@@ -169,32 +177,23 @@ function Account() {
 
 
               <Box className="flex cursor-pointer flex-col justify-center items-center"
-                onClick={() => {
-                  if (or_m_user_type === "Dummy User") {
-                    toast("Dummy User");
-                  } else {
-                    navigate('/deposit');
-                  }
-                }}>
+                onClick={() =>
+                    navigate('/deposit')}>
                 <Typography> <img src={dep} alt="" className="w-8" style={{ filter: 'hue-rotate(57deg)' }} /> </Typography>
                 <Typography sx={{ color: 'white' }}> Deposit</Typography>
               </Box>
               <Box className="flex cursor-pointer flex-col justify-center items-center"
-                onClick={() => {
-                  if (or_m_user_type === "Dummy User") {
-                    toast("Dummy User");
-                  } else {
-                    navigate('/withdraw');
-                  }
-                }}>
+                onClick={() =>
+                    navigate('/withdraw')
+               }>
                 <Typography><img src={wih} alt="" className="w-8" style={{ filter: 'hue-rotate(263deg)' }} /></Typography>
                 <Typography sx={{ color: 'white' }}>Withdraw</Typography>
               </Box>
               <Box className="flex flex-col justify-center cursor-pointer items-center"
-                onClick={() => document.location.href = `https://zupeegame.info/?user_id=${user_id}`}
+                onClick={() =>  navigate('/withdraw')}
               >
-                <Typography><img src={trx} alt="" className="w-8" style={{ filter: 'hue-rotate(310deg)' }} /></Typography>
-                <Typography sx={{ color: 'white' }} className="">USDT</Typography>
+                <Typography><img src={upi} alt="" className="w-8 h-6 mb-2 !bg-[#8CC670]  !rounded"  /></Typography>
+                <Typography sx={{ color: 'white' }} className="">Bank & UPI</Typography>
               </Box>
             </Box>
           </Box>
@@ -228,18 +227,19 @@ function Account() {
 
         </Box>
         <Box className="flex justify-center gap-2 border-b-2 p-2 m-3 py-5shadow rounded-lg "
-          onClick={() => navigate("/account/Teamincome")} sx={{ background: '#89ff0054' }}
+          onClick={() => navigate("/account/income-main")} sx={{ background: '#89ff0054' }}
         >
           <Typography> <GroupAddRounded className="text-[#63BA0E] !mt-1" /></Typography>
-          <Typography className="!mt-1 !text-lg  cursor-pointer" sx={{ color: 'white' }}> Team/Income</Typography>
+          <Typography className="!mt-1 !text-lg  !cursor-pointer " sx={{ color: 'white' }}> Income</Typography>
         </Box>
 
         <Box sx={{ background: '#89ff0054' }} className=" shadow-xl rounded-lg !m-3 py-5">
           <Typography className=" px-3" sx={{ color: 'white' }}>Service Center</Typography>
-          <Box className="grid grid-cols-3 m-5 justify-center gap-5">
-            <Box className="flex flex-col justify-center items-center m-2">
+          <Box className="grid grid-cols-3 m-5 justify-center gap-5"
+          >
+            <Box className="flex flex-col justify-center items-center m-2 !cursor-pointer" onClick={()=>navigate('/password/account')}>
               <Typography><img src={s1} alt="" className="w-8 " style={{ filter: 'hue-rotate(45deg)' }} /></Typography>
-              <Typography className="!text-sm !text-white">Settings</Typography>
+              <Typography className="!text-sm !text-white " >Settings</Typography>
             </Box>
             <Box className="flex flex-col justify-center items-center">
               <Typography><img src={f1} alt="" className="w-8 " style={{ filter: 'hue-rotate(45deg)' }} /></Typography>

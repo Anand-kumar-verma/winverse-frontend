@@ -3,7 +3,7 @@ import EmojiPeopleOutlinedIcon from "@mui/icons-material/EmojiPeopleOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import copy from "clipboard-copy";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { NavLink } from "react-router-dom";
@@ -58,9 +58,6 @@ function Promotion() {
     }
   );
   const profile = user?.data?.earning || [];
-  const profilerec = user?.data?.earning?.rec || [];
-
-  const [copied, setCopied] = useState(false);
   const functionTOCopy = (value) => {
     copy(value);
     toast.success("Copied to clipboard!");
@@ -75,7 +72,9 @@ function Promotion() {
   }, []);
   return (
     <Layout header={false}>
-      <Container sx={{ background: theme.palette.secondary.main }}>
+      <Container 
+      className ="!h-screen "
+      sx={{ background: theme.palette.secondary.main }}>
         <CustomCircularProgress isLoading={isLoading || profileLoding} />
         <Box sx={style.header}>
           <Typography variant="body1" color="initial"></Typography>
@@ -103,15 +102,9 @@ function Promotion() {
               >
                 User ID :{profile?.rec?.Login_Id}
               </Typography>
-              {profile?.rec?.Club !== 0 && (
-                <Typography
-                  variant="body1"
-                  color="initial"
-                  className="!text-white"
-                >
-                  Rank : {showRank(profilerec?.Club)}
-                </Typography>
-              )}
+           
+              
+        
             </Box>
           </Box>
           <Box sx={style.subcordinateBox}>
@@ -268,15 +261,16 @@ function Promotion() {
           <Box
             sx={style.invitebutton}
             className="invitebutton"
-            onClick={() => {
-              or_m_user_type === "Dummy User"
-                ? toast("Dummy User")
-                : functionTOCopy(
-                  `${front_end_domain}/register/?inviteid=${profile?.rec?.Login_Id}`
-                );
-            }}
+          
           >
-            <Box sx={style.invitbox} className={"!cursor-pointer"}>
+            <Box sx={style.invitbox} className={"!cursor-pointer"}
+              onClick={() => {
+                or_m_user_type === "Dummy User"
+                  ? toast("Dummy User")
+                  : functionTOCopy(
+                    profile?.rec?.Login_Id
+                  );
+              }}>
               <Stack direction="row">
                 <Box component="img" src={copyinvitationcode} sx={{ filter: 'hue-rotate(45deg)' }}></Box>
                 <Typography variant="body1" color="initial">
@@ -304,7 +298,7 @@ function Promotion() {
                 </Stack>
               </Box>
             </NavLink>
-            <NavLink to="/account/income-main/my-team">
+            {/* <NavLink to="/account/income-main/my-team">
               <Box sx={style.invitbox}>
                 <Stack direction="row">
                   <Box component="img" src={subcordinatedata} sx={{ filter: 'hue-rotate(45deg)' }}></Box>
@@ -316,7 +310,7 @@ function Promotion() {
                   <ArrowForwardIosOutlinedIcon />
                 </Stack>
               </Box>
-            </NavLink>
+            </NavLink> */}
             <Box sx={style.promotionBoxOutertwo}></Box>
           </Box>
         </Box>

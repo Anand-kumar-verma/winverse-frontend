@@ -9,21 +9,20 @@ import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 import Layout from "../../../component/layout/Layout";
-
+import { reportIncomeFn } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
-import { registrationBonusFn, reportIncomeFn } from "../../../services/apiCallings";
 const zubgback = "#63BA0E"
 const zubgmid = "#63BA0E"
 const zubgbackgrad = "#63BA0E"
-function LevelBonus() {
+function SponsorIncome() {
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
   const { isLoading, data } = useQuery(
-    ["bonus"],
-    () => reportIncomeFn("7"),
+    ["sponsor_income"],
+    () => reportIncomeFn("9"),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -32,7 +31,7 @@ function LevelBonus() {
       refetchOnWindowFocus: false
     }
   );
-  const res = data?.data?.earning?.rid;
+  const res = data?.data?.earning?.rid ;
   if (!isLoading && !res)
     return (
       <Layout>
@@ -48,7 +47,7 @@ function LevelBonus() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p> Daily Cashback Bonus</p>
+            <p>Direct ReTopUp Bonus</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -72,7 +71,7 @@ function LevelBonus() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p> Daily Cashback Bonus</p>
+          <p>Direct ReTopUp Bonus</p>
         </Box>
         <div className="no-scrollbar !mb-10 px-2">
           {res?.map((i) => {
@@ -87,11 +86,15 @@ function LevelBonus() {
                 <div className="!w-full !flex !justify-between">
                   <span className="!text-white">{i?.LEDGER_TRANSID}</span>
                   <span className="!text-white  !text-[12px]">
-                    {moment(i?.LEDGER_DATETIME)?.format("DD-MM-YYYY")}{" "}
+                    {moment(i?.LEDGER_DATETIME1)?.format("DD-MM-YYYY")}{" "}
                     {moment(i?.LEDGER_DATETIME1)?.format("HH:mm:ss")}
                   </span>
                 </div>
-              
+                <div className="!w-full !flex !justify-between">
+                  <span className="!text-white !text-[12px]">
+                    {i?.LEDGER_LEDGERID}
+                  </span>
+                </div>
               </div>
             );
           })}
@@ -101,7 +104,7 @@ function LevelBonus() {
   );
 }
 
-export default LevelBonus;
+export default SponsorIncome;
 
 const style = {
   header: {
@@ -188,13 +191,3 @@ const style = {
     "&>p": { marginLeft: "10px", color: "white !important", fontSize: "14px" },
   },
 };
-
-
-
-
-
-
-
-
-
-

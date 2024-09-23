@@ -1,12 +1,11 @@
 import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import { Box, Container } from "@mui/material";
-import moment from "moment";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import nodatafoundimage from "../../assets/images/nodatafoundimage.png";
 import Layout from "../../component/layout/Layout";
-import { MyTeamLevel, registrationBonusFn } from "../../services/apiCallings";
+import { MyTeamLevel } from "../../services/apiCallings";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 
 const zubgback = "#63BA0E";

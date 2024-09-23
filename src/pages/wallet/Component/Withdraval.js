@@ -40,7 +40,7 @@ import { endpoint } from "../../../services/urls";
 import LockIcon from "@mui/icons-material/Lock";
 function Withdraval() {
   const client = useQueryClient();
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const audioRefMusic = React.useRef(null);
   const [isAllValue, setIsAllValue] = useState(false);
   const [visibleData, setvisibleData] = useState([]);

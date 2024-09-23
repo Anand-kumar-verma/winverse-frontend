@@ -76,7 +76,7 @@ const TeamIncome = () => {
             Bank
           </span>
         </Box >
-        <Box sx={style.fx}>
+        {/* <Box sx={style.fx}>
           <span style={{
             color: 'white'
           }}
@@ -85,7 +85,7 @@ const TeamIncome = () => {
           >
             ICO Token
           </span>
-        </Box >
+        </Box > */}
         <Box sx={style.fx}>
           <span style={{
             color: 'white'
@@ -93,7 +93,7 @@ const TeamIncome = () => {
             className="!text-white-600 cursor-pointer"
             onClick={() => navigate("/fund-main")}
           >
-            Fund Main
+            P2P Main
           </span>
         </Box >
         {/* <Box sx={style.fx}>
@@ -104,14 +104,14 @@ const TeamIncome = () => {
           View Salary Income
         </span>
         </Box> */}
-        < Box sx={style.fx} >
+        {/* < Box sx={style.fx} >
           <span style={{ color: 'white' }}
             className="!text-white-600 cursor-pointer"
             onClick={() => navigate("/upi-deposit-token")}
           >
             UPI Deposit Token
           </span>
-        </Box>
+        </Box> */}
         <Box sx={style.fx}>
           <span style={{ color: 'white' }}
             className="!text-white-600 cursor-pointer"
@@ -120,7 +120,7 @@ const TeamIncome = () => {
             Password
           </span>
         </Box >
-        <Box sx={style.fx}>
+        {/* <Box sx={style.fx}>
           <span style={{
             color: 'white'
           }}
@@ -129,7 +129,7 @@ const TeamIncome = () => {
           >
             Zupeeter Token
           </span>
-        </Box >
+        </Box > */}
         <Box sx={style.fx}>
           <span style={{
             color: 'white'

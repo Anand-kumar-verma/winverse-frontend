@@ -8,6 +8,7 @@ import {
   Typography
 } from "@mui/material";
 import moment from "moment";
+import copy from "clipboard-copy";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -16,17 +17,16 @@ import allactive from "../../../assets/images/allinactive.png";
 import backbtn from "../../../assets/images/backBtn.png";
 import bankcardactive from "../../../assets/images/bankcardactive.png";
 import bankcardinactive from "../../../assets/images/bankcardinactive.png";
-import trx from "../../../assets/images/trx.png";
-import {
-  withdrawlHistoryFunction
-} from "../../../services/apiCallings";
+import { withdrawlHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
+import upi from  "../../../assets/images/upi (2).png"
+import toast from "react-hot-toast";
 
 function Withdrawlhistory() {
   const [isAllValue, setIsAllValue] = useState(false);
-  const [visibleData, setvisibleData] = useState([]);
-  const [value, setValue] = useState(1);
+  const [visibleData, setVisibleData] = useState([]);
+  const [value, setValue] = useState(1); 
 
   const { isLoading, data } = useQuery(
     ["withdrawl_history"],
@@ -40,7 +40,7 @@ function Withdrawlhistory() {
     }
   );
 
-  const res = data?.data?.earning?.info || [];
+  const res = data?.data?.earning?.withdrawal || [];
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -52,25 +52,30 @@ function Withdrawlhistory() {
   };
 
   useEffect(() => {
-    isAllValue ? setvisibleData(res) : setvisibleData(res?.slice(0, 3));
-  }, [isAllValue, res]);
+    let filteredData = [];
+
+    if (value === 1) {
+      filteredData = res;
+    } else if (value === 2) {
+      filteredData = res?.filter(i => i.m_w_type === 'Bank');
+    } else if (value === 3) {
+      filteredData = res?.filter(i => i.m_w_type === 'UPI');
+    }
+
+    setVisibleData(isAllValue ? filteredData : filteredData.slice(0, 3));
+  }, [isAllValue, value, res]);
+
+  const functionTOCopy = (value) => {
+    copy(value);
+    toast.success("Copied to clipboard!");
+  };
 
   return (
-    <Container sx={{ background: theme.palette.secondary.main }}>
-      <Box
-        sx={{
-
-          background: theme.palette.primary.main,
-          padding: 1,
-        }}
-      >
+    <Container className="" sx={{ background: theme.palette.secondary.main }}>
+      <Box sx={{ background: theme.palette.primary.main, padding: 1 }}>
         <Stack
           direction="row"
-          sx={{
-            alignItems: "end",
-            justifyContent: "space-between",
-            position: "relative",
-          }}
+          sx={{ alignItems: "end", justifyContent: "space-between", position: "relative" }}
         >
           <NavLink onClick={goBack}>
             <Box component="img" src={backbtn} width={25}></Box>
@@ -80,18 +85,15 @@ function Withdrawlhistory() {
               variant="body1"
               sx={{ color: "white", fontSize: "16px", fontWeight: "600" }}
             >
-              Withdrawal history
+              Withdrawal History
             </Typography>
           </Box>
-          <NavLink></NavLink>
         </Stack>
       </Box>
       <Box sx={{ padding: 1 }}>
         <Stack direction="row" justifyContent="space-between" mt={2}>
           <Button
-            className={
-              value === 1 ? " gametableactive gametable" : " gametable"
-            }
+            className={value === 1 ? " gametableactive gametable" : " gametable"}
             onClick={() => handleChange(1)}
           >
             {value === 1 ? (
@@ -102,93 +104,160 @@ function Withdrawlhistory() {
             All
           </Button>
           <Button
-            className={
-              value === 2 ? " gametableactive gametable" : " gametable"
-            }
+            className={value === 2 ? " gametableactive gametable" : " gametable"}
             onClick={() => handleChange(2)}
           >
             {value === 2 ? (
-              <Box
-                component="img"
-                src={bankcardinactive}
-                width={20}
-                mr={1}
-              ></Box>
-            ) : (
               <Box component="img" src={bankcardactive} width={20} mr={1}></Box>
+            ) : (
+              <Box component="img" src={bankcardinactive} width={20} mr={1}></Box>
             )}
             BANK CARD
           </Button>
           <Button
-            className={
-              value === 3 ? " gametableactive gametable" : " gametable"
-            }
-            onClick={() => handleChange(3)}
-          >
-            <Box component="img" src={trx} width={20} mr={1}></Box>
-            USDT 0
+            className={value === 3 ? " gametableactive gametable" : " gametable"}
+            onClick={() => handleChange(3)} >
+              {value === 3 ? (
+              <Box component="img" src={upi} width={20} mr={1}></Box>
+            ) : (
+              <Box component="img" src={upi} width={20} mr={1}></Box>
+            )}
+           
+            UPI
           </Button>
         </Stack>
       </Box>
       <CustomCircularProgress isLoading={isLoading} />
-      {/* <Stack sx={{ padding: 1 }}>
-        <Box sx={{ width: "100%" }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">All</InputLabel>
-            <Select
-              value={transection}
-              label="All"
-              onChange={handleChangeTransection}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <Box sx={{ width: "100%", mt: 1 }}></Box>
-      </Stack> */}
-      {visibleData?.map((i, index) => {
-        return (
-          <Box
-            key={index}
+      {visibleData?.map((i, index) => (
+        <Box
+          key={index}
+          sx={{
+            mb: 2,
+            padding: "10px",
+            borderRadius: "10px",
+            background: "#fff",
+            width: "92%",
+            margin: "auto",
+            mt: 2,
+          }}
+        >
+          <Stack
+            direction="row"
             sx={{
-              mb: 2,
-              padding: "10px",
-              borderRadius: "10px",
-              background: "#fff",
-              width: "92%",
-              margin: "auto",
-              mt: 2,
+              paddingBottom: "10px",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottom: "1px solid #efefef",
             }}
           >
-            <Stack
+            <Box>
+              <Typography
+                className=" !text-white rounded px-2 py-1 !flex justify-center "
+                sx={{ background: theme.palette.primary.main }}
+              >
+                Withdrawl
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                color: "#888",
+                textTransform: "capitalize",
+                fontSize: "14px",
+                fontWeight: "600",
+              }}
+              className={`${i?.m_w_status === "Success"
+                ? "!text-green-500"
+                : "!text-red-500"
+                }`}
+            >
+              {i?.m_w_status}
+            </Box>
+          </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p:nth-child(1)": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+              "&>p:nth-child(2)": {
+                color: theme.palette.primary.main,
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Balance
+            </Typography>
+            <Typography variant="body1">₹ {i?.m_w_amount}</Typography>
+          </Stack>
+        
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Type
+            </Typography>
+            <Typography variant="body1" color="initial">
+              {i?.m_w_type}
+            </Typography>
+          </Stack>
+          <Stack
               direction="row"
               sx={{
-                paddingBottom: "10px",
                 alignItems: "center",
                 justifyContent: "space-between",
-                borderBottom: "1px solid #efefef",
+                "&>p": {
+                  color: "#888",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  py: 1,
+                },
               }}
             >
-              <Box>
-                <Typography
-                  className=" !text-white rounded px-2 py-1 !flex justify-center " sx={{ background: theme.palette.primary.main }}
-                >
-                  Withdrawl
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  color: "#888",
-                  textTransform: "capitalize",
-                  fontSize: "14px",
-                  fontWeight: "600",
-                }}
+              <Typography variant="body1" color="initial">
+           Date/Time
+              </Typography>
+              <Typography
+                variant="body1"
+                color="initial"
+                className="!text-green-500"
               >
-                {i?.call_back_status}
-              </Box>
+                {moment(i?.m_w_reqdate)?.format("DD-MM-YYYY HH:mm:ss")}
+              </Typography>
             </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              "&>p": {
+                color: "#888",
+                fontSize: "13px",
+                fontWeight: "600",
+                py: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" color="initial">
+              Order number
+            </Typography>
             <Stack
               direction="row"
               sx={{
@@ -204,118 +273,38 @@ function Withdrawlhistory() {
                   color: theme.palette.primary.main,
                   fontSize: "13px",
                   fontWeight: "600",
-                  py: 1,
                 },
               }}
             >
               <Typography variant="body1" color="initial">
-                Balance
+                {i?.m_w_trans_id}
               </Typography>
-              <Typography variant="body1">₹ {i?.amount}</Typography>
+              <IconButton sx={{ padding: 0 }}
+               onClick={() =>
+                functionTOCopy(
+                  i?.m_w_trans_id
+                )
+              }>
+                <ContentCopyIcon sx={{ color: "#888", width: "15px", ml: 1 }} />
+              </IconButton>
             </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Type
-              </Typography>
-              <Typography variant="body1" color="initial">
-                {i?.withdrawal_type}
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Time
-              </Typography>
-              <Typography
-                variant="body1"
-                color="initial"
-                className="!text-green-500"
-              >
-                {moment(i?.response_date)?.format("DD-MM-YYYY HH:mm:ss")}
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&>p": {
-                  color: "#888",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  py: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" color="initial">
-                Order number
-              </Typography>
-              <Stack
-                direction="row"
-                sx={{
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  "&>p:nth-child(1)": {
-                    color: "#888",
-                    fontSize: "13px",
-                    fontWeight: "600",
-                    py: 1,
-                  },
-                  "&>p:nth-child(2)": {
-                    color: theme.palette.primary.main,
-                    fontSize: "13px",
-                    fontWeight: "600",
-                  },
-                }}
-              >
-                <Typography variant="body1" color="initial">
-                  {i?.transaction_no}
-                </Typography>
-                <IconButton sx={{ padding: 0 }}>
-                  <ContentCopyIcon
-                    sx={{ color: "#888", width: "15px", ml: 1 }}
-                  />
-                </IconButton>
-              </Stack>
-            </Stack>
-          </Box>
-        );
-      })}
+          </Stack>
+        </Box>
+      ))}
 
       <Button
-        sx={style.paytmbtntwo}
+        sx={{ marginTop: 2, margin:5, borderColor: theme.palette.primary.main, color: theme.palette.primary.main }}
         variant="outlined"
         onClick={() => setIsAllValue(!isAllValue)}
       >
-        {isAllValue ? "Show Less" : " All history"}
+        {isAllValue ? "Show Less" : "Show All"}
       </Button>
     </Container>
   );
 }
+
 export default Withdrawlhistory;
+
 
 const style = {
   paytmbtntwo: {

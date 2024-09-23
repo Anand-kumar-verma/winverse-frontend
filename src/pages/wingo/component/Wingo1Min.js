@@ -7,9 +7,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { useQueryClient } from "react-query";
+import toast from "react-hot-toast";
+import { useQuery, useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import countdownfirst from "../../../assets/images/countdownfirst.mp3";
 import countdownlast from "../../../assets/images/countdownlast.mp3";
@@ -28,22 +30,19 @@ import timerbg1 from "../../../assets/images/timerbg.png";
 import timerbg2 from "../../../assets/images/timerbg2.png";
 import backbanner from "../../../assets/images/winbackbanner.png";
 import {
-  dummycounterFun,
+  gameHistory_trx_one_minFn,
   updateNextCounter,
 } from "../../../redux/slices/counterSlice";
+import { endpoint } from "../../../services/urls";
 import { changeImages } from "../../../shared/nodeSchedular";
 import { useSocket } from "../../../shared/socket/SocketContext";
+import theme from "../../../utils/theme";
 import BetNumber from "../BetNumber";
 import Chart from "../history/Chart";
 import GameHistory from "../history/GameHistory";
 import MyHistory from "../history/MyHistory";
+import WinLossPopup from "../WinLossPopup";
 import Howtoplay from "./Howtoplay";
-import axios from "axios";
-import { endpoint } from "../../../services/urls";
-import { gameHistory_trx_one_minFn } from "../../../redux/slices/counterSlice";
-import { useQuery } from "react-query";
-import toast from "react-hot-toast";
-import theme from "../../../utils/theme";
 
 function Wingo1Min() {
   const socket = useSocket();
@@ -55,6 +54,7 @@ function Wingo1Min() {
   const audioRefMusic = React.useRef(null);
   const audioRefMusiclast = React.useRef(null);
   const client = useQueryClient();
+  const [opendialogbox, setOpenDialogBox] = useState(false);
   const [isImageChange, setIsImageChange] = useState("1_2_3_4_5");
   const img1 = Number(isImageChange?.split("_")[0]);
   const img2 = Number(isImageChange?.split("_")[1]);
@@ -84,29 +84,42 @@ function Wingo1Min() {
   };
   const fk = useFormik({
     initialValues: initialValue,
-    onSubmit: () => { },
+    onSubmit: () => {},
   });
 
   React.useEffect(() => {
     const handleOneMin = (onemin) => {
-      setOne_min_time(onemin);
+      const t = Number(String(onemin)?.split("_")?.[1]);
+      const time_to_be_intro = t > 0 ? 60 - t : t;
+      setOne_min_time(time_to_be_intro);
       // fk.setFieldValue("show_this_one_min_time", onemin);
-      if (onemin === 1) handlePlaySoundLast();
-      if ([5, 4, 3, 2].includes(onemin)) {
+      if (time_to_be_intro === 1) handlePlaySoundLast();
+      if ([5, 4, 3, 2].includes(time_to_be_intro)) {
         handlePlaySound();
       }
 
-      if (onemin <= 10) {
+      if (time_to_be_intro <= 10) {
         fk.setFieldValue("openTimerDialog", true);
+      } else {
+        fk.setFieldValue("openTimerDialog", false);
       }
-      if (onemin === 0) {
-        // client.refetchQueries("myhistory");
+      if (time_to_be_intro === 0) {
         client.refetchQueries("wallet_amount");
         client.refetchQueries("gamehistory");
-        // client.refetchQueries("gamehistory_chart");
         client.refetchQueries("myAllhistory");
-        dispatch(dummycounterFun());
-        fk.setFieldValue("openTimerDialog", false);
+        // dispatch(dummycounterFun());
+        setTimeout(() => {
+          if (
+            localStorage.getItem("betApplied1")?.split("_")?.[1] ===
+            String(true)
+          ) {
+            setOpenDialogBox(true);
+            setTimeout(() => {
+              setOpenDialogBox(false);
+              localStorage.setItem("betApplied1", false);
+            }, 5000);
+          }
+        }, 1000);
       }
     };
     socket.on("onemin", handleOneMin);
@@ -228,7 +241,7 @@ function Wingo1Min() {
                 className="psize"
                 mt={1}
               >
-                Win Go 1Min
+                Win Go 1 Min
               </Typography>
               <Stack
                 direction="row"
@@ -420,6 +433,19 @@ function Wingo1Min() {
           </Button>
         </DialogActions>
       </Dialog>
+      {opendialogbox && (
+        <Dialog
+          open={opendialogbox}
+          PaperProps={{
+            style: {
+              backgroundColor: "transparent",
+              boxShadow: "none",
+            },
+          }}
+        >
+          <WinLossPopup gid={"1"} />
+        </Dialog>
+      )}
     </Box>
   );
 }

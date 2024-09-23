@@ -7,7 +7,7 @@ import moment from "moment";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { My_All_HistoryFn } from "../../../services/apiCallings";
-import { rupees, zubgback } from "../../../services/urls";
+import { rupees } from "../../../services/urls";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
 
@@ -248,9 +248,9 @@ const MyHistory = ({ gid }) => {
                   <div className="!w-full !flex !justify-between">
                     <p className="!text-white ">{i?.tr_transid}</p>
                     <p
-                      className={`${i?.tr_status === "Loss"
+                      className={`${i?.tr_status === "Fail"
                         ? "!text-red-600"
-                        : i?.tr_status === "Win"
+                        : i?.tr_status === "Success"
                           ? "!text-green-600"
                           : "!text-red-600"
                         } !font-bold`}
@@ -258,16 +258,16 @@ const MyHistory = ({ gid }) => {
                       {i?.tr_status}
                     </p>
                     <span
-                      className={`${i?.tr_status === "Loss"
+                      className={`${i?.tr_status === "Fail"
                         ? "!text-red-600"
-                        : i?.tr_status === "Win"
+                        : i?.tr_status === "Success"
                           ? "!text-green-600"
                           : "!text-red-600"
                         }`}
                     >
                       {" "}
                       {rupees}{" "}
-                      {i?.tr_status === "Win" ? i?.tr_income : i?.tr_pv}
+                      {i?.tr_status === "Success" ? i?.tr_income : i?.tr_final_amt}
                     </span>
                   </div>
                 </AccordionSummary>
@@ -325,46 +325,46 @@ const MyHistory = ({ gid }) => {
                         <span>{`${i?.tr_win_slot - 1}`}</span>
                         <span
                           className={`
-  ${((i?.tr_win_slot - 1).toString() === "0" &&
+  ${((i?.tr_win_slot - 1)?.toString() === "0" &&
                               "bg-gradient-to-t from-red-400 to-violet-400") ||
-                            ((i?.tr_win_slot - 1).toString() === "5" &&
+                            ((i?.tr_win_slot - 1)?.toString() === "5" &&
                               "bg-gradient-to-t from-violet-400 to-green-400") ||
-                            (((i?.tr_win_slot - 1).toString() === "1" ||
-                              (i?.tr_win_slot - 1).toString() === "3" ||
-                              (i?.tr_win_slot - 1).toString() === "7" ||
-                              (i?.tr_win_slot - 1).toString() === "9" ||
-                              (i?.tr_win_slot - 1).toString() === "11") &&
+                            (((i?.tr_win_slot - 1)?.toString() === "1" ||
+                              (i?.tr_win_slot - 1)?.toString() === "3" ||
+                              (i?.tr_win_slot - 1)?.toString() === "7" ||
+                              (i?.tr_win_slot - 1)?.toString() === "9" ||
+                              (i?.tr_win_slot - 1)?.toString() === "11") &&
                               "bg-gradient-to-t from-green-400 to-green-900") ||
-                            (((i?.tr_win_slot - 1).toString() === "2" ||
-                              (i?.tr_win_slot - 1).toString() === "4" ||
-                              (i?.tr_win_slot - 1).toString() === "6" ||
-                              (i?.tr_win_slot - 1).toString() === "8" ||
-                              (i?.tr_win_slot - 1).toString() === "13") &&
+                            (((i?.tr_win_slot - 1)?.toString() === "2" ||
+                              (i?.tr_win_slot - 1)?.toString() === "4" ||
+                              (i?.tr_win_slot - 1)?.toString() === "6" ||
+                              (i?.tr_win_slot - 1)?.toString() === "8" ||
+                              (i?.tr_win_slot - 1)?.toString() === "13") &&
                               "bg-gradient-to-tl from-red-400 to-red-900") ||
-                            ((i?.tr_win_slot - 1).toString() === "15" && "bg-[#6DA7F4]") ||
-                            ((i?.tr_win_slot - 1).toString() === "14" && "bg-[#63BA0E]") ||
-                            ((i?.tr_win_slot - 1).toString() === "12" && "bg-[#eb2feb]")
+                            ((i?.tr_win_slot - 1)?.toString() === "15" && "bg-[#6DA7F4]") ||
+                            ((i?.tr_win_slot - 1)?.toString() === "14" && "bg-[#63BA0E]") ||
+                            ((i?.tr_win_slot - 1)?.toString() === "12" && "bg-[#eb2feb]")
                             }
   transparentColor font-bold text-xl
 `}
                         >
-                          {((i?.tr_win_slot - 1).toString() === "0" &&
+                          {((i?.tr_win_slot - 1)?.toString() === "0" &&
                             "Red Voilet") ||
-                            ((i?.tr_win_slot - 1).toString() === "5" &&
+                            ((i?.tr_win_slot - 1)?.toString() === "5" &&
                               "Green Voilet") ||
-                            (((i?.tr_win_slot - 1).toString() === "1" ||
-                              (i?.tr_win_slot - 1).toString() === "3" ||
-                              (i?.tr_win_slot - 1).toString() === "7" ||
-                              (i?.tr_win_slot - 1).toString() === "9" ||
-                              (i?.tr_win_slot).toString() === "11") &&
+                            (((i?.tr_win_slot - 1)?.toString() === "1" ||
+                              (i?.tr_win_slot - 1)?.toString() === "3" ||
+                              (i?.tr_win_slot - 1)?.toString() === "7" ||
+                              (i?.tr_win_slot - 1)?.toString() === "9" ||
+                              (i?.tr_win_slot)?.toString() === "11") &&
                               "Green") ||
-                            (((i?.tr_win_slot - 1).toString() === "2" ||
-                              (i?.tr_win_slot - 1).toString() === "4" ||
-                              (i?.tr_win_slot - 1).toString() === "6" ||
-                              (i?.tr_win_slot - 1).toString() === "8" ||
-                              (i?.tr_win_slot).toString() === "13") &&
+                            (((i?.tr_win_slot - 1)?.toString() === "2" ||
+                              (i?.tr_win_slot - 1)?.toString() === "4" ||
+                              (i?.tr_win_slot - 1)?.toString() === "6" ||
+                              (i?.tr_win_slot - 1)?.toString() === "8" ||
+                              (i?.tr_win_slot)?.toString() === "13") &&
                               "Red") ||
-                            ((i?.tr_win_slot).toString() === "12" && "Red")}
+                            ((i?.tr_win_slot)?.toString() === "12" && "Red")}
                         </span>
                         <span>{i?.tr_win_slot - 1 <= 4 ? "Small" : "Big"}</span>
                       </div>
@@ -377,39 +377,39 @@ const MyHistory = ({ gid }) => {
                     <div className="!bg-white !bg-opacity-10 py-1 px-2">
                       <span
                         className={`
-                  ${((i?.tr_package - 1).toString() === "0" &&
+                  ${((i?.tr_package - 1)?.toString() === "0" &&
                             "!bg-gradient-to-t from-red-400 to-violet-400") ||
-                          ((i?.tr_package - 1).toString() === "5" &&
+                          ((i?.tr_package - 1)?.toString() === "5" &&
                             "!bg-gradient-to-t from-violet-400 to-green-400") ||
-                          (((i?.tr_package - 1).toString() === "1" ||
-                            (i?.tr_package - 1).toString() === "3" ||
-                            (i?.tr_package - 1).toString() === "7" ||
-                            (i?.tr_package - 1).toString() === "9" ||
-                            (i?.tr_package).toString() === "11") &&
+                          (((i?.tr_package - 1)?.toString() === "1" ||
+                            (i?.tr_package - 1)?.toString() === "3" ||
+                            (i?.tr_package - 1)?.toString() === "7" ||
+                            (i?.tr_package - 1)?.toString() === "9" ||
+                            (i?.tr_package)?.toString() === "11") &&
                             "bg-gradient-to-t from-green-400 to-green-900") ||
-                          (((i?.tr_package - 1).toString() === "2" ||
-                            (i?.tr_package - 1).toString() === "4" ||
-                            (i?.tr_package - 1).toString() === "6" ||
-                            (i?.tr_package - 1).toString() === "8" ||
+                          (((i?.tr_package - 1)?.toString() === "2" ||
+                            (i?.tr_package - 1)?.toString() === "4" ||
+                            (i?.tr_package - 1)?.toString() === "6" ||
+                            (i?.tr_package - 1)?.toString() === "8" ||
                             (i?.tr_package).toString() === "13") &&
                             "bg-gradient-to-tl from-red-400 to-red-900") ||
-                          ((i?.tr_package).toString() === "15" && "bg-[#6DA7F4]") ||
-                          ((i?.tr_package).toString() === "14" && "bg-[#63BA0E]") ||
-                          ((i?.tr_package).toString() === "12" && "bg-[#eb2feb]")
+                          ((i?.tr_package)?.toString() === "15" && "bg-[#6DA7F4]") ||
+                          ((i?.tr_package)?.toString() === "14" && "bg-[#63BA0E]") ||
+                          ((i?.tr_package)?.toString() === "12" && "bg-[#eb2feb]")
                           }
                   transparentColor font-bold text-xl 
 
                   `}
                       >
-                        {i?.tr_package.toString() === "11"
+                        {i?.tr_package?.toString() === "11"
                           ? "Green"
-                          : i?.tr_package.toString() === "14"
+                          : i?.tr_package?.toString() === "14"
                             ? "Small"
-                            : i?.tr_package.toString() === "15"
+                            : i?.tr_package?.toString() === "15"
                               ? "Big"
-                              : i?.tr_package.toString() === "13"
+                              : i?.tr_package?.toString() === "13"
                                 ? "Red"
-                                : i?.tr_package.toString() === "12"
+                                : i?.tr_package?.toString() === "12"
                                   ? "Voilet"
                                   : i?.tr_package - 1}
                       </span>
@@ -418,9 +418,9 @@ const MyHistory = ({ gid }) => {
                       Status
                     </span>
                     <span
-                      className={`${i?.tr_status === "Loss"
+                      className={`${i?.tr_status === "Fail"
                         ? "!text-red-400"
-                        : i?.tr_status === "Win"
+                        : i?.tr_status === "Success"
                           ? "!text-green-400"
                           : "!text-red-400"
                         } bg-white !bg-opacity-10 py-1 px-2`}

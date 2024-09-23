@@ -106,8 +106,8 @@ function Footer() {
               position: "absolute",
               width: "120px",
               top: "-40px",
-              left: "5px",
-              ml: '5px',
+              // left: "1px",
+              ml: 1,
             }}
           ></Box>
           <Typography
@@ -132,7 +132,7 @@ function Footer() {
           component={NavLink}
           onClick={() => navigation(4)}
           to="/wallet"
-        >
+         >
           {nav === 4 ? (
             <Box component="img" src={walletactive} width={20}></Box>
           ) : (

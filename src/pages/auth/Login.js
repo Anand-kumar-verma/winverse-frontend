@@ -1,13 +1,10 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {
   Box,
-  Button,
-  Checkbox,
   Container,
   FilledInput,
   FormControl,
-  FormControlLabel,
-  FormGroup,
   IconButton,
   InputAdornment,
   Stack,
@@ -22,21 +19,20 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
 import custom from "../../assets/images/custom.png";
-import inputfield from "../../assets/images/inputfield.png";
-import logo from '../../assets/images/logo.png';
-import logbg from '../../assets/images/logbg.jpg';
 import email from '../../assets/images/email (1).png';
+import inputfield from "../../assets/images/inputfield.png";
+import logbg from '../../assets/images/logbg.jpg';
+import logo from '../../assets/images/logo.png';
 import password from "../../assets/images/password.png";
 import phoneaa from "../../assets/images/phoneaa.png";
 import { storeCookies } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
-import theme from "../../utils/theme";
+import { loginSchema } from "../../services/validation";
+import { deCryptData, enCryptData } from "../../shared/secret";
 function Login() {
   const [value, setValue] = useState("one");
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const navigate = useNavigate();
-  const [country, setCountry] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -46,11 +42,6 @@ function Login() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const handleChangesetCountry = (event) => {
-    setCountry(event.target.value);
-  };
-
   const initialValue = {
     email: "",
     password: "",
@@ -59,13 +50,14 @@ function Login() {
 
   const fk = useFormik({
     initialValues: initialValue,
+    validationSchema :loginSchema,
     onSubmit: () => {
       const reqBody = {
         email: value === "one" ? String(fk.values.mobile) : fk.values.email,
         password: fk.values.password,
       };
       if (!reqBody.password || !reqBody.email)
-        return toast("Plese enter all fields");
+        return toast("Plese enter all fields", {id:1});
       loginSubmit(reqBody);
     },
   });
@@ -73,19 +65,18 @@ function Login() {
   async function loginSubmit(reqBody) {
     try {
       const res = await axios.post(endpoint.newlogin, reqBody);
-      console.log(res);
       if (res?.data?.success === "200") {
         storeCookies();
-        toast(res?.data?.message);
-        localStorage.setItem("user_id", res?.data?.data?.or_user_id);
-        localStorage.setItem("or_m_user_type", res?.data?.data?.or_m_user_type);
+        toast(res?.data?.message ,{id:1});
+        localStorage.setItem("user_id", enCryptData(res?.data?.data?.or_user_id || null));
+        localStorage.setItem("or_m_user_type", enCryptData(res?.data?.data?.or_m_user_type));
         window.location.reload();
         navigate("/before-login");
       } else {
-        toast(res?.data?.msg);
+        toast(res?.data?.msg ,{id:1});
       }
     } catch (e) {
-      toast(e?.response?.data?.message);
+      toast(e?.response?.data?.message ,{id:1});
     }
   }
 
@@ -128,45 +119,11 @@ function Login() {
         ></Box>
       </Box>
       <Box sx={{ width: "92%", margin: "auto", mt: 2 }}>
-        <Tabs value={value} onChange={handleChange}>
-          <Tab
-            sx={{ width: "50%" }}
-            value="one"
-            label={
-              <Box>
-                {value === "one" ? (
-
-                  <></>
-                ) : (
-
-                  <></>
-                )}
-                {value === "one" ? <p>Log in with phone</p> : <p style={{ color: 'white' }}>Log in with phone</p>}
-
-              </Box>
-            }
-          />
-          <Tab
-            sx={{ width: "50%" }}
-            value="two"
-            label={
-              <Box>
-                {value === "two" ? (
-
-                  <></>
-                ) : (
-
-                  <></>
-                )}
-                {value === "two" ? <p>  Log in with email</p> : <p style={{ color: 'white' }}>  Log in with email</p>}
-
-              </Box>
-            }
-          />
-        </Tabs>
+       
+          
       </Box>
       <Box sx={{ width: "92%", margin: "auto", mt: 3 }}>
-        {value === "one" && (
+      
           <Box component="form" onSubmit={fk.handleSubmit}>
             <Stack
               direction="row"
@@ -191,6 +148,9 @@ function Login() {
                     type="number"
                   />
                 </FormControl>
+                {fk.touched.mobile && fk.errors.mobile && (
+                <div className="error">{fk.errors.mobile}</div>
+              )}
               </Box>
             </Stack>
             <Box mt={2}>
@@ -223,59 +183,8 @@ function Login() {
               </FormControl>
             </Box>
           </Box>
-        )}
-        {value === "two" && (
-          <Box component="form" onSubmit={fk.handleSubmit}>
-            <Box>
-              <FormControl fullWidth sx={{ ...style.inputfield2 }}>
-                <Box
-                  component="img"
-                  src={email}
-                  sx={style.inputimg2}
-                ></Box>
-                <TextField
-                  class="sub"
-                  id="email"
-                  name="email"
-                  onChange={fk.handleChange}
-                  value={fk.values.email}
-                  label=""
-                  placeholder="please input your email"
-                  fullWidth
-                  type="email"
-                />
-              </FormControl>
-            </Box>
-            <Box mt={2}>
-              <FormControl fullWidth sx={{ ...style.passwordfield2 }}>
-                <Box
-                  component="img"
-                  src={password}
-                  sx={style.inputimg2}
-                ></Box>
-                <FilledInput
-                  placeholder="please input your password"
-                  id="password"
-                  name="password"
-                  onChange={fk.handleChange}
-                  value={fk.values.password}
-                  type={showPassword ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff sx={{ color: '#fff2f2' }} /> : <Visibility sx={{ color: '#fff2f2' }} />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Box>
-          </Box>
-        )}
+    
+      
         <Box sx={{ width: "80%", margin: "auto", mt: 3 }}>
 
           <button class="cssbuttons-io-button" onClick={() => fk.handleSubmit()}>
@@ -326,7 +235,7 @@ function Login() {
           </Typography>
         </Box>
       </Box>
-    </Container >
+    </Container>
   );
 }
 

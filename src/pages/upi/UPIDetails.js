@@ -1,3 +1,4 @@
+import { ArrowBackIos, ContentPaste, Edit } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
@@ -5,16 +6,12 @@ import {
   Container,
   Dialog,
   Divider,
+  IconButton,
+  InputAdornment,
   Stack,
-  TablePagination,
-  TextField
+  TextField,
+  Typography
 } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import { useFormik } from "formik";
 import jsPDF from "jspdf";
@@ -22,19 +19,21 @@ import "jspdf-autotable";
 import * as React from "react";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
+import upi from "../../assets/images/upi (2).png";
 import Layout from "../../component/layout/Layout";
 import {
   UPIDetailsFUnction
 } from "../../services/apiCallings";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
+import { deCryptData } from "../../shared/secret";
 import theme from "../../utils/theme";
 export default function UPIDetails() {
-  const user_id = localStorage.getItem("user_id");
+  const user_id = deCryptData(localStorage.getItem("user_id"));
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = React.useState(0);
-  const tableRef = React.useRef(null);
   const client = useQueryClient();
   const [openDialogBox, setOpenDialogBox] = React.useState(false);
   const { isLoading, data: game_history } = useQuery(
@@ -55,14 +54,7 @@ export default function UPIDetails() {
     [game_history?.data?.earning?.bank_details]
   );
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   const visibleRows = React.useMemo(
     () =>
@@ -78,7 +70,7 @@ export default function UPIDetails() {
       visibleRows?.find((i) => i?.regid === openDialogBox)?.or_m_name ||
       "",
     upi_type: visibleRows?.find((i) => i?.regid === openDialogBox)?.Ifsc || "",
-    upi_no: visibleRows?.find((i) => i?.regid === openDialogBox)?.AcNo || "",
+    upi_no: visibleRows?.find((i) => i?.regid === openDialogBox)?.Upi_number || "",
     upi_id: visibleRows?.find((i) => i?.regid === openDialogBox)?.Branch || "",
   };
   const fk = useFormik({
@@ -118,35 +110,25 @@ export default function UPIDetails() {
     client.refetchQueries("upi_details");
   }
 
-  const downloadExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(visibleRows);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
-    const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "data.xlsx";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
+  const navigate = useNavigate()
+
+  const handlePasteClick = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('upi_no', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
+  };
+  const handlePasteClick1 = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      fk.setFieldValue('upi_id', clipboardText);
+    } catch (err) {
+      console.error('Failed to read clipboard content:', err);
+    }
   };
 
-  // Function to convert s to array buffer
-  const s2ab = (s) => {
-    const buf = new ArrayBuffer(s.length);
-    const view = new Uint8Array(buf);
-    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
-    return buf;
-  };
-
-  const downloadPDF = () => {
-    const doc = new jsPDF();
-    doc.autoTable({ html: "#my-table" });
-    doc.save("table.pdf");
-  };
   return (
     <Layout>
       <Container
@@ -159,126 +141,118 @@ export default function UPIDetails() {
         className="no-scrollbar"
       >
         <CustomCircularProgress isLoading={isLoading} />
-        <div className="flex justify-between w-full px-1 pt-2 pb-1">
-          <div className="flex gap-1">
-            <Button
-              className="!bg-[#BF6DFE] !py-0 !text-white"
-              onClick={() => downloadPDF()}
-            >
-              PDF
-            </Button>
-            <Button
-              className="!bg-[#FD565C] !py-0 !text-white"
-              onClick={() => downloadExcel()}
-            >
-              Excel
-            </Button>
-          </div>
-          <div>
-            <input
-              type="text"
-              className="!bg-gray-600 !text-white !rounded-md px-2 py-1"
-              placeholder="Search.."
-            />
-          </div>
-        </div>
-        <Box>
-          <TableContainer>
-            <Table
-              id="my-table"
-              ref={tableRef}
-              sx={{ maxWidth: 400 }}
-              aria-label="simple table"
-            >
-              <TableHead
-                sx={{
-                  background: theme.palette.primary.main,
-                  "&>tr>th": {
-                    padding: 1,
-                    fontSize: "13px",
-                    fontWeight: 700,
-                    color: "white",
-                  },
-                }}
-              >
-                <TableRow>
-                  <TableCell className="!text-sm !text-center !pl-[2px] !pr-0 border-2 border-r border-white">
-                    S.No.
-                  </TableCell>
-
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Action
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+        <Box sx={style.header}>
+          <Box >
+            <ArrowBackIos className="!text-white !cursor-pointer"  onClick={()=>navigate('/withdraw')}/>
+          </Box>
+          <Typography variant="body1" sx={{ color: 'white' }} >
+             UPI Details
+          </Typography>
+          <Box></Box>
+        </Box>
+       
+         <Box>
+          <Box
+            sx={{
+              padding: "10px",
+              width: "95%",
+              margin: "auto",
+              mt: 2,
+              borderRadius: "10px",
+              mb: 5,
+            }}
+          >
+          
+            {visibleRows?.map((i, index) => {
+              return (
+                <Box
+                  key={index}
+                  sx={{
+                    mb: 2,
+                    padding: "15px",
+                    borderRadius: "10px",
+                    background: theme.palette.primary.main,
+                  }}
+                >
+                  <div className="flex !justify-between">
+                    <img src={upi} className="!text-white w-8" alt=""/>
+                    <IconButton  onClick={() => {
+                            setOpenDialogBox(i?.regid)
+                          }}>
+                      <Edit sx={{ color: 'white' }} />
+                    </IconButton>
+                  </div>
+                  <Divider className="!bg-red-100 !text-red-100 !bg-opacity-20" />
+                  <Stack
+                    direction="row"
+                    sx={{
+                      marginTop: "10px",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      "&>p": { color: 'white' },
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ color: 'white' }} >
                     UPI Holder Name
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                    {i?.or_m_name}
+                    </Typography>
+                  </Stack>
+                
+                  <Stack
+                    direction="row"
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      "&>p": { color: 'white' },
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ color: 'white' }} >
                     UPI ID
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                    {i?.Branch}
+                    </Typography>
+                  </Stack>
+                 
+                  <Stack
+                    direction="row"
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      "&>p": { color: 'white' },
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ color: 'white' }} >
                     UPI Type
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                    {i?.Ifsc}
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      "&>p": { color: 'white' },
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ color: 'white' }} >
                     UPI No
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody
-              // sx={{
-              //   "&>tr>td": { padding: "10px 5px", border: "none" },
-              //   "&>tr": { borderBottom: "1px solid #ced4d7" },
-              // }}
-              >
-                {visibleRows?.map((i, index) => {
-                  return (
-                    <TableRow key={index} className="!w-[95%]">
-                      <TableCell className="!text-black !pl-[2px] !pr-2 !text-center !border-2 !border-r !border-[#63BA0E]">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        <Button
-                          className="!bg-[#FD565C] !py-0 !text-white"
-                          onClick={() => setOpenDialogBox(i?.regid)}
-                        >
-                          Update
-                        </Button>
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.or_m_name}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.Branch}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.Ifsc}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r !border-[#63BA0E]">
-                        {i?.AcNo}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Box sx={{ background: "white", mt: 3 }}>
-            <Stack spacing={2}>
-              <TablePagination
-                sx={{ background: "#FBA343", color: "white" }}
-                rowsPerPageOptions={[10, 15, 20]}
-                component="div"
-                count={game_history_data?.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                labelRowsPerPage="Rows"
-              />
-            </Stack>
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'white' }} >
+                    {i?.Upi_number}
+                    </Typography>
+                  </Stack>
+                </Box>
+              );
+            })}
           </Box>
         </Box>
         <Dialog open={openDialogBox}>
-          <div className="grid grid-cols-2 gap-1 items-center w-[400px] p-5">
+          <div className="grid grid-cols-2 gap-1 items-center  p-5">
             <span className="col-span-2 justify-end">
               <div className="flex justify-between">
                 <span className="font-bold">Update UPI Details</span>
@@ -295,7 +269,7 @@ export default function UPIDetails() {
               name="name"
               value={fk.values.name}
               onChange={fk.handleChange}
-              placeholder="Select Bank"
+              placeholder="Enter Name"
               className="!w-[100%] !py-0"
             />
             <span>UPI Type*</span>
@@ -313,6 +287,16 @@ export default function UPIDetails() {
               value={fk.values.upi_no}
               onChange={fk.handleChange}
               className="!w-[100%]"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ContentPaste 
+                      onClick={handlePasteClick} 
+                      style={{ cursor: 'pointer' }} 
+                    />
+                  </InputAdornment>
+                ),
+              }}
             />
             <span>UPI Id*</span>
             <TextField
@@ -321,16 +305,26 @@ export default function UPIDetails() {
               value={fk.values.upi_id}
               onChange={fk.handleChange}
               className="!w-[100%]"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ContentPaste 
+                      onClick={handlePasteClick1} 
+                      style={{ cursor: 'pointer' }} 
+                    />
+                  </InputAdornment>
+                ),
+              }}
             />
             <div className="col-span-2 flex gap-2 mt-4">
               <Button
-                className="!bg-[#FD565C] !text-white"
+               className="!bg-[#da1c22] !text-white"
                 onClick={() => setOpenDialogBox(false)}
               >
                 Cancel
               </Button>
               <Button
-                className="!bg-[#BF6DFE] !text-white"
+             className="!bg-[#0D0335] !text-white"
                 onClick={() => fk.handleSubmit()}
               >
                 Submit
@@ -341,4 +335,23 @@ export default function UPIDetails() {
       </Container>
     </Layout>
   );
+}
+const style = {
+  header: {
+    padding: "10px 8px",
+    background: "#63BA0E",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    "& > p": {
+      fontSize: "20px",
+      fontWeight: "600",
+      textAlign: "center",
+      color: 'white',
+    },
+    "& > a > svg": {
+      color: 'white',
+      fontSize: "35px",
+    },
+  },
 }
