@@ -17,6 +17,7 @@ import countdownfirst from "../../../assets/images/countdownfirst.mp3";
 import countdownlast from "../../../assets/images/countdownlast.mp3";
 import timerbg1 from "../../../assets/images/timerbg.png";
 import timerbg2 from "../../../assets/images/timerbg2.png";
+import trxbg from "../../../assets/images/trxbg.png";
 import {
   dummycounterFun,
   trx_game_image_index_function,
@@ -65,7 +66,7 @@ function Wingo5Min() {
   };
   const fk = useFormik({
     initialValues: initialValue,
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
 
 
@@ -224,7 +225,7 @@ function Wingo5Min() {
         <Box
           className="countdownbgtrx"
           sx={{
-            backgroundImage: `url(https://www.tcvvip11.com/assets/png/trxbg-21e5d811.png)`,
+            backgroundImage: `url(${trxbg})`,
           }}
         >
           <Box
@@ -352,7 +353,7 @@ function Wingo5Min() {
                     justifyContent: "center",
                     // color: "white",
                   }}
-                  className="!bg-[#F48901]  !text-white !h-56 !pb-5"
+                  className="!bg-[#0D0335]  !text-white !h-56 !pb-5"
                 >
                   {show_this_three_min_time_sec?.substring(0, 1)}
                 </div>
@@ -368,7 +369,7 @@ function Wingo5Min() {
                     justifyContent: "center",
                     // color: "white",
                   }}
-                  className="!bg-[#F48901]  !text-white !h-56 !pb-5"
+                  className="!bg-[#0D0335]  !text-white !h-56 !pb-5"
                 >
                   {show_this_three_min_time_sec?.substring(1, 2)}
                 </div>

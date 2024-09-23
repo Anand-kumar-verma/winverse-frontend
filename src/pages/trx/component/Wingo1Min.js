@@ -54,7 +54,7 @@ function Wingo1Min() {
   const client = useQueryClient();
   const next_step = useSelector((state) => state.aviator.next_step);
   const byTimeEnablingSound = useSelector((state) => state.aviator.byTimeEnablingSound);
-//  console.log(typeof(byTimeEnablingSound))
+  //  console.log(typeof(byTimeEnablingSound))
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,7 +78,7 @@ function Wingo1Min() {
       setOne_min_time(onemin);
       // fk.setFieldValue("show_this_one_min_time", onemin);
       if (onemin === 1) handlePlaySoundLast();
-      if ([ 5, 4, 3, 2].includes(onemin)) {
+      if ([5, 4, 3, 2].includes(onemin)) {
         handlePlaySound();
       }
 
@@ -127,7 +127,7 @@ function Wingo1Min() {
       refetchOnWindowFocus: false,
     }
   );
-// console.log(game_history?.data?.result)
+  // console.log(game_history?.data?.result)
   const GameHistoryFn = async (gid) => {
     try {
       const reqBody = {
@@ -181,7 +181,7 @@ function Wingo1Min() {
       console.error("Error during play:", error);
     }
   };
- 
+
   const { isLoading: myhistory_loding_all, data: my_history_all } = useQuery(
     ["myAll_trx_history"],
     () => My_All_TRX_HistoryFn("1"),
@@ -193,14 +193,14 @@ function Wingo1Min() {
       refetchOnWindowFocus: false,
     }
   );
-  const { data:my_history_all_new } =
+  const { data: my_history_all_new } =
     useQuery(["myAll_trx_history_new"], () => My_All_TRX_HistoryFn_new("1"), {
       refetchOnMount: false,
       refetchOnReconnect: false,
       retryOnMount: false,
       refetchOnWindowFocus: false,
     });
-console.log(my_history_all_new?.data?.data)
+  console.log(my_history_all_new?.data?.data)
 
   React.useEffect(() => {
     const allEarnings = my_history_all?.data?.data;
@@ -230,7 +230,7 @@ console.log(my_history_all_new?.data?.data)
 
   const handlePlaySound = async () => {
     try {
-      if (audioRefMusic?.current?.pause && true ) {
+      if (audioRefMusic?.current?.pause && true) {
         await audioRefMusic?.current?.play();
       } else {
         await audioRefMusic?.current?.pause();
@@ -390,7 +390,7 @@ console.log(my_history_all_new?.data?.data)
                     justifyContent: "center",
                     // color: "white",
                   }}
-                  className="!bg-[#F48901]  !text-white !h-56 !pb-5"
+                  className="!bg-[#0D0335]  !text-white !h-56 !pb-5"
                 >
                   {show_this_one_min_time?.substring(0, 1)}
                 </div>
@@ -406,7 +406,7 @@ console.log(my_history_all_new?.data?.data)
                     justifyContent: "center",
                     // color: "white",
                   }}
-                  className="!bg-[#F48901]  !text-white !h-56 !pb-5"
+                  className="!bg-[#0D0335]  !text-white !h-56 !pb-5"
                 >
                   {show_this_one_min_time?.substring(1, 2)}
                 </div>

@@ -30,7 +30,7 @@ import Wingo3Min from "./component/Wingo3Min";
 import Wingo5Min from "./component/Wingo5Min";
 import { byTimeIsEnableSound, wallet_real_balanceFn } from "../../redux/slices/counterSlice";
 
-function TRX () {
+function TRX() {
 
   const [musicicon, setmusicicon] = useState(true);
   const [value, setValue] = useState(1);
@@ -117,12 +117,12 @@ function TRX () {
   }, []);
 
   return (
-    <Container>
+    <Container sx={{ background: '#1E0E58 !important' }}>
       <Box
         sx={{
           padding: 1,
           background:
-            "linear-gradient(90deg, rgb(255, 153, 1) 0%, rgb(230, 115, 1) 100%)",
+            "#63BA0E",
           px: 2,
         }}
       >
@@ -145,9 +145,9 @@ function TRX () {
             </NavLink>
             <NavLink onClick={() => setmusicicon(!musicicon)}>
               {musicicon === true ? (
-                <Box component="img" src={music} width={25} onClick={()=>{dispatch(byTimeIsEnableSound(true))}}></Box>
+                <Box component="img" src={music} width={25} onClick={() => { dispatch(byTimeIsEnableSound(true)) }}></Box>
               ) : (
-                <Box component="img" src={musicoff} width={25} onClick={()=>{dispatch(byTimeIsEnableSound(false))}}></Box>
+                <Box component="img" src={musicoff} width={25} onClick={() => { dispatch(byTimeIsEnableSound(false)) }}></Box>
               )}
             </NavLink>
           </Stack>
@@ -344,7 +344,7 @@ function TRX () {
           alignItems: "center",
           justifyContent: "space-between",
           margin: "auto",
-          background: "#ededed",
+          background: "#0D0335",
           borderRadius: "10PX",
           mt: 2,
         }}
@@ -390,7 +390,7 @@ function TRX () {
                 // toast(
                 //   "The system is currently under maintenance. Please try again later."
                 // )
-              handleChange(3)
+                handleChange(3)
             }
           >
             <Box component="img" src={time} width={40}></Box>

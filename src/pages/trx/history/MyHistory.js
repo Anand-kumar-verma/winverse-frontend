@@ -56,31 +56,29 @@ const MyHistory = ({ gid }) => {
                   <div className="!w-full !flex !justify-between">
                     <p className="!text-black ">{i?.gamesno}</p>
                     <p
-                      className={` !text-center ${
-                        i?.status === "0"
+                      className={` !text-center ${i?.status === "0"
                           ? "!text-red-400"
                           : i?.status === "1"
-                          ? "!text-green-400 "
-                          : "!text-red-400"
-                      }`}
+                            ? "!text-green-400 "
+                            : "!text-red-400"
+                        }`}
                     >
                       {" "}
                       {i?.status === "0"
                         ? "Pending"
                         : i?.status === "1"
-                        ? "Success"
-                        : "Failed"}
-                     
+                          ? "Success"
+                          : "Failed"}
+
                     </p>
                     <span
                       style={{ mr: 1 }}
-                      className={` !text-center ${
-                        i?.status === "0"
+                      className={` !text-center ${i?.status === "0"
                           ? "!text-red-400"
                           : i?.status === "1"
-                          ? "!text-green-400 "
-                          : "!text-red-400"
-                      } `}
+                            ? "!text-green-400 "
+                            : "!text-red-400"
+                        } `}
                     >
                       {" "}
                       {rupees}{" "}
@@ -103,7 +101,7 @@ const MyHistory = ({ gid }) => {
                       Contract Money
                     </span>
                     <span className="bg-white !bg-opacity-10 py-1 px-2 ">
-                    {Number(i?.amount || 0).toFixed(2)}
+                      {Number(i?.amount || 0).toFixed(2)}
                     </span>
                     <span className="bg-white !bg-opacity-10 py-1 px-2 ">
                       Contract Count
@@ -114,14 +112,14 @@ const MyHistory = ({ gid }) => {
                     <span className="bg-white !bg-opacity-10 py-1 px-2 ">
                       Delivery
                     </span>
-                 <span className=" !bg-opacity-10 py-1 px-2 ">
+                    <span className=" !bg-opacity-10 py-1 px-2 ">
                       {Number(i?.totalamount || 0).toFixed(2)}
                     </span>
                     <span className="bg-white !bg-opacity-10 py-1 px-2 ">
                       Fee
                     </span>
                     <span className="bg-white !bg-opacity-10 py-1 px-2 ">
-                    {Number(i?.commission || 0).toFixed(2)}
+                      {Number(i?.commission || 0).toFixed(2)}
                     </span>
                     <span className="bg-white !bg-opacity-10 py-1 px-2 ">
                       Open Price
@@ -138,27 +136,26 @@ const MyHistory = ({ gid }) => {
                         <span>{`${i?.result}`}</span>
                         <span
                           className={`
-                                  ${
-                                    (i?.result === "0" &&
-                                      "!bg-gradient-to-t from-red-400 to-violet-400") ||
-                                    (i?.result === "5" &&
-                                      "!bg-gradient-to-t from-violet-400 to-green-400") ||
-                                    ((i?.result === "1" ||
-                                      i?.result === "3" ||
-                                      i?.result === "7" ||
-                                      i?.result === "9" ||
-                                      i?.result === "10") &&
-                                      "bg-gradient-to-t from-green-400 to-green-900") ||
-                                    ((i?.result === "2" ||
-                                      i?.result === "4" ||
-                                      i?.result === "6" ||
-                                      i?.result === "8" ||
-                                      i?.result === "30") &&
-                                      "bg-gradient-to-tl from-red-400 to-red-900") ||
-                                    (i?.result === "50" && "bg-[#3183ee]") ||
-                                    (i?.result === "40" && "bg-[#f1be24]") ||
-                                    (i?.result === "20" && "bg-[#eb2feb]")
-                                  }
+                                  ${(i?.result === "0" &&
+                              "!bg-gradient-to-t from-red-400 to-violet-400") ||
+                            (i?.result === "5" &&
+                              "!bg-gradient-to-t from-violet-400 to-green-400") ||
+                            ((i?.result === "1" ||
+                              i?.result === "3" ||
+                              i?.result === "7" ||
+                              i?.result === "9" ||
+                              i?.result === "10") &&
+                              "bg-gradient-to-t from-green-400 to-green-900") ||
+                            ((i?.result === "2" ||
+                              i?.result === "4" ||
+                              i?.result === "6" ||
+                              i?.result === "8" ||
+                              i?.result === "30") &&
+                              "bg-gradient-to-tl from-red-400 to-red-900") ||
+                            (i?.result === "50" && "bg-[#3183ee]") ||
+                            (i?.result === "40" && "bg-[#f1be24]") ||
+                            (i?.result === "20" && "bg-[#eb2feb]")
+                            }
                                  transparentColor font-bold text-xl
                                  `}
                         >
@@ -173,29 +170,28 @@ const MyHistory = ({ gid }) => {
                       Select
                     </span>
                     <div className="!bg-white !bg-opacity-10 py-1 px-2">
-                    <span
+                      <span
                         className={`
-                                     ${
-                                       (i?.number === "0" &&
-                                         "!bg-gradient-to-t from-red-400 to-violet-400") ||
-                                       (i?.number === "5" &&
-                                         "!bg-gradient-to-t from-violet-400 to-green-400") ||
-                                       ((i?.number === "1" ||
-                                         i?.number === "3" ||
-                                         i?.number === "7" ||
-                                         i?.number === "9" ||
-                                         i?.number === "10") &&
-                                         "bg-gradient-to-t from-green-400 to-green-900") ||
-                                       ((i?.number === "2" ||
-                                         i?.number === "4" ||
-                                         i?.number === "6" ||
-                                         i?.number === "8" ||
-                                         i?.number === "30") &&
-                                         "bg-gradient-to-tl from-red-400 to-red-900") ||
-                                       (i?.number === "50" && "bg-[#3183ee]") ||
-                                       (i?.number === "40" && "bg-[#f1be24]") ||
-                                       (i?.number === "20" && "bg-[#eb2feb]")
-                                     }
+                                     ${(i?.number === "0" &&
+                            "!bg-gradient-to-t from-red-400 to-violet-400") ||
+                          (i?.number === "5" &&
+                            "!bg-gradient-to-t from-violet-400 to-green-400") ||
+                          ((i?.number === "1" ||
+                            i?.number === "3" ||
+                            i?.number === "7" ||
+                            i?.number === "9" ||
+                            i?.number === "10") &&
+                            "bg-gradient-to-t from-green-400 to-green-900") ||
+                          ((i?.number === "2" ||
+                            i?.number === "4" ||
+                            i?.number === "6" ||
+                            i?.number === "8" ||
+                            i?.number === "30") &&
+                            "bg-gradient-to-tl from-red-400 to-red-900") ||
+                          (i?.number === "50" && "bg-[#3183ee]") ||
+                          (i?.number === "40" && "bg-[#f1be24]") ||
+                          (i?.number === "20" && "bg-[#eb2feb]")
+                          }
                                  transparentColor font-bold text-xl 
 
                                         `}
@@ -203,33 +199,32 @@ const MyHistory = ({ gid }) => {
                         {i?.number === "10"
                           ? "Green"
                           : i?.number === "50"
-                          ? "Small"
-                          : i?.number === "40"
-                          ? "Big"
-                          : i?.number === "30"
-                          ? "Red"
-                          : i?.number === "20"
-                          ? "Voilet"
-                          : i?.number}
+                            ? "Small"
+                            : i?.number === "40"
+                              ? "Big"
+                              : i?.number === "30"
+                                ? "Red"
+                                : i?.number === "20"
+                                  ? "Voilet"
+                                  : i?.number}
                       </span>
                     </div>
                     <span className="bg-white !bg-opacity-10 py-1 px-2">
                       Status
                     </span>
                     <span
-                      className={`${
-                        i?.status === "0"
+                      className={`${i?.status === "0"
                           ? "!text-red-400"
                           : i?.status === "1"
-                          ? "!text-green-400"
-                          : "!text-red-400"
-                      }  !bg-opacity-10 py-1 px-2`}
+                            ? "!text-green-400"
+                            : "!text-red-400"
+                        }  !bg-opacity-10 py-1 px-2`}
                     >
                       {i?.status === "0"
                         ? "Pending"
                         : i?.status === "1"
-                        ? "Win"
-                        : "Loss"}
+                          ? "Win"
+                          : "Loss"}
                     </span>
                     <span className="bg-white !bg-opacity-10 py-1 px-2">
                       Amount
@@ -258,7 +253,7 @@ const MyHistory = ({ gid }) => {
       <Box className="paginationTable">
         <TablePagination
           sx={{
-            background: zubgback,
+            background: '#63BA0E',
             color: "white",
             borderRadius: "10px",
             marginTop: "10px",

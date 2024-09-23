@@ -10,7 +10,10 @@ import lotteryimg from "../../../assets/images/lottery.png";
 import lotterycategory1 from "../../../assets/images/lotterycategory1.png";
 import win from "../../../assets/images/win.png";
 import win3 from "../../../assets/images/win3.png";
+import win4 from "../../../assets/images/win4.png";
+import lotterycategory4 from "../../../assets/images/game1.png";
 import { endpoint } from "../../../services/urls";
+
 
 function Lottery() {
   const [status, setStatus] = useState(false);
@@ -60,8 +63,8 @@ function Lottery() {
         ></Box>
         <Box
           sx={style.positiongame}
-          // component={NavLink}
-          // to={status?.wingo_status !== "0" && "/wingo"}
+        // component={NavLink}
+        // to={status?.wingo_status !== "0" && "/wingo"}
         >
           <Typography variant="body1" sx={style.gameheading}>
             Win Go{" "}
@@ -114,6 +117,39 @@ function Lottery() {
         </Box>
       </Box>
 
+      <NavLink to="/trx">
+        <Box sx={style.winbox}>
+          <Box
+            component="img"
+            src={win4}
+            sx={{ width: "100%", height: "70%" }}
+          ></Box>
+          <Box sx={style.positiongame}>
+            <Typography
+              variant="body1"
+
+              sx={style.gameheading}
+            >
+              Trx Win{" "}
+            </Typography>
+            <Box sx={{ mt: "15px" }}>
+              <Typography variant="body1" color="initial">
+                Guess Number
+              </Typography>
+              <Typography variant="body1" color="initial ">
+                Green/Red/Purple to win
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={{ position: "absolute", top: "-20px", right: "5px" }}>
+            <Box
+              component="img"
+              src={lotterycategory4}
+              sx={{ width: "100px" }}
+            ></Box>
+          </Box>
+        </Box>
+      </NavLink>
       {/* <NavLink to='/k3'> */}
       {/* <NavLink to="/comingsoon">
         <Box sx={style.winbox}>
@@ -173,39 +209,7 @@ function Lottery() {
           </Box>
         </Box>
       </NavLink>
-      <NavLink to={status?.trx_status !== "0" && "/trx"}>
-        <Box sx={style.winbox}>
-          <Box
-            component="img"
-            src={win4}
-            sx={{ width: "100%", height: "70%" }}
-          ></Box>
-          <Box sx={style.positiongame}>
-            <Typography
-              variant="body1"
-  
-              sx={style.gameheading}
-            >
-              Trx Win{" "}
-            </Typography>
-            <Box sx={{ mt: "15px" }}>
-              <Typography variant="body1" color="initial">
-                Guess Number
-              </Typography>
-              <Typography variant="body1" color="initial ">
-                Green/Red/Purple to win
-              </Typography>
-            </Box>
-          </Box>
-          <Box sx={{ position: "absolute", top: "-20px", right: "5px" }}>
-            <Box
-              component="img"
-              src={lotterycategory4}
-              sx={{ width: "100px" }}
-            ></Box>
-          </Box>
-        </Box>
-      </NavLink> */}
+  */}
     </Box>
   );
 }
