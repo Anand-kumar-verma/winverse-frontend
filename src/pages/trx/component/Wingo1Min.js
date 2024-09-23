@@ -127,7 +127,7 @@ function Wingo1Min() {
       refetchOnWindowFocus: false,
     }
   );
-
+// console.log(game_history?.data?.result)
   const GameHistoryFn = async (gid) => {
     try {
       const reqBody = {
@@ -150,13 +150,13 @@ function Wingo1Min() {
   React.useEffect(() => {
     dispatch(
       updateNextCounter(
-        game_history?.data?.data
-          ? Number(game_history?.data?.data?.[0]?.tr_transaction_id) + 1
+        game_history?.data?.result
+          ? Number(game_history?.data?.result?.[0]?.tr_transaction_id) + 1
           : 1
       )
     );
     const tr_digit =
-      game_history?.data?.data && game_history?.data?.data?.[0]?.tr_digits;
+      game_history?.data?.result && game_history?.data?.result?.[0]?.tr_digits;
     let array = [];
     for (let i = 0; i < tr_digit?.length; i++) {
       if (/[a-zA-Z]/.test(tr_digit[i])) {
@@ -166,8 +166,8 @@ function Wingo1Min() {
       }
     }
     dispatch(trx_game_image_index_function(array));
-    dispatch(gameHistory_trx_one_minFn(game_history?.data?.data));
-  }, [game_history?.data?.data]);
+    dispatch(gameHistory_trx_one_minFn(game_history?.data?.result));
+  }, [game_history?.data?.result]);
 
   const handlePlaySoundLast = async () => {
     try {
@@ -193,18 +193,18 @@ function Wingo1Min() {
       refetchOnWindowFocus: false,
     }
   );
-  const { isLoading: myhistory_loding_all_new, data: my_history_all_new } =
+  const { data:my_history_all_new } =
     useQuery(["myAll_trx_history_new"], () => My_All_TRX_HistoryFn_new("1"), {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      // retry: false,
       retryOnMount: false,
       refetchOnWindowFocus: false,
     });
+console.log(my_history_all_new?.data?.data)
 
   React.useEffect(() => {
-    const allEarnings = my_history_all?.data?.earning;
-    const newEarnings = my_history_all_new?.data?.earning;
+    const allEarnings = my_history_all?.data?.data;
+    const newEarnings = my_history_all_new?.data?.data;
 
     // console.log("allEarnings:", allEarnings);
     // console.log("newEarnings:", newEarnings);
@@ -222,7 +222,7 @@ function Wingo1Min() {
     if (newEarnings?.[0]?.tr_status !== "Pending") {
       dispatch(dummycounterFun());
     }
-  }, [my_history_all?.data?.earning, my_history_all_new?.data?.earning]);
+  }, [my_history_all?.data?.data, my_history_all_new?.data?.data]);
 
 
 

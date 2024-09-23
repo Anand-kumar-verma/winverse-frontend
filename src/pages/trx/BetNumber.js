@@ -92,7 +92,7 @@ const BetNumber = ({ timing, gid }) => {
       return toast("Please Refresh your page.");
     }
     const reqBody = {
-      user_id: String(user_id),
+      userid: String(user_id),
       amount: (
         Number(fk.values.balance || 1) * Number(fk.values.qnt || 1) || 0
       )?.toString(),
@@ -103,17 +103,17 @@ const BetNumber = ({ timing, gid }) => {
         (selectNumber === "big" && 40) ||
         (selectNumber === "small" && 50) ||
         selectNumber,
-      type: `${Number(gid)}`,
-      round_no: 123456,
-      description: `${
-        selectNumber === "Small"
-          ? "Small"
-          : `${
-              Number(selectNumber + 1) >= 1 && Number(selectNumber) <= 4
-                ? "Small"
-                : "Big"
-            }`
-      }`,
+      gameid : `${Number(gid)}`,
+      gamesnio : 123456,
+      // description: `${
+      //   selectNumber === "Small"
+      //     ? "Small"
+      //     : `${
+      //         Number(selectNumber + 1) >= 1 && Number(selectNumber) <= 4
+      //           ? "Small"
+      //           : "Big"
+      //       }`
+      // }`,
     };
 
     try {
@@ -230,7 +230,7 @@ const BetNumber = ({ timing, gid }) => {
             Number(reqBody.bet_number) <= 10
               ? Number(reqBody.bet_number) - 1
               : reqBody.bet_number
-          }_${reqBody.amount}_${reqBody.round_no}`
+          }_${reqBody.amount}_${reqBody.gamesnio }`
         );
         setOpen(false);
       } else {
