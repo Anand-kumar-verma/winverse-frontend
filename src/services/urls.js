@@ -24,12 +24,12 @@ export const endpoint = {
   trx_bet_placed_node: `${domain_ovi_nodee}/bid-placed-node`,
   trx_game_history: `${domain_ovi_nodee}/trx_result-node`, //////// done in node js
   trx_my_history_new: `${domain_ovi_nodee}/trx-my-history-node`, /// done  in node js
-  
+
   banner_request: `${baseUrl}/api/panel_banner`,
   with_request: `${baseUrl}/api/withdrawal_wallet`,
-  p2p_history :`${baseUrl}/api/view_fund_transfer_main`,
-  p2p_topup_history :`${baseUrl}/view_p2p_topup_history`,
-  p2p_tranfer_history :`${baseUrl}/api/view_fund_transfer_p2p`,
+  p2p_history: `${baseUrl}/api/view_fund_transfer_main`,
+  p2p_topup_history: `${baseUrl}/view_p2p_topup_history`,
+  p2p_tranfer_history: `${baseUrl}/api/view_fund_transfer_p2p`,
   p2p_request: `${baseUrl}/api/insert_user_topup`,
   deposite_request: `${domain_ovi_node}/fund-request`,
   wallet_withdrawl: `${baseUrl}/api/insert_withdrawal_request`,

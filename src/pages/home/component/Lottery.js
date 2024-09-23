@@ -14,7 +14,6 @@ import win4 from "../../../assets/images/win4.png";
 import lotterycategory4 from "../../../assets/images/game1.png";
 import { endpoint } from "../../../services/urls";
 
-
 function Lottery() {
   const [status, setStatus] = useState(false);
   const navigate = useNavigate();
@@ -63,8 +62,8 @@ function Lottery() {
         ></Box>
         <Box
           sx={style.positiongame}
-        // component={NavLink}
-        // to={status?.wingo_status !== "0" && "/wingo"}
+          // component={NavLink}
+          // to={status?.wingo_status !== "0" && "/wingo"}
         >
           <Typography variant="body1" sx={style.gameheading}>
             Win Go{" "}
@@ -117,7 +116,11 @@ function Lottery() {
         </Box>
       </Box>
 
-      <NavLink to="/trx">
+      <div
+        onClick={() => {
+          status?.trx_status !== "0" && navigate("/trx");
+        }}
+      >
         <Box sx={style.winbox}>
           <Box
             component="img"
@@ -125,11 +128,7 @@ function Lottery() {
             sx={{ width: "100%", height: "70%" }}
           ></Box>
           <Box sx={style.positiongame}>
-            <Typography
-              variant="body1"
-
-              sx={style.gameheading}
-            >
+            <Typography variant="body1" sx={style.gameheading}>
               Trx Win{" "}
             </Typography>
             <Box sx={{ mt: "15px" }}>
@@ -149,7 +148,7 @@ function Lottery() {
             ></Box>
           </Box>
         </Box>
-      </NavLink>
+      </div>
       {/* <NavLink to='/k3'> */}
       {/* <NavLink to="/comingsoon">
         <Box sx={style.winbox}>
