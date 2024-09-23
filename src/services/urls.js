@@ -14,9 +14,9 @@ export const baseUrl = "https://admin.winversegame.com";
 export const front_end_domain = "https://winversegame.com";
 export const download_app_url = "https://api.winversegame.com/ZUPEETER.pdf";
 
-// export const domain_ovi_nodee = "https://api.winversegame.com";
+export const domain_ovi_nodee = "https://api.winversegame.com";
 export const usdt_base_url = "https://api.winversegame.com";
-export const domain_ovi_nodee = "http://192.168.18.183:9002";
+// export const domain_ovi_nodee = "http://192.168.18.183:9002";
 // export const domain_ovi_node = "http://192.168.43.246:9002";
 // export const usdt_base_url = "http://192.168.43.246:9002";
 
