@@ -1,7 +1,6 @@
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   Box,
-  Button,
   Container,
   IconButton,
   Stack,
@@ -9,19 +8,18 @@ import {
 } from "@mui/material";
 import copy from "clipboard-copy";
 import moment from "moment";
-import React, { useState } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import backbtn from "../../../assets/images/backBtn.png";
-import { P2pHistoryFunction, P2pTopupHistoryFunction } from "../../../services/apiCallings";
+import { P2pTopupHistoryFunction } from "../../../services/apiCallings";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
 
 function P2pHistory() 
 
 {
-  const [isAllValue, setIsAllValue] = useState(false);
 
   const { isLoading, data } = useQuery(
     ["p2p_history"],
@@ -29,14 +27,13 @@ function P2pHistory()
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retry: false,
       retryOnMount: false,
       refetchOnWindowFocus: false
     }
   );
 
   const res = data?.data?.rid || [];
-  console.log(res)
+ 
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -97,10 +94,20 @@ function P2pHistory()
                 className=" !text-white rounded px-2 py-1 !flex justify-center "
                 sx={{ background: theme.palette.primary.main }}
               >
-                {i?.m_bal_type}
+                P2P TopUp
               </Typography>
             </Box>
-        
+            <Box>
+            <Typography variant="body1" color="initial" className={`
+            ${i?.STATUS === "Approve" 
+              ?"!text-green-600"
+              :"!text-red-600"  
+            } !font-bold` }>
+             {i?.STATUS=== "Approve"
+             ?"Approved"
+            :i?.STATUS}
+            </Typography>
+            </Box>
           </Stack>
           <Stack
             direction="row"
@@ -122,50 +129,37 @@ function P2pHistory()
             }}
           >
             <Typography variant="body1" color="initial">
-            {i?.m_ledger_type=== "Dr" ?
-             <Typography>Debit </Typography>
-           :
-           <Typography>Credit </Typography>
-            }
+            Balance
             </Typography>
             <Typography variant="body1" 
-            className={`${
-              i?.m_ledger_type=== "Dr" ?
-              " text-red-600"
-              :
-               " text-green-600"
-               
-            }`}>
-            
-            {i?.m_ledger_type=== "Dr" ?
-             <Typography> - {i?.m_dramount} </Typography>
-           :
-           <Typography> + {i?.m_cramount} </Typography>
-            }
-
-            </Typography>
-          </Stack>
+            className="!text-green-800">
+            {i?.amt}
         
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: "center",
-              justifyContent: "space-between",
-              "&>p": {
-                color: "#888",
-                fontSize: "13px",
-                fontWeight: "600",
-                py: 1,
-              },
-            }}
-          >
-            <Typography variant="body1" color="initial">
-              Status
-            </Typography>
-            <Typography variant="body1" color="initial" className="!text-red-400">
-             {i?.m_status}
             </Typography>
           </Stack>
+          <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+                "&>p": {
+                  color: "#888",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  py: 1,
+                },
+              }}
+            >
+              <Typography variant="body1" color="initial">
+                Status
+              </Typography>
+              <Typography variant="body1" color="initial" >
+              {i?.STATUS=== "Approve"
+             ?"Approved"
+            :i?.STATUS}
+            </Typography>
+            </Stack>
+        
           <Stack
               direction="row"
               sx={{
@@ -187,7 +181,7 @@ function P2pHistory()
                 color="initial"
                 className="!text-green-500"
               >
-                {moment(i?.m_transdate)?.format("DD-MM-YYYY HH:mm:ss")}
+                {moment(i?.act_date)?.format("DD-MM-YYYY HH:mm:ss")}
               </Typography>
             </Stack>
           <Stack
@@ -225,7 +219,7 @@ function P2pHistory()
               }}
             >
               <Typography variant="body1" color="initial">
-                {i?.m_trans_id}
+                {i?.tr_id}
               </Typography>
               <IconButton sx={{ padding: 0 }}
                onClick={() =>
@@ -240,13 +234,6 @@ function P2pHistory()
         </Box>
       ))}
 
-      <Button
-        sx={{ marginTop: 2, margin:5, borderColor: theme.palette.primary.main, color: theme.palette.primary.main }}
-        variant="outlined"
-        onClick={() => setIsAllValue(!isAllValue)}
-      >
-        {isAllValue ? "Show Less" : "Show All"}
-      </Button>
     </Container>
   );
 }
@@ -254,35 +241,3 @@ function P2pHistory()
 export default P2pHistory;
 
 
-const style = {
-  paytmbtntwo: {
-    borderRadius: "20px",
-    textTransform: "capitalize",
-    mb: 2,
-    width: "92%",
-    mt: 2,
-    mx: 2,
-    padding: "10px",
-    "&:hover": { border: "1px solid transparent" },
-  },
-  wdbtn: {
-    width: "95% !important",
-    boxShadow: "0 0.05333rem #b6bad0",
-    borderRadius: "20px",
-    border: "none",
-    color: "#fff",
-    letterSpacing: "0.13333rem",
-    fontWeight: "700",
-    fontSize: "15px",
-    height: "0.93333rem",
-    width: "100%",
-    background:
-      "linear-gradient(180deg, #cfd1de 0%, #c7c9d9 100%), linear-gradient(180deg, #cfd1de 0%, #c7c9d9 100%)",
-    backgroundSize: "100% 100%, 100% 100%",
-    backgroundPosition: "center, center",
-    backgroundRepeat: "no-repeat, no-repeat",
-    textShadow: "0 0.02667rem 0.01333rem #afb0be",
-    padding: "20px",
-    mt: 3,
-  },
-};

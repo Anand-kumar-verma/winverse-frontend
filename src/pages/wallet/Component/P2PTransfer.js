@@ -81,6 +81,7 @@ const P2PTransfer = () => {
       setLoading(false)
       fk.handleReset();
       client.refetchQueries("wallet_amount_amount");
+      client.refetchQueries("p2p_history");
     } catch (e) {
       console.log(e);
     }
