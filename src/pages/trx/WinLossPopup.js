@@ -233,11 +233,8 @@ import win from "../../assets/images/winnner.png";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import { deCryptData } from "../../shared/secret";
-const WinLossPopup = ({ gid, setOpenDialogBox }) => {
-  //   const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null;
-  //   const user_id = login_data && JSON.parse(login_data).UserID;
+const WinLossPopup = ({ gid }) => {
   let array = [zero, one, two, three, four, five, six, seven, eight, nine];
-  // const my_history = useSelector((state) => state.aviator.myHistory_trx_one_min);
   const user_id = deCryptData(localStorage.getItem("user_id"));
   const [loding, setloding] = useState(false);
   const [status, setstatus] = useState("");
@@ -255,24 +252,19 @@ const WinLossPopup = ({ gid, setOpenDialogBox }) => {
         reqBody
       );
       // const firstId = localStorage.getItem("betApplied")?.split("_")?.[4];
-      const firstId = response?.data?.earning?.[0]?.tr_transid;
-      const total_data = response?.data?.earning;
-      console.log(total_data, "hii anand");
+      const firstId = response?.data?.data?.[0]?.gamesno;
+      const total_data = response?.data?.data;
+      console.log(response?.data?.data?.[0], "hii anand");
       const winAmnt =
         total_data
-          ?.filter((i) => i?.tr_transid === firstId)
-          ?.reduce((a, b) => a + Number(b?.tr_income || 0), 0) || 0;
+          ?.filter((i) => i?.gamesno === firstId)
+          ?.reduce((a, b) => a + Number(b?.win || 0), 0) || 0;
       const amntAmnt =
         total_data
-          ?.filter((i) => i?.tr_transid === firstId)
-          ?.reduce((a, b) => a + Number(b?.tr_final_amt || 0), 0) || 0;
+          ?.filter((i) => i?.gamesno === firstId)
+          ?.reduce((a, b) => a + Number(b?.amount || 0), 0) || 0;
       setall_result(total_data?.[0]);
-      // const winAmnt = response?.data?.earning?.[0]?.tr_income || 0;
-      // const amntAmnt = response?.data?.earning?.[0]?.tr_final_amt || 0;
-      // setstatus({
-      //   status: "2",
-      //   amount: 100,
-      // });
+    
       if (winAmnt) {
         setstatus({
           status: "1",
@@ -284,10 +276,7 @@ const WinLossPopup = ({ gid, setOpenDialogBox }) => {
           amount: amntAmnt,
         });
       }
-      setTimeout(() => {
-        setOpenDialogBox(false);
-        localStorage.setItem("betApplied", false);
-      }, 3000);
+     
     } catch (e) {
       toast(e?.message);
       console.log(e);
@@ -330,19 +319,6 @@ const WinLossPopup = ({ gid, setOpenDialogBox }) => {
             {(status?.status === "1" && "Congratulations") ||
               (status?.status === "2" && "Loss")}
           </Typography>
-
-          {/* <Box className="winerpoint">
-        <Typography variant="body1" color="initial">
-          Game Results{" "}
-        </Typography>
-        <Typography variant="body1" color="initial">
-          green
-        </Typography>
-        <Box component="img" src={pr0} width={30} sx={{ mr: "5px" }}></Box>
-        <Typography variant="body1" color="initial">
-          small
-        </Typography>
-      </Box> */}
           <Typography
             variant="body1"
             color="initial"
@@ -358,51 +334,51 @@ const WinLossPopup = ({ gid, setOpenDialogBox }) => {
                   <span>Game Results: </span>
                   <span
                     className={`${
-                      [1, 3, 7, 9]?.includes(all_result?.tr_win_slot - 1)
+                      [1, 3, 7, 9]?.includes(all_result?.result)
                         ? "!bg-green-500"
                         : "!bg-red-500"
                     }
                   ${
-                    String(all_result?.tr_win_slot - 1) === String(0) &&
+                    String(all_result?.result) === String(0) &&
                     "!bg-gradient-to-r from-red-500 to-purple-500"
                   }
                   ${
-                    String(all_result?.tr_win_slot - 1) === String(5) &&
+                    String(all_result?.result) === String(5) &&
                     "!bg-gradient-to-r from-green-500 to-purple-500"
                   }
                   !text-center !p-2 !rounded-md
                   `}
                   >
-                    {(String(all_result?.tr_win_slot - 1) === String(0) &&
+                    {(String(all_result?.result) === String(0) &&
                       "Red Purple") ||
-                    (String(all_result?.tr_win_slot - 1) === String(5) &&
+                    (String(all_result?.result) === String(5) &&
                       "Green Purple") ||
-                    [1, 3, 7, 9]?.includes(all_result?.tr_win_slot - 1)
+                    [1, 3, 7, 9]?.includes(all_result?.result)
                       ? "Green"
                       : "Red"}
                   </span>
                   <img
                     className="!h-[10%] !w-[10%]"
-                    src={array[all_result?.tr_win_slot - 1]}
+                    src={array[all_result?.result]}
                   />
                   <span
                     className={`${
-                      [1, 3, 7, 9]?.includes(all_result?.tr_win_slot - 1)
+                      [1, 3, 7, 9]?.includes(all_result?.result)
                         ? "!bg-green-500"
                         : "!bg-red-500"
                     }
                   ${
-                    String(all_result?.tr_win_slot - 1) === String(0) &&
+                    String(all_result?.result) === String(0) &&
                     "!bg-gradient-to-r from-red-500 to-purple-500"
                   }
                   ${
-                    String(all_result?.tr_win_slot - 1) === String(5) &&
+                    String(all_result?.result) === String(5) &&
                     "!bg-gradient-to-r from-green-500 to-purple-500"
                   }
                   !text-center !p-2 !rounded-md
                   `}
                   >
-                    {all_result?.tr_win_slot - 1 <= 4 ? "Small" : "Big"}
+                    {all_result?.result <= 4 ? "Small" : "Big"}
                   </span>
                 </div>
                 <div className="!text-[20px] !mt-4">Bonus</div>
@@ -426,7 +402,7 @@ const WinLossPopup = ({ gid, setOpenDialogBox }) => {
               status?.status === "1" ? "!text-pink-500" : "!text-red-300"
             } !text-sm`}
           >
-            Period Minute {all_result?.tr_transid}
+            Period Minute {all_result?.gamesno}
           </Typography>
           <Typography variant="body1" color="initial" className="bonuscl">
             Auto Close in 3 sec{" "}

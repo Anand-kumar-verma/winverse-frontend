@@ -3,8 +3,7 @@ import {
   Button,
   Dialog,
   DialogActions,
-  Stack,
-  Typography,
+  Stack
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -12,20 +11,14 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
 import countdownfirst from "../../../assets/images/countdownfirst.mp3";
 import countdownlast from "../../../assets/images/countdownlast.mp3";
-import timerbg1 from "../../../assets/images/timerbg.png";
-import timerbg2 from "../../../assets/images/timerbg2.png";
-import trxbg from "../../../assets/images/trxbg.png";
 import {
   dummycounterFun,
   gameHistory_trx_one_minFn,
   myHistory_trx_one_minFn,
   trx_game_image_index_function,
-  updateNextCounter,
-  byTimeIsEnableMusic,
-  byTimeIsEnableSound,
+  updateNextCounter
 } from "../../../redux/slices/counterSlice";
 import {
   My_All_TRX_HistoryFn,
@@ -38,12 +31,13 @@ import Chart from "../history/Chart";
 import GameHistory from "../history/GameHistory";
 import MyHistory from "../history/MyHistory";
 import Howtoplay from "./Howtoplay";
-import ShowImages from "./ShowImages";
-import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
+import OneMinCountDown from "./OneminCountDown";
+import WinLossPopup from "../WinLossPopup";
 ////
 function Wingo1Min() {
 
   const [open, setOpen] = useState(false);
+  const [timing, setBetNumber] = useState(100);
   const socket = useSocket();
   const dispatch = useDispatch();
   const [value, setValue] = useState(1);
@@ -51,14 +45,9 @@ function Wingo1Min() {
   const show_this_one_min_time = String(one_min_time).padStart(2, "0");
   const audioRefMusic = React.useRef(null);
   const audioRefMusiclast = React.useRef(null);
-  const client = useQueryClient();
-  const next_step = useSelector((state) => state.aviator.next_step);
-  const byTimeEnablingSound = useSelector((state) => state.aviator.byTimeEnablingSound);
-  //  console.log(typeof(byTimeEnablingSound))
+  const [opendialogbox, setOpenDialogBox] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const client = useQueryClient();
 
   const handleClose = () => {
     setOpen(false);
@@ -96,13 +85,21 @@ function Wingo1Min() {
         client.refetchQueries("wallet_amount");
         client.refetchQueries("myAll_trx_history_new");
       }
-      // if(onemin === 56){
-      //   client.refetchQueries("myAll_trx_history_new");
-      // }
+
       if (onemin === 0) {
-        // client.refetchQueries("trx_gamehistory_chart");
         client.refetchQueries("trx_gamehistory");
-      }
+        setTimeout(() => {
+          if (
+            localStorage.getItem("betApplied")?.split("_")?.[1] ===
+            String(true)
+          ) {
+            setOpenDialogBox(true);
+            setTimeout(() => {
+              setOpenDialogBox(false);
+              localStorage.setItem("betApplied", false);
+            }, 5000);
+          }
+        }, 1000); }
     };
     const handleOneMinResult = (result) => {
       localStorage.setItem("anand_re", result);
@@ -181,50 +178,22 @@ function Wingo1Min() {
       console.error("Error during play:", error);
     }
   };
-
-  const { isLoading: myhistory_loding_all, data: my_history_all } = useQuery(
-    ["myAll_trx_history"],
-    () => My_All_TRX_HistoryFn("1"),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      // retry: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
   const { data: my_history_all_new } =
-    useQuery(["myAll_trx_history_new"], () => My_All_TRX_HistoryFn_new("1"), {
+    useQuery(["myAll_trx_history_new_1"], 
+      () => My_All_TRX_HistoryFn_new("1"), {
       refetchOnMount: false,
       refetchOnReconnect: false,
       retryOnMount: false,
       refetchOnWindowFocus: false,
     });
-  console.log(my_history_all_new?.data?.data)
 
-  React.useEffect(() => {
-    const allEarnings = my_history_all?.data?.data;
-    const newEarnings = my_history_all_new?.data?.data;
-
-    // console.log("allEarnings:", allEarnings);
-    // console.log("newEarnings:", newEarnings);
-
-    if (Array.isArray(newEarnings) && newEarnings.length > 0) {
-      if (Array.isArray(allEarnings)) {
-        dispatch(myHistory_trx_one_minFn([...newEarnings, ...allEarnings]));
-      } else {
+    React.useEffect(() => {
+      const newEarnings = my_history_all_new?.data?.data;
+  
+      if (Array.isArray(newEarnings) && newEarnings.length > 0) {
         dispatch(myHistory_trx_one_minFn(newEarnings));
       }
-    } else if (Array.isArray(allEarnings)) {
-      dispatch(myHistory_trx_one_minFn(allEarnings));
-    }
-
-    if (newEarnings?.[0]?.tr_status !== "Pending") {
-      dispatch(dummycounterFun());
-    }
-  }, [my_history_all?.data?.data, my_history_all_new?.data?.data]);
-
-
+    }, [my_history_all_new?.data?.data, dispatch]); 
 
 
 
@@ -248,6 +217,9 @@ function Wingo1Min() {
   return (
     <Box>
       {React.useMemo(() => {
+        return <OneMinCountDown  fk={fk} setBetNumber={setBetNumber} />
+      }, [])}
+      {React.useMemo(() => {
         return (
           <>
             <audio ref={audioRefMusic} hidden>
@@ -260,116 +232,7 @@ function Wingo1Min() {
         );
       }, [audioRefMusic, audioRefMusiclast])}
       <Box sx={{ px: 1, mt: 3 }}>
-        <Box
-          className="countdownbgtrx"
-          sx={{
-            backgroundImage: `url(${trxbg})`,
-          }}
-        >
-          <CustomCircularProgress isLoading={myhistory_loding_all} />
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "baseline",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box
-              sx={{
-                width: "60%",
-              }}
-              className="win-banner"
-            >
-              {React.useMemo(() => {
-                return (
-                  <>
-                    <Stack direction="row" alignItems="center">
-                      <Typography className="border border-white text-white px-1 !text-sm rounded">
-                        Period
-                      </Typography>
-
-                      <Button
-                        onClick={handleClickOpen}
-                        variant="text"
-                        color="primary"
-                        className="htpbutton2"
-                      >
-                        {" "}
-                        How To Play
-                      </Button>
-                    </Stack>
-                    <Stack
-                      direction="row"
-                      sx={{ mt: 1.5, justifyContent: "space-between" }}
-                    >
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          color: "white",
-                          fontSize: "18px",
-                          fontWeight: "500",
-                        }}
-                      >
-                        {next_step}{" "}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          color: "white",
-                          fontSize: "15px",
-                          fontWeight: "500",
-                        }}
-                      >
-                        Draw Time
-                      </Typography>
-                    </Stack>
-                  </>
-                );
-              }, [next_step])}
-            </Box>
-            <Box>
-              <NavLink to="/trx/tron-scan">
-                <Button variant="text" color="primary" className="htpbutton3">
-                  Public Chain Query
-                </Button>
-              </NavLink>
-              {React.useMemo(() => {
-                return (
-                  <Stack direction="row" mt={1.5}>
-                    <Box
-                      className="timer "
-                      sx={{
-                        backgroundImage: `url(${timerbg1})`,
-                        backgroundSize: "100%",
-                        backgroundPosition: "center",
-                      }}
-                    >
-                      0
-                    </Box>
-                    <Box className="timer1 ">0</Box>
-                    <Box className={"timer1 "}>:</Box>
-                    <Box className="timer1 ">
-                      {show_this_one_min_time?.substring(0, 1)}
-                    </Box>
-                    <Box
-                      className="timer2 "
-                      sx={{
-                        backgroundImage: `url(${timerbg2})`,
-                        backgroundSize: "100%",
-                        backgroundPosition: "center",
-                      }}
-                    >
-                      {show_this_one_min_time?.substring(1, 2)}
-                    </Box>
-                  </Stack>
-                );
-              }, [show_this_one_min_time])}
-            </Box>
-          </Box>
-          {React.useMemo(() => {
-            return <ShowImages />;
-          }, [])}
-        </Box>
+   
         <div className="relative">
           {<BetNumber timing={show_this_one_min_time} gid={"1"} />}
           {fk.values.openTimerDialog && (
@@ -415,6 +278,9 @@ function Wingo1Min() {
           )}
         </div>
         <Stack direction="row" justifyContent="space-between" mt={2}>
+        {React.useMemo(() => {
+          return (
+            <>
           <Button
             className={
               value === 1 ? " gametableactive gametable" : " gametable"
@@ -431,6 +297,7 @@ function Wingo1Min() {
           >
             Chart
           </Button>
+          
           <Button
             className={
               value === 3 ? " gametableactive gametable" : " gametable"
@@ -439,12 +306,16 @@ function Wingo1Min() {
           >
             My history
           </Button>
+             </>
+            );
+          }, [value])}
         </Stack>
+        
         {value === 1 && <GameHistory gid="1" />}
         {value === 2 && <Chart gid="1" />}
-        {value === 3 && (
+        {value === 3 &&
           <MyHistory gid="1" show_this_one_min_time={show_this_one_min_time} />
-        )}
+        }
       </Box>
       <Dialog
         sx={{
@@ -474,6 +345,19 @@ function Wingo1Min() {
           </Button>
         </DialogActions>
       </Dialog>
+      {opendialogbox && (
+        <Dialog
+          open={opendialogbox}
+          PaperProps={{
+            style: {
+              backgroundColor: "transparent",
+              boxShadow: "none",
+            },
+          }}
+        >
+            <WinLossPopup gid={"1"} />
+        </Dialog>
+      )}
     </Box>
   );
 }

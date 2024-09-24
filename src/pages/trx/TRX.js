@@ -36,7 +36,7 @@ function TRX() {
   const [value, setValue] = useState(1);
   const [getBalance, setBalance] = useState(0);
   const dispatch = useDispatch();
-  const [opendialogbox, setOpenDialogBox] = useState(false);
+  // const [opendialogbox, setOpenDialogBox] = useState(false);
   const isAppliedbet = localStorage.getItem("betApplied");
   const dummycounter = useSelector((state) => state.aviator.dummycounter);
   const client = useQueryClient();
@@ -54,7 +54,7 @@ function TRX() {
       if (document.hidden) {
         console.log("hidden");
       } else {
-        setOpenDialogBox(false);
+        // setOpenDialogBox(false);
         localStorage.setItem("betApplied", false);
         localStorage.removeItem("total_bet");
         localStorage.removeItem("anand_re");
@@ -68,18 +68,18 @@ function TRX() {
     };
   }, []);
 
-  useEffect(() => {
-    setOpenDialogBox(false);
-    localStorage.setItem("betApplied", false);
-    localStorage.removeItem("total_bet");
-    localStorage.removeItem("anand_re");
-  }, []);
+  // useEffect(() => {
+  //   setOpenDialogBox(false);
+  //   localStorage.setItem("betApplied", false);
+  //   localStorage.removeItem("total_bet");
+  //   localStorage.removeItem("anand_re");
+  // }, []);
 
-  React.useEffect(() => {
-    if (isAppliedbet?.split("_")?.[1] === String(true)) {
-      setOpenDialogBox(true);
-    }
-  }, [dummycounter]);
+  // React.useEffect(() => {
+  //   if (isAppliedbet?.split("_")?.[1] === String(true)) {
+  //     setOpenDialogBox(true);
+  //   }
+  // }, [dummycounter]);
   const { isLoading, data: wallet_amount } = useQuery(
     ["wallet_amount"],
     () => getBalanceFunction(setBalance),
@@ -408,22 +408,7 @@ function TRX() {
       {value === 3 && <Wingo5Min />}
       {value === 4 && <Wingo10Min />}
       {/* opendialogbox */}
-      {opendialogbox && (
-        <Dialog
-          open={opendialogbox}
-          PaperProps={{
-            style: {
-              backgroundColor: "transparent",
-              boxShadow: "none",
-            },
-          }}
-        >
-          <WinLossPopup
-            gid={isAppliedbet?.split("_")?.[0]}
-            setOpenDialogBox={setOpenDialogBox}
-          />
-        </Dialog>
-      )}
+      
     </Container>
   );
 }
