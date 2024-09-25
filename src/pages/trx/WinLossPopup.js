@@ -218,7 +218,7 @@ import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Loss from "../../assets/images/loss.png";
+import Loss from "../../assets/images/losse.png";
 import zero from "../../assets/images/n0-30bd92d1.png";
 import one from "../../assets/images/n1-dfccbff5.png";
 import two from "../../assets/images/n2-c2913607.png";
@@ -229,7 +229,7 @@ import six from "../../assets/images/n6-a56e0b9a.png";
 import seven from "../../assets/images/n7-5961a17f.png";
 import eight from "../../assets/images/n8-d4d951a4.png";
 import nine from "../../assets/images/n9-a20f6f42 (1).png";
-import win from "../../assets/images/winnner.png";
+import win from "../../assets/images/winnerr.png";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import { deCryptData } from "../../shared/secret";
@@ -300,7 +300,7 @@ const WinLossPopup = ({ gid }) => {
         height: "400px",
         margin: "auto",
         backgroundImage: `url(${
-          (status?.status === "1" && Loss) || (status?.status === "2" && win)
+          (status?.status === "1" && win) || (status?.status === "2" && Loss)
         })`,
         // backgroundImage: `url(${win})`,
         backgroundSize: "100% 100%",
@@ -399,10 +399,10 @@ const WinLossPopup = ({ gid }) => {
             variant="body1"
             color="initial"
             className={`bonuspr ${
-              status?.status === "1" ? "!text-pink-500" : "!text-red-300"
+              status?.status === "1" ? "!text-black" : "!text-black"
             } !text-sm`}
           >
-            Period Minute {all_result?.gamesno}
+            Period {all_result?.gameid} Minute {all_result?.gamesno}
           </Typography>
           <Typography variant="body1" color="initial" className="bonuscl">
             Auto Close in 3 sec{" "}
