@@ -82,7 +82,7 @@ import ShowImages from "./ShowImages";
   
         if (onemin === 59) {
           client.refetchQueries("wallet_amount");
-          client.refetchQueries("myAll_trx_history_new");
+          client.refetchQueries("myAll_trx_history_new_1");
         }
   
         if (onemin === 0) {

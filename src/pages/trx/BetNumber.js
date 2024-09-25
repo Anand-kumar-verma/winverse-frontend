@@ -33,7 +33,7 @@ import theme from "../../utils/theme";
 import { deCryptData } from "../../shared/secret";
 
 const BetNumber = ({ timing, gid }) => {
-  // const next_step = useSelector((state) => state.aviator.next_step);
+  
   const user_id = deCryptData(localStorage.getItem("user_id"));
   const [open, setOpen] = useState(false);
   const [selectNumber, setSelectNumber] = useState("");
@@ -97,15 +97,16 @@ const BetNumber = ({ timing, gid }) => {
         Number(fk.values.balance || 1) * Number(fk.values.qnt || 1) || 0
       )?.toString(),
       bet_number:
-        (selectNumber === "green" && 10) ||
-        (selectNumber === "red" && 30) ||
-        (selectNumber === "voilet" && 20) ||
-        (selectNumber === "big" && 40) ||
-        (selectNumber === "small" && 50) ||
+        (selectNumber === "green" && "10") ||
+        (selectNumber === "red" && "30") ||
+        (selectNumber === "voilet" && "20") ||
+        (selectNumber === "big" && "40") ||
+        (selectNumber === "small" && "50") ||
         selectNumber,
       gameid : `${Number(gid)}`,
       gamesnio : 123456,
     };
+
 
     try {
       const total_bet = localStorage.getItem("total_bet");
@@ -151,7 +152,7 @@ const BetNumber = ({ timing, gid }) => {
         );
         fk.setFieldValue("isSuccessPlaceBet", true);
         localStorage.setItem(
-          "betApplied",
+          `betApplied${gid}`,
           `${gid}_true_${
             Number(reqBody.bet_number) <= 10
               ? Number(reqBody.bet_number) - 1
@@ -391,7 +392,7 @@ const BetNumber = ({ timing, gid }) => {
             sx={style.bigbtn}
             onClick={() => {
               setOpen(true);
-              setSelectNumber("Small");
+              setSelectNumber("small");
             }}
           >
             Small
@@ -400,7 +401,7 @@ const BetNumber = ({ timing, gid }) => {
             sx={style.smlbtn}
             onClick={() => {
               setOpen(true);
-              setSelectNumber("Big");
+              setSelectNumber("big");
             }}
           >
             Big
@@ -446,9 +447,9 @@ const BetNumber = ({ timing, gid }) => {
                   selectNumber === "6" ||
                   selectNumber === "8"
                 ? "!bg-[#FD565C]"
-                : selectNumber === "Small"
+                : selectNumber === "small"
                 ? "!bg-[#F48901]"
-                : selectNumber === "Big"
+                : selectNumber === "big"
                 ? "!bg-[#6DA7F4]"
                 : selectNumber === "0"
                 ? "!bg-[#BF6DFE]"
@@ -480,13 +481,13 @@ const BetNumber = ({ timing, gid }) => {
               Select{" "}
               {random
                 ? Number(random) <= 4
-                  ? `:  ${selectNumber} Small`
-                  : ` : ${selectNumber} Big`
+                  ? `:  ${selectNumber} small`
+                  : ` : ${selectNumber} big`
                 : isNaN(Number(selectNumber))
                 ? selectNumber?.toString()?.toLocaleUpperCase()
                 : Number(selectNumber) <= 4
-                ? `: ${selectNumber} Small`
-                : ` : ${selectNumber} Big`}
+                ? `: ${selectNumber} small`
+                : ` : ${selectNumber} big`}
             </Typography>
           </Box>
           <Box mt={5} px={2}>
@@ -526,10 +527,10 @@ const BetNumber = ({ timing, gid }) => {
                                   selectNumber === "8") &&
                                 String(fk?.values?.balance) === String(i)
                               ? "!bg-[#FD565C]"
-                              : selectNumber === "Small" &&
+                              : selectNumber === "small" &&
                                 String(fk?.values?.balance) === String(i)
                               ? "!bg-[#F48901]"
-                              : selectNumber === "Big" &&
+                              : selectNumber === "big" &&
                                 String(fk?.values?.balance) === String(i)
                               ? "!bg-[#6DA7F4]"
                               : selectNumber === "0" &&
@@ -577,9 +578,9 @@ const BetNumber = ({ timing, gid }) => {
                             selectNumber === "6" ||
                             selectNumber === "8"
                           ? "!bg-[#FD565C]"
-                          : selectNumber === "Small"
+                          : selectNumber === "small"
                           ? "!bg-[#F48901]"
-                          : selectNumber === "Big"
+                          : selectNumber === "big"
                           ? "!bg-[#6DA7F4]"
                           : selectNumber === "0"
                           ? "!bg-[#BF6DFE]"
@@ -622,9 +623,9 @@ const BetNumber = ({ timing, gid }) => {
                            selectNumber === "6" ||
                            selectNumber === "8"
                          ? "!bg-[#FD565C]"
-                         : selectNumber === "Small"
+                         : selectNumber === "small"
                          ? "!bg-[#F48901]"
-                         : selectNumber === "Big"
+                         : selectNumber === "big"
                          ? "!bg-[#6DA7F4]"
                          : selectNumber === "0"
                          ? "!bg-[#BF6DFE]"
@@ -673,10 +674,10 @@ const BetNumber = ({ timing, gid }) => {
                                   selectNumber === "8") &&
                                 String(fk.values.qnt) === String(i)
                               ? "!bg-[#FD565C]"
-                              : selectNumber === "Small" &&
+                              : selectNumber === "small" &&
                                 String(fk.values.qnt) === String(i)
                               ? "!bg-[#F48901]"
-                              : selectNumber === "Big" &&
+                              : selectNumber === "big" &&
                                 String(fk.values.qnt) === String(i)
                               ? "!bg-[#6DA7F4]"
                               : selectNumber === "0" &&
@@ -751,9 +752,9 @@ const BetNumber = ({ timing, gid }) => {
                         selectNumber === "6" ||
                         selectNumber === "8"
                       ? "!bg-[#FD565C]"
-                      : selectNumber === "Small"
+                      : selectNumber === "small"
                       ? "!bg-[#F48901]"
-                      : selectNumber === "Big"
+                      : selectNumber === "big"
                       ? "!bg-[#6DA7F4]"
                       : selectNumber === "0"
                       ? "!bg-[#BF6DFE]"

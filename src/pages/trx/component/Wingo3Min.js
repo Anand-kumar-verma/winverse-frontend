@@ -75,7 +75,7 @@ function Wingo3Min() {
       }
 
       if (
-        Number(threemin?.split("_")?.[1]) <= 10 && // 1 index means second
+        Number(threemin?.split("_")?.[1]) <= 30 && // 1 index means second
         threemin?.split("_")?.[0] === "0" ||
         (Number(threemin?.split("_")?.[1]) === 0 &&
           threemin?.split("_")?.[0] === "0") // 0 index means min 
@@ -94,30 +94,31 @@ function Wingo3Min() {
       }
       if (
         threemin?.split("_")?.[1] === "59" &&
-        threemin?.split("_")?.[0] === "3"
+        threemin?.split("_")?.[0] === "2"
       ) {
         fk.setFieldValue("openTimerDialog", false);
+        client.refetchQueries("myAll_trx_history_new_2");
       }
       if (
         threemin?.split("_")?.[1] === "56" &&
-        threemin?.split("_")?.[0] === "3"
+        threemin?.split("_")?.[0] === "2"
       ) {
+        dispatch(dummycounterFun());
         client.refetchQueries("wallet_amount");
         client.refetchQueries("trx_gamehistory_3");
         client.refetchQueries("myAll_trx_history_new_2");
         setTimeout(() => {
           if (
-            localStorage.getItem("betApplied1")?.split("_")?.[1] ===
+            localStorage.getItem("betApplied2")?.split("_")?.[1] ===
             String(true)
           ) {
             setOpenDialogBox(true);
             setTimeout(() => {
               setOpenDialogBox(false);
-              localStorage.setItem("betApplied1", false);
+              localStorage.setItem("betApplied2", false);
             }, 5000);
           }
         }, 1000);
-        dispatch(dummycounterFun());
       }
     };
 

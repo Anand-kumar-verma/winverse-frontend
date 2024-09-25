@@ -83,20 +83,21 @@ function Wingo1Min() {
 
       if (onemin === 59) {
         client.refetchQueries("wallet_amount");
-        client.refetchQueries("myAll_trx_history_new");
+        client.refetchQueries("myAll_trx_history_new_1");
       }
 
       if (onemin === 0) {
         client.refetchQueries("trx_gamehistory");
+        client.refetchQueries("myAll_trx_history_new_1");
         setTimeout(() => {
           if (
-            localStorage.getItem("betApplied")?.split("_")?.[1] ===
+            localStorage.getItem("betApplied1")?.split("_")?.[1] ===
             String(true)
           ) {
             setOpenDialogBox(true);
             setTimeout(() => {
               setOpenDialogBox(false);
-              localStorage.setItem("betApplied", false);
+              localStorage.setItem("betApplied1", false);
             }, 5000);
           }
         }, 1000); }

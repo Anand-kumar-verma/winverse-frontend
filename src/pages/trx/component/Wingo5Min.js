@@ -76,7 +76,7 @@ function Wingo5Min() {
         handlePlaySoundLast();
 
       if (
-        Number(fivemin?.split("_")?.[1]) <= 30 &&
+        Number(fivemin?.split("_")?.[1]) <= 45 &&
         Number(fivemin?.split("_")?.[1]) > 1 && // this is for sec
         fivemin?.split("_")?.[0] === "0" // this is for minut
       ) {
@@ -84,7 +84,7 @@ function Wingo5Min() {
       }
 
       if (
-        Number(fivemin?.split("_")?.[1]) <= 30 && // this is for sec
+        Number(fivemin?.split("_")?.[1]) <= 45 && // this is for sec
         fivemin?.split("_")?.[0] === "0" ||
         (Number(fivemin?.split("_")?.[1]) === 0 &&
           fivemin?.split("_")?.[0] === "0")// this is for minut
@@ -104,6 +104,7 @@ function Wingo5Min() {
         fivemin?.split("_")?.[0] === "4"
       ) {
         fk.setFieldValue("openTimerDialog", false);
+        client.refetchQueries("myAll_trx_history_new_3");
       }
       if (
         fivemin?.split("_")?.[1] === "56" &&
@@ -116,13 +117,13 @@ function Wingo5Min() {
         client.refetchQueries("trx_gamehistory_5");
         setTimeout(() => {
           if (
-            localStorage.getItem("betApplied1")?.split("_")?.[1] ===
+            localStorage.getItem("betApplied3")?.split("_")?.[1] ===
             String(true)
           ) {
             setOpenDialogBox(true);
             setTimeout(() => {
               setOpenDialogBox(false);
-              localStorage.setItem("betApplied1", false);
+              localStorage.setItem("betApplied3", false);
             }, 5000);
           }
         }, 1000)
