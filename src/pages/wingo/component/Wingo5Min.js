@@ -126,7 +126,7 @@ function Wingo5Min() {
 
       if (
         fivemin?.split("_")?.[1] === "0" &&
-        fivemin?.split("_")?.[0] === "4"
+        fivemin?.split("_")?.[0] === "0"
       ) {
         client.refetchQueries("gamehistory_3min");
         client.refetchQueries("wallet_amount");
