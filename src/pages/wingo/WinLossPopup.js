@@ -8,6 +8,7 @@ import win from "../../assets/images/winnerr.png";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import { deCryptData } from "../../shared/secret";
+import { useSelector } from "react-redux";
 const WinLossPopup = ({ gid }) => {
   //   const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null;
   //   const user_id = login_data && JSON.parse(login_data).UserID;
@@ -15,8 +16,7 @@ const WinLossPopup = ({ gid }) => {
   const [loding, setloding] = useState(false);
   const [status, setstatus] = useState("");
   const [newstatus, setstatusNew] = useState("");
-  // const next_step = useSelector((state) => state.aviator.next_step);
-
+  const next_step = useSelector((state) => state.aviator.next_step);
   const MyHistoryFn = async () => {
     setloding(true);
     try {
@@ -84,7 +84,7 @@ const WinLossPopup = ({ gid }) => {
             color="initial"
             className="crlg !text-center"
           >
-            {(status?.status === "1" && "Win") ||
+            {(status?.status === "1" && "Congrats") ||
               (status?.status === "2" && "Loss")}
           </Typography>
 
@@ -114,7 +114,7 @@ const WinLossPopup = ({ gid }) => {
             variant="body1"
             color="initial"
             className={`bonusamt  ${
-              status?.status === "1" ? "!text-white" : "!text-white"
+              status?.status === "1" ? "!text-blue-500" : "!text-white"
             }`}
           >
             ₹ {Number(status?.amount || 0)?.toFixed(2) || 0}
@@ -122,15 +122,15 @@ const WinLossPopup = ({ gid }) => {
           <Typography
             variant="body1"
             color="initial"
-            className={`bonuspr ${
+            className={`bonuspr  !text-[12px] ${
               status?.status === "1" ? "!text-pink-500" : "!text-black"
             }`}
           >
             Period{" "}
-            {(status?.gameid === "1" && "One") ||
-              (status?.gameid === "3" && "Three") ||
-              (status?.gameid === "5" && "Five")}{" "}
-            Minute
+            {(gid === "1" && "One") ||
+              (gid === "2" && "Three") ||
+              (gid === "3" && "Five")}{" "}
+            Minute {Number(next_step) - 1}
           </Typography>
           <Typography variant="body1" color="initial" className="bonuscl">
             Auto Close in 5 sec{" "}

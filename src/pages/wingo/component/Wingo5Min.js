@@ -45,6 +45,7 @@ import WinLossPopup from "../WinLossPopup";
 import Howtoplay from "./Howtoplay";
 
 function Wingo5Min() {
+  let preValue = 0;
   const socket = useSocket();
   const client = useQueryClient();
   const dispatch = useDispatch();
@@ -99,7 +100,10 @@ function Wingo5Min() {
       const t = Number(String(onemin)?.split("_")?.[1]);
       const min = Number(String(onemin)?.split("_")?.[0]);
       const time_to_be_intro = t > 0 ? 60 - t : t;
-      let fivemin = `${4 - (Number(min) % 5)}_${time_to_be_intro}`;
+      let fivemin = `${
+        4 - (Number(t === 0 ? preValue : min) % 5)
+      }_${time_to_be_intro}`;
+      preValue = min;
       setOne_min_time(fivemin);
 
       if (fivemin?.split("_")?.[1] === "1" && fivemin?.split("_")?.[0] === "0")
@@ -114,11 +118,8 @@ function Wingo5Min() {
       }
 
       if (
-        (Number(fivemin?.split("_")?.[1]) <= 45 &&
-          Number(fivemin?.split("_")?.[1]) >= 1 && // 1 index means second
-          fivemin?.split("_")?.[0] === "0") ||
-        (Number(fivemin?.split("_")?.[1]) === 0 &&
-          fivemin?.split("_")?.[0] === "4") // 0 index means min
+        Number(fivemin?.split("_")?.[1]) <= 45 &&
+        fivemin?.split("_")?.[0] === "0"
       ) {
         fk.setFieldValue("openTimerDialog", true);
       } else fk.setFieldValue("openTimerDialog", false);

@@ -45,6 +45,7 @@ import WinLossPopup from "../WinLossPopup";
 import Howtoplay from "./Howtoplay";
 
 function Wingo3Min() {
+  let preValue = 0;
   const socket = useSocket();
   const client = useQueryClient();
   const [three_min_time, setThree_min_time] = useState("0_0");
@@ -99,9 +100,12 @@ function Wingo3Min() {
     const handleThreeMin = (onemin) => {
       const t = Number(String(onemin)?.split("_")?.[1]);
       const min = Number(String(onemin)?.split("_")?.[0]);
+
       const time_to_be_intro = t > 0 ? 60 - t : t;
-      let threemin = `${2 - (Number(min) % 3)}_${time_to_be_intro}`;
-      console.log(threemin)
+      let threemin = `${
+        2 - (Number(t === 0 ? preValue : min) % 3)
+      }_${time_to_be_intro}`;
+      preValue = min;
       setThree_min_time(threemin);
       if (
         threemin?.split("_")?.[1] === "1" &&
@@ -117,11 +121,8 @@ function Wingo3Min() {
       }
 
       if (
-        (Number(threemin?.split("_")?.[1]) <= 30 &&
-          Number(threemin?.split("_")?.[1]) >= 1 && // 1 index means second
-          threemin?.split("_")?.[0] === "0") ||
-        (Number(threemin?.split("_")?.[1]) === 0 &&
-          threemin?.split("_")?.[0] === "2") // 0 index means min
+        Number(threemin?.split("_")?.[1]) <= 30 &&
+        threemin?.split("_")?.[0] === "0"
       ) {
         fk.setFieldValue("openTimerDialog", true);
       } else {

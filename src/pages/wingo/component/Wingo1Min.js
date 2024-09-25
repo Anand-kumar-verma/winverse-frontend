@@ -433,9 +433,10 @@ function Wingo1Min() {
           </Button>
         </DialogActions>
       </Dialog>
-      {opendialogbox && (
+      {/* opendialogbox */}
+      {true && (
         <Dialog
-          open={opendialogbox}
+          open={true}
           PaperProps={{
             style: {
               backgroundColor: "transparent",
