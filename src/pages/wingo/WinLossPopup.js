@@ -3,8 +3,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 // import { useSelector } from "react-redux";
-import Loss from "../../assets/images/loss.png";
-import win from "../../assets/images/winnner.png";
+import Loss from "../../assets/images/losse.png";
+import win from "../../assets/images/winnerr.png";
 import { endpoint } from "../../services/urls";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import { deCryptData } from "../../shared/secret";
@@ -68,7 +68,7 @@ const WinLossPopup = ({ gid }) => {
         height: "400px",
         margin: "auto",
         backgroundImage: `url(${
-          (status?.status === "1" && Loss) || (status?.status === "2" && win)
+          (status?.status === "1" && win) || (status?.status === "2" && Loss)
         })`,
         // backgroundImage: `url(${win})`,
         backgroundSize: "100% 100%",
@@ -123,14 +123,14 @@ const WinLossPopup = ({ gid }) => {
             variant="body1"
             color="initial"
             className={`bonuspr ${
-              status?.status === "1" ? "!text-pink-500" : "!text-white"
+              status?.status === "1" ? "!text-pink-500" : "!text-black"
             }`}
           >
             Period{" "}
             {(status?.gameid === "1" && "One") ||
               (status?.gameid === "3" && "Three") ||
               (status?.gameid === "5" && "Five")}{" "}
-            minute
+            Minute
           </Typography>
           <Typography variant="body1" color="initial" className="bonuscl">
             Auto Close in 5 sec{" "}
