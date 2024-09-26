@@ -104,11 +104,11 @@ function Wingo1Min() {
         fk.setFieldValue("openTimerDialog", false);
       }
       if (time_to_be_intro === 0) {
-        client.refetchQueries("wallet_amount");
         client.refetchQueries("gamehistory");
         client.refetchQueries("myAllhistory");
         // dispatch(dummycounterFun());
         setTimeout(() => {
+          client.refetchQueries("wallet_amount");
           if (
             localStorage.getItem("betApplied1")?.split("_")?.[1] ===
             String(true)

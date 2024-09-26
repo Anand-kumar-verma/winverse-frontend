@@ -129,11 +129,11 @@ function Wingo5Min() {
         fivemin?.split("_")?.[0] === "0"
       ) {
         client.refetchQueries("gamehistory_3min");
-        client.refetchQueries("wallet_amount");
         client.refetchQueries("myAllhistory");
         // dispatch(dummycounterFun());
         fk.setFieldValue("openTimerDialog", false);
         setTimeout(() => {
+          client.refetchQueries("wallet_amount");
           if (
             localStorage.getItem("betApplied3")?.split("_")?.[1] ===
             String(true)

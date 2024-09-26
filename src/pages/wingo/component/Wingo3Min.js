@@ -134,13 +134,12 @@ function Wingo3Min() {
         threemin?.split("_")?.[0] === "0"
       ) {
         client.refetchQueries("gamehistory_2min");
-        client.refetchQueries("wallet_amount");
-        // client.refetchQueries("gamehistory_chart");
-        client.refetchQueries("myAllhistory");
-        // dispatch(dummycounterFun());
+        // client.refetchQueries("wallet_amount");
+        client.refetchQueries("myAllhistory"); 
         fk.setFieldValue("openTimerDialog", false);
 
         setTimeout(() => {
+          client.refetchQueries("wallet_amount");
           if (
             localStorage.getItem("betApplied2")?.split("_")?.[1] ===
             String(true)
