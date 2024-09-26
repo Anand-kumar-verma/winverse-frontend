@@ -31,6 +31,7 @@ import timerbg2 from "../../../assets/images/timerbg2.png";
 import backbanner from "../../../assets/images/winbackbanner.png";
 import {
   gameHistory_trx_one_minFn,
+  trx_my_history_data_function,
   updateNextCounter,
 } from "../../../redux/slices/counterSlice";
 import { endpoint } from "../../../services/urls";
@@ -43,6 +44,7 @@ import GameHistory from "../history/GameHistory";
 import MyHistory from "../history/MyHistory";
 import WinLossPopup from "../WinLossPopup";
 import Howtoplay from "./Howtoplay";
+import { My_All_HistoryFn } from "../../../services/apiCallings";
 
 function Wingo1Min() {
   const socket = useSocket();
@@ -105,7 +107,7 @@ function Wingo1Min() {
       }
       if (time_to_be_intro === 0) {
         client.refetchQueries("gamehistory");
-        client.refetchQueries("myAllhistory");
+        client.refetchQueries("myAllhistory_1");
         // dispatch(dummycounterFun());
         setTimeout(() => {
           client.refetchQueries("wallet_amount");
@@ -119,7 +121,7 @@ function Wingo1Min() {
               localStorage.setItem("betApplied1", false);
             }, 5000);
           }
-        }, 1000);
+        }, 3000);
       }
     };
     socket.on("onemin", handleOneMin);
@@ -132,11 +134,11 @@ function Wingo1Min() {
     ["gamehistory"],
     () => GameHistoryFn("1"),
     {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false,
+      // refetchOnMount: false,
+      // refetchOnReconnect: false,
+      // retry: false,
+      // retryOnMount: false,
+      // refetchOnWindowFocus: false,
     }
   );
 
@@ -164,6 +166,21 @@ function Wingo1Min() {
     );
     dispatch(gameHistory_trx_one_minFn(game_history?.data?.data));
   }, [game_history?.data?.data]);
+
+  const { data: my_history } = useQuery(
+    ["myAllhistory_1"],
+    () => My_All_HistoryFn("1"),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      // refetchOnWindowFocus: false,
+    }
+  );
+
+  React.useEffect(() => {
+    dispatch(trx_my_history_data_function(my_history?.data?.earning));
+    // one_min_time >= 58 || (one_min_time === 0 && dispatch(dummycounterFun()));
+  }, [my_history?.data?.earning]);
 
   const handlePlaySoundLast = async () => {
     try {

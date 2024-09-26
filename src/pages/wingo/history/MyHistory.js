@@ -10,6 +10,7 @@ import { My_All_HistoryFn } from "../../../services/apiCallings";
 import { rupees } from "../../../services/urls";
 import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import theme from "../../../utils/theme";
+import { useSelector } from "react-redux";
 
 const MyHistory = ({ gid }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -22,16 +23,18 @@ const MyHistory = ({ gid }) => {
     setPage(0);
   };
 
-  const { isLoading: myhistory_loding_all, data: my_history_all } = useQuery(
-    ["myAllhistory", gid],
-    () => My_All_HistoryFn(gid),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: true,
-    }
+  // const { isLoading: myhistory_loding_all, data: my_history_all } = useQuery(
+  //   ["myAllhistory", gid],
+  //   () => My_All_HistoryFn(gid),
+  //   {
+  //     refetchOnMount: false,
+  //     refetchOnReconnect: true,
+  //   }
+  // );
+  const my_history_data = useSelector(
+    (state) => state.aviator.trx_my_history_data
   );
-
-  const my_history_data_all = my_history_all?.data?.earning || [];
+  const my_history_data_all = my_history_data;
 
   const visibleRows = React.useMemo(
     () =>
@@ -39,13 +42,16 @@ const MyHistory = ({ gid }) => {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [page, rowsPerPage, my_history_all?.data?.earning]
+    [page, rowsPerPage, my_history_data_all]
   );
 
   return (
     <Box>
       <Stack direction="row" className="onegotextbox">
-        <Typography variant="body1" sx={{ color: theme.palette.primary.main, py: 1, textAlign: 'center' }}>
+        <Typography
+          variant="body1"
+          sx={{ color: theme.palette.primary.main, py: 1, textAlign: "center" }}
+        >
           {/* <Box
             component="img"
             src={history}
@@ -55,8 +61,8 @@ const MyHistory = ({ gid }) => {
           {gid === "1"
             ? " My One GO Record"
             : gid === "2"
-              ? " My Three GO Record"
-              : " My Five GO Record"}
+            ? " My Three GO Record"
+            : " My Five GO Record"}
         </Typography>
       </Stack>
       <div className="flex flex-col gap-[2px]">
@@ -242,32 +248,40 @@ const MyHistory = ({ gid }) => {
                   expandIcon={<ArrowDownwardIcon className="!text-white" />}
                   aria-controls="panel1-content"
                   id="panel1-header"
-                  sx={{ color: "white", background: theme.palette.secondary.main, borderRadius: '10px' }}
+                  sx={{
+                    color: "white",
+                    background: theme.palette.secondary.main,
+                    borderRadius: "10px",
+                  }}
                   className=""
                 >
                   <div className="!w-full !flex !justify-between">
                     <p className="!text-white ">{i?.tr_transid}</p>
                     <p
-                      className={`${i?.tr_status === "Fail"
-                        ? "!text-red-600"
-                        : i?.tr_status === "Success"
+                      className={`${
+                        i?.tr_status === "Fail"
+                          ? "!text-red-600"
+                          : i?.tr_status === "Success"
                           ? "!text-green-600"
                           : "!text-red-600"
-                        } !font-bold`}
+                      } !font-bold`}
                     >
                       {i?.tr_status}
                     </p>
                     <span
-                      className={`${i?.tr_status === "Fail"
-                        ? "!text-red-600"
-                        : i?.tr_status === "Success"
+                      className={`${
+                        i?.tr_status === "Fail"
+                          ? "!text-red-600"
+                          : i?.tr_status === "Success"
                           ? "!text-green-600"
                           : "!text-red-600"
-                        }`}
+                      }`}
                     >
                       {" "}
                       {rupees}{" "}
-                      {i?.tr_status === "Success" ? i?.tr_income : i?.tr_final_amt}
+                      {i?.tr_status === "Success"
+                        ? i?.tr_income
+                        : i?.tr_final_amt}
                     </span>
                   </div>
                 </AccordionSummary>
@@ -325,26 +339,27 @@ const MyHistory = ({ gid }) => {
                         <span>{`${i?.tr_win_slot - 1}`}</span>
                         <span
                           className={`
-  ${((i?.tr_win_slot - 1)?.toString() === "0" &&
-                              "bg-gradient-to-t from-red-400 to-violet-400") ||
-                            ((i?.tr_win_slot - 1)?.toString() === "5" &&
-                              "bg-gradient-to-t from-violet-400 to-green-400") ||
-                            (((i?.tr_win_slot - 1)?.toString() === "1" ||
-                              (i?.tr_win_slot - 1)?.toString() === "3" ||
-                              (i?.tr_win_slot - 1)?.toString() === "7" ||
-                              (i?.tr_win_slot - 1)?.toString() === "9" ||
-                              (i?.tr_win_slot - 1)?.toString() === "11") &&
-                              "bg-gradient-to-t from-green-400 to-green-900") ||
-                            (((i?.tr_win_slot - 1)?.toString() === "2" ||
-                              (i?.tr_win_slot - 1)?.toString() === "4" ||
-                              (i?.tr_win_slot - 1)?.toString() === "6" ||
-                              (i?.tr_win_slot - 1)?.toString() === "8" ||
-                              (i?.tr_win_slot - 1)?.toString() === "13") &&
-                              "bg-gradient-to-tl from-red-400 to-red-900") ||
-                            ((i?.tr_win_slot - 1)?.toString() === "15" && "bg-[#6DA7F4]") ||
-                            ((i?.tr_win_slot - 1)?.toString() === "14" && "bg-[#63BA0E]") ||
-                            ((i?.tr_win_slot - 1)?.toString() === "12" && "bg-[#eb2feb]")
-                            }
+  ${
+    ((i?.tr_win_slot - 1)?.toString() === "0" &&
+      "bg-gradient-to-t from-red-400 to-violet-400") ||
+    ((i?.tr_win_slot - 1)?.toString() === "5" &&
+      "bg-gradient-to-t from-violet-400 to-green-400") ||
+    (((i?.tr_win_slot - 1)?.toString() === "1" ||
+      (i?.tr_win_slot - 1)?.toString() === "3" ||
+      (i?.tr_win_slot - 1)?.toString() === "7" ||
+      (i?.tr_win_slot - 1)?.toString() === "9" ||
+      (i?.tr_win_slot - 1)?.toString() === "11") &&
+      "bg-gradient-to-t from-green-400 to-green-900") ||
+    (((i?.tr_win_slot - 1)?.toString() === "2" ||
+      (i?.tr_win_slot - 1)?.toString() === "4" ||
+      (i?.tr_win_slot - 1)?.toString() === "6" ||
+      (i?.tr_win_slot - 1)?.toString() === "8" ||
+      (i?.tr_win_slot - 1)?.toString() === "13") &&
+      "bg-gradient-to-tl from-red-400 to-red-900") ||
+    ((i?.tr_win_slot - 1)?.toString() === "15" && "bg-[#6DA7F4]") ||
+    ((i?.tr_win_slot - 1)?.toString() === "14" && "bg-[#63BA0E]") ||
+    ((i?.tr_win_slot - 1)?.toString() === "12" && "bg-[#eb2feb]")
+  }
   transparentColor font-bold text-xl
 `}
                         >
@@ -356,15 +371,15 @@ const MyHistory = ({ gid }) => {
                               (i?.tr_win_slot - 1)?.toString() === "3" ||
                               (i?.tr_win_slot - 1)?.toString() === "7" ||
                               (i?.tr_win_slot - 1)?.toString() === "9" ||
-                              (i?.tr_win_slot)?.toString() === "11") &&
+                              i?.tr_win_slot?.toString() === "11") &&
                               "Green") ||
                             (((i?.tr_win_slot - 1)?.toString() === "2" ||
                               (i?.tr_win_slot - 1)?.toString() === "4" ||
                               (i?.tr_win_slot - 1)?.toString() === "6" ||
                               (i?.tr_win_slot - 1)?.toString() === "8" ||
-                              (i?.tr_win_slot)?.toString() === "13") &&
+                              i?.tr_win_slot?.toString() === "13") &&
                               "Red") ||
-                            ((i?.tr_win_slot)?.toString() === "12" && "Red")}
+                            (i?.tr_win_slot?.toString() === "12" && "Red")}
                         </span>
                         <span>{i?.tr_win_slot - 1 <= 4 ? "Small" : "Big"}</span>
                       </div>
@@ -377,26 +392,27 @@ const MyHistory = ({ gid }) => {
                     <div className="!bg-white !bg-opacity-10 py-1 px-2">
                       <span
                         className={`
-                  ${((i?.tr_package - 1)?.toString() === "0" &&
-                            "!bg-gradient-to-t from-red-400 to-violet-400") ||
-                          ((i?.tr_package - 1)?.toString() === "5" &&
-                            "!bg-gradient-to-t from-violet-400 to-green-400") ||
-                          (((i?.tr_package - 1)?.toString() === "1" ||
-                            (i?.tr_package - 1)?.toString() === "3" ||
-                            (i?.tr_package - 1)?.toString() === "7" ||
-                            (i?.tr_package - 1)?.toString() === "9" ||
-                            (i?.tr_package)?.toString() === "11") &&
-                            "bg-gradient-to-t from-green-400 to-green-900") ||
-                          (((i?.tr_package - 1)?.toString() === "2" ||
-                            (i?.tr_package - 1)?.toString() === "4" ||
-                            (i?.tr_package - 1)?.toString() === "6" ||
-                            (i?.tr_package - 1)?.toString() === "8" ||
-                            (i?.tr_package).toString() === "13") &&
-                            "bg-gradient-to-tl from-red-400 to-red-900") ||
-                          ((i?.tr_package)?.toString() === "15" && "bg-[#6DA7F4]") ||
-                          ((i?.tr_package)?.toString() === "14" && "bg-[#63BA0E]") ||
-                          ((i?.tr_package)?.toString() === "12" && "bg-[#eb2feb]")
-                          }
+                  ${
+                    ((i?.tr_package - 1)?.toString() === "0" &&
+                      "!bg-gradient-to-t from-red-400 to-violet-400") ||
+                    ((i?.tr_package - 1)?.toString() === "5" &&
+                      "!bg-gradient-to-t from-violet-400 to-green-400") ||
+                    (((i?.tr_package - 1)?.toString() === "1" ||
+                      (i?.tr_package - 1)?.toString() === "3" ||
+                      (i?.tr_package - 1)?.toString() === "7" ||
+                      (i?.tr_package - 1)?.toString() === "9" ||
+                      i?.tr_package?.toString() === "11") &&
+                      "bg-gradient-to-t from-green-400 to-green-900") ||
+                    (((i?.tr_package - 1)?.toString() === "2" ||
+                      (i?.tr_package - 1)?.toString() === "4" ||
+                      (i?.tr_package - 1)?.toString() === "6" ||
+                      (i?.tr_package - 1)?.toString() === "8" ||
+                      (i?.tr_package).toString() === "13") &&
+                      "bg-gradient-to-tl from-red-400 to-red-900") ||
+                    (i?.tr_package?.toString() === "15" && "bg-[#6DA7F4]") ||
+                    (i?.tr_package?.toString() === "14" && "bg-[#63BA0E]") ||
+                    (i?.tr_package?.toString() === "12" && "bg-[#eb2feb]")
+                  }
                   transparentColor font-bold text-xl 
 
                   `}
@@ -404,26 +420,27 @@ const MyHistory = ({ gid }) => {
                         {i?.tr_package?.toString() === "11"
                           ? "Green"
                           : i?.tr_package?.toString() === "14"
-                            ? "Small"
-                            : i?.tr_package?.toString() === "15"
-                              ? "Big"
-                              : i?.tr_package?.toString() === "13"
-                                ? "Red"
-                                : i?.tr_package?.toString() === "12"
-                                  ? "Voilet"
-                                  : i?.tr_package - 1}
+                          ? "Small"
+                          : i?.tr_package?.toString() === "15"
+                          ? "Big"
+                          : i?.tr_package?.toString() === "13"
+                          ? "Red"
+                          : i?.tr_package?.toString() === "12"
+                          ? "Voilet"
+                          : i?.tr_package - 1}
                       </span>
                     </div>
                     <span className="bg-white !bg-opacity-10 py-1 px-2">
                       Status
                     </span>
                     <span
-                      className={`${i?.tr_status === "Fail"
-                        ? "!text-red-400"
-                        : i?.tr_status === "Success"
+                      className={`${
+                        i?.tr_status === "Fail"
+                          ? "!text-red-400"
+                          : i?.tr_status === "Success"
                           ? "!text-green-400"
                           : "!text-red-400"
-                        } bg-white !bg-opacity-10 py-1 px-2`}
+                      } bg-white !bg-opacity-10 py-1 px-2`}
                     >
                       {i?.tr_status}
                     </span>
@@ -468,7 +485,7 @@ const MyHistory = ({ gid }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Box>
-      <CustomCircularProgress isLoading={myhistory_loding_all} />
+      {/* <CustomCircularProgress isLoading={myhistory_loding_all} /> */}
     </Box>
   );
 };

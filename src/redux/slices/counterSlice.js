@@ -28,6 +28,7 @@ export const slice = createSlice({
     trx_game_image_index:["A","B","C","D","E"],
     gameHistory_trx_one_min:[],
     myHistory_trx_one_min:[],
+    trx_my_history_data:[],
     wallet_real_balance:0.0
 
   },
@@ -84,6 +85,9 @@ export const slice = createSlice({
     gameHistory_trx_one_minFn: (state,actions) => {
       state.gameHistory_trx_one_min = actions.payload;
     },
+    trx_my_history_data_function: (state,actions) => {
+      state.trx_my_history_data = actions.payload;
+    },
     myHistory_trx_one_minFn: (state,actions) => {
       state.myHistory_trx_one_min = actions.payload;
     },
@@ -111,6 +115,7 @@ export const {
   getUserIdFn,
   gameHistory_trx_one_minFn,
   wallet_real_balanceFn,
+  trx_my_history_data_function,
   myHistory_trx_one_minFn
 } = slice.actions;
 

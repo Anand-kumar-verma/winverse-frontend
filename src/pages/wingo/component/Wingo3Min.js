@@ -31,6 +31,7 @@ import timerbg2 from "../../../assets/images/timerbg2.png";
 import backbanner from "../../../assets/images/winbackbanner.png";
 import {
   gameHistory_trx_one_minFn,
+  trx_my_history_data_function,
   updateNextCounter,
 } from "../../../redux/slices/counterSlice";
 import { endpoint } from "../../../services/urls";
@@ -43,6 +44,7 @@ import GameHistory from "../history/GameHistory";
 import MyHistory from "../history/MyHistory";
 import WinLossPopup from "../WinLossPopup";
 import Howtoplay from "./Howtoplay";
+import { My_All_HistoryFn } from "../../../services/apiCallings";
 
 function Wingo3Min() {
   let preValue = 0;
@@ -135,7 +137,7 @@ function Wingo3Min() {
       ) {
         client.refetchQueries("gamehistory_2min");
         // client.refetchQueries("wallet_amount");
-        client.refetchQueries("myAllhistory"); 
+        client.refetchQueries("myAllhistory_2"); 
         fk.setFieldValue("openTimerDialog", false);
 
         setTimeout(() => {
@@ -165,10 +167,10 @@ function Wingo3Min() {
     ["gamehistory_2min"],
     () => GameHistoryFn("2"),
     {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false,
+      // refetchOnMount: false,
+      // refetchOnReconnect: false,
+      // retryOnMount: false,
+      // refetchOnWindowFocus: false,
     }
   );
 
@@ -196,6 +198,20 @@ function Wingo3Min() {
     );
     dispatch(gameHistory_trx_one_minFn(game_history?.data?.data));
   }, [game_history?.data?.data]);
+  const { data: my_history } = useQuery(
+    ["myAllhistory_2"],
+    () => My_All_HistoryFn("2"),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      // refetchOnWindowFocus: false,
+    }
+  );
+
+  React.useEffect(() => {
+    dispatch(trx_my_history_data_function(my_history?.data?.earning));
+    // one_min_time >= 58 || (one_min_time === 0 && dispatch(dummycounterFun()));
+  }, [my_history?.data?.earning]);
 
   const handlePlaySoundLast = async () => {
     try {

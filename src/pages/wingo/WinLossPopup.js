@@ -17,6 +17,10 @@ const WinLossPopup = ({ gid }) => {
   const [status, setstatus] = useState("");
   const [newstatus, setstatusNew] = useState("");
   const next_step = useSelector((state) => state.aviator.next_step);
+  const my_history_data = useSelector(
+    (state) => state.aviator.trx_my_history_data
+  );
+  console.log(my_history_data);
   const MyHistoryFn = async () => {
     setloding(true);
     try {
@@ -24,7 +28,13 @@ const WinLossPopup = ({ gid }) => {
         id: user_id,
         gameid: gid,
       };
-      const response = await axios.post(`${endpoint.my_history}`, reqBody);
+      const response = {
+        data: {
+          earning: my_history_data,
+        },
+      };
+      //  await axios.post(`${endpoint.my_history}`, reqBody);
+
       const firstId = response?.data?.earning?.[0]?.tr_transid;
       const winAmnt =
         response?.data?.earning
