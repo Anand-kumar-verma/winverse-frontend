@@ -124,18 +124,18 @@ export const My_All_TRX_HistoryFn = async (gid) => {
     console.log(e);
   }
 };
-export const withdrawalFn = async (gid) => {
-  try {
-    const reqBody = {
-      userid: deCryptData(localStorage.getItem("user_id")),
-    };
-    const response = await axios.post(`${endpoint.with_request}`, reqBody);
-    return response;
-  } catch (e) {
-    toast(e?.message);
-    console.log(e);
-  }
-};
+// export const withdrawalFn = async (gid) => {
+//   try {
+//     const reqBody = {
+//       userid: deCryptData(localStorage.getItem("user_id")),
+//     };
+//     const response = await axios.post(`${endpoint.with_request}`, reqBody);
+//     return response;
+//   } catch (e) {
+//     toast(e?.message);
+//     console.log(e);
+//   }
+// };
 
 export const My_All_TRX_HistoryFn_new = async (gid) => {
   try {

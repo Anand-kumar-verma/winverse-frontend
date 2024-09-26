@@ -26,7 +26,7 @@ export const endpoint = {
   trx_my_history_new: `${domain_ovi_nodee}/trx-my-history-node`, /// done  in node js
 
   banner_request: `${baseUrl}/api/panel_banner`,
-  with_request: `${baseUrl}/api/withdrawal_wallet`,
+  // with_request: `${baseUrl}/api/withdrawal_wallet`,
   p2p_history: `${baseUrl}/api/view_fund_transfer_main`,
   p2p_topup_history: `${baseUrl}/view_p2p_topup_history`,
   p2p_tranfer_history: `${baseUrl}/api/view_fund_transfer_p2p`,

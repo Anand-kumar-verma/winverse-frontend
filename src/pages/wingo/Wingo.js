@@ -36,13 +36,15 @@ function Wingo() {
   // const [opendialogbox, setOpenDialogBox] = useState(false);
   // const isAppliedbet = localStorage.getItem("betApplied");
   // const dummycounter = useSelector((state) => state.aviator.dummycounter);
-  const wallet_amount_data = useSelector((state) => state.aviator.wallet_real_balance);
+  const wallet_amount_data = useSelector(
+    (state) => state.aviator.wallet_real_balance
+  );
   const client = useQueryClient();
   const navigate = useNavigate();
   const handleChange = (newValue) => {
     setValue(newValue);
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // React.useEffect(() => {
   //   setTimeout(() => {
   //     if (isAppliedbet?.split("_")?.[1] === String(true)) {
@@ -59,11 +61,11 @@ function Wingo() {
     ["wallet_amount"],
     () => getBalanceFunction(setBalance),
     {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false
+      // refetchOnMount: false,
+      // refetchOnReconnect: false,
+      // retry: false,
+      // retryOnMount: false,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -97,8 +99,7 @@ function Wingo() {
       <Box
         sx={{
           padding: 1,
-          background:
-            theme.palette.primary.main,
+          background: theme.palette.primary.main,
           px: 2,
         }}
       >
@@ -155,7 +156,7 @@ function Wingo() {
             </Typography>
             <div className="mx-1 rotate_refresh_image" id="refresh_button">
               <img
-                style={{ filter: 'hue-rotate(50deg)', }}
+                style={{ filter: "hue-rotate(50deg)" }}
                 src={refresh}
                 width={25}
                 ml={2}
@@ -166,7 +167,13 @@ function Wingo() {
             </div>
           </Stack>
           <Stack direction="row" alignItems="center" justifyContent="center">
-            <Box component="img" src={balance} width={25} mr={2} sx={{ filter: 'hue-rotate(50deg)', }}></Box>
+            <Box
+              component="img"
+              src={balance}
+              width={25}
+              mr={2}
+              sx={{ filter: "hue-rotate(50deg)" }}
+            ></Box>
             <Typography
               variant="body1"
               color="initial"
@@ -220,12 +227,15 @@ function Wingo() {
           >
             1.All recharge methods only available in RECHARGE menu on OFFICIAL
           </Typography>
-          <Typography sx={{ background: theme.palette.secondary.main }} className=" !text-white !text-xs rounded-2xl px-2 py-1 !flex justify-center">
+          <Typography
+            sx={{ background: theme.palette.secondary.main }}
+            className=" !text-white !text-xs rounded-2xl px-2 py-1 !flex justify-center"
+          >
             <WhatshotIcon fontSize="small" /> Details
           </Typography>
         </Stack>
       </Box>
-      
+
       <Box
         sx={{
           width: "95%",
@@ -281,8 +291,7 @@ function Wingo() {
           </NavLink>
         </Box>
       </Box>
-     
-   
+
       {value === 1 && <Wingo1Min />}
       {value === 2 && <Wingo3Min />}
       {value === 3 && <Wingo5Min />}
