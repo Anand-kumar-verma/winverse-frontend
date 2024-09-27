@@ -140,18 +140,9 @@ function Wingo3Min() {
         fk.setFieldValue("openTimerDialog", false);
 
         setTimeout(() => {
+          localStorage.getItem("betApplied2")?.split("_")?.[1] === String(true) && recursion();
           client.refetchQueries("wallet_amount_node");
-          if (
-            localStorage.getItem("betApplied2")?.split("_")?.[1] ===
-            String(true)
-          ) {
-            setOpenDialogBox(true);
-            setTimeout(() => {
-              setOpenDialogBox(false);
-              localStorage.setItem("betApplied2", false);
-            }, 5000);
-          }
-        }, 1000);
+        }, 3000);
       }
     };
 
@@ -161,6 +152,20 @@ function Wingo3Min() {
       socket.off("onemin", handleThreeMin);
     };
   }, []);
+
+  function recursion() {
+    if (game_history?.data?.data?.[0]?.tr_status === "Pending") {
+      setTimeout(() => {
+        recursion();
+      }, 1000);
+    } else {
+      setOpenDialogBox(true);
+        setTimeout(() => {
+          // setOpenDialogBox(false);
+          localStorage.setItem("betApplied2", false);
+        }, 5000);
+    }
+  }
 
   const { data: game_history } = useQuery(
     ["gamehistory_2min"],
@@ -494,7 +499,7 @@ function Wingo3Min() {
             },
           }}
         >
-          <WinLossPopup gid={"2"} />
+          <WinLossPopup gid={"2"} setOpenDialogBox={setOpenDialogBox} />
         </Dialog>
       )}
     </Box>

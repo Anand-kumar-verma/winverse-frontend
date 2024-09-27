@@ -7,7 +7,7 @@ import Loss from "../../assets/images/losse.png";
 import win from "../../assets/images/winnerr.png";
 import CustomCircularProgress from "../../shared/loder/CustomCircularProgress";
 import { deCryptData } from "../../shared/secret";
-const WinLossPopup = ({ gid }) => {
+const WinLossPopup = ({ gid, setOpenDialogBox }) => {
   //   const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null;
   //   const user_id = login_data && JSON.parse(login_data).UserID;
   const user_id = deCryptData(localStorage.getItem("user_id"));
@@ -61,6 +61,9 @@ const WinLossPopup = ({ gid }) => {
 
   useEffect(() => {
     MyHistoryFn();
+    setTimeout(() => {
+      setOpenDialogBox(false);
+    }, 5000);
   }, []);
 
   useEffect(() => {

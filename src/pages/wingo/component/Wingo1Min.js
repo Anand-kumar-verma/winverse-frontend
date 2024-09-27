@@ -110,18 +110,10 @@ function Wingo1Min() {
         client.refetchQueries("myAllhistory_1");
         // dispatch(dummycounterFun());
         setTimeout(() => {
+          localStorage.getItem("betApplied1")?.split("_")?.[1] ===
+            String(true) && recursion();
           client.refetchQueries("wallet_amount_node");
-          if (
-            localStorage.getItem("betApplied1")?.split("_")?.[1] ===
-            String(true)
-          ) {
-            setOpenDialogBox(true);
-            setTimeout(() => {
-              setOpenDialogBox(false);
-              localStorage.setItem("betApplied1", false);
-            }, 5000);
-          }
-        }, 3000);
+        }, 2000);
       }
     };
     socket.on("onemin", handleOneMin);
@@ -129,6 +121,20 @@ function Wingo1Min() {
       socket.off("onemin", handleOneMin);
     };
   }, []);
+
+  function recursion() {
+    if (game_history?.data?.data?.[0]?.tr_status === "Pending") {
+      setTimeout(() => {
+        recursion();
+      }, 1000);
+    } else {
+      setOpenDialogBox(true);
+      setTimeout(() => {
+        // setOpenDialogBox(false);
+        localStorage.setItem("betApplied1", false);
+      }, 5000);
+    }
+  }
 
   const { isLoading, data: game_history } = useQuery(
     ["gamehistory"],
@@ -461,7 +467,7 @@ function Wingo1Min() {
             },
           }}
         >
-          <WinLossPopup gid={"1"} />
+          <WinLossPopup gid={"1"} setOpenDialogBox={setOpenDialogBox} />
         </Dialog>
       )}
     </Box>
