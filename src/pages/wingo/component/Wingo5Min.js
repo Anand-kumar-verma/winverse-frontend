@@ -158,10 +158,11 @@ function Wingo5Min() {
     ["gamehistory_3min"],
     () => GameHistoryFn("3"),
     {
-      // refetchOnMount: false,
-      // refetchOnReconnect: false,
-      // retryOnMount: false,
-      // refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: true,
+      retry: 3,
+      retryOnMount: true,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -193,8 +194,8 @@ function Wingo5Min() {
     () => My_All_HistoryFn("3"),
     {
       refetchOnMount: false,
-      refetchOnReconnect: false,
-      // refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: false,
     }
   );
 

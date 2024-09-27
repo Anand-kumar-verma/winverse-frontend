@@ -134,11 +134,11 @@ function Wingo1Min() {
     ["gamehistory"],
     () => GameHistoryFn("1"),
     {
-      // refetchOnMount: false,
-      // refetchOnReconnect: false,
-      // retry: false,
-      // retryOnMount: false,
-      // refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: true,
+      retry: 3,
+      retryOnMount: true,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -171,9 +171,9 @@ function Wingo1Min() {
     ["myAllhistory_1"],
     () => My_All_HistoryFn("1"),
     {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      // refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: false,
     }
   );
 

@@ -1,9 +1,9 @@
 export const domain = "https://winverse-timer.onrender.com";
 // export const domain = "https://funxplora-timer.onrender.com";
 export const domain1 = "https://admin.winversegame.com";
-export const domain_ovi_node = "https://api.winversegame.com";
+// export const domain_ovi_node = "https://api.winversegame.com";
+export const domain_ovi_node = "http://192.168.139.150:9002";
 
-// export const domain_ovi_node = "https://api.zupeegame.info";
 // export const domain = "http://192.168.18.183:9002";
 
 export const rupees = "₹";

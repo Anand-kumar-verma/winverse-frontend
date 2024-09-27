@@ -137,7 +137,7 @@ function Wingo3Min() {
       ) {
         client.refetchQueries("gamehistory_2min");
         // client.refetchQueries("wallet_amount");
-        client.refetchQueries("myAllhistory_2"); 
+        client.refetchQueries("myAllhistory_2");
         fk.setFieldValue("openTimerDialog", false);
 
         setTimeout(() => {
@@ -167,10 +167,11 @@ function Wingo3Min() {
     ["gamehistory_2min"],
     () => GameHistoryFn("2"),
     {
-      // refetchOnMount: false,
-      // refetchOnReconnect: false,
-      // retryOnMount: false,
-      // refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: true,
+      retry: 3,
+      retryOnMount: true,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -203,8 +204,8 @@ function Wingo3Min() {
     () => My_All_HistoryFn("2"),
     {
       refetchOnMount: false,
-      refetchOnReconnect: false,
-      // refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: false,
     }
   );
 
