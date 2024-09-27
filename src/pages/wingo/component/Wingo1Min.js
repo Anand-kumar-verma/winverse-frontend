@@ -110,7 +110,7 @@ function Wingo1Min() {
         client.refetchQueries("myAllhistory_1");
         // dispatch(dummycounterFun());
         setTimeout(() => {
-          client.refetchQueries("wallet_amount");
+          client.refetchQueries("wallet_amount_node");
           if (
             localStorage.getItem("betApplied1")?.split("_")?.[1] ===
             String(true)

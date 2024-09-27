@@ -121,7 +121,7 @@ const BetNumber = ({ timing, gid }) => {
         );
         fk.setFieldValue("isSuccessPlaceBet", true);
         localStorage.setItem(`betApplied${gid}`, `${gid}_true`);
-        client.refetchQueries("wallet_amount");
+        client.refetchQueries("wallet_amount_node");
         client.refetchQueries(`myAllhistory_${gid}`);
 
         fk.setFieldValue("balance", "1");
