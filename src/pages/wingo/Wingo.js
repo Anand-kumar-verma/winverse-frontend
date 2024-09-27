@@ -18,7 +18,7 @@ import balance from "../../assets/images/balance.png";
 import music from "../../assets/images/music.png";
 import refresh from "../../assets/images/refresh.png";
 import time from "../../assets/images/time.png";
-import { getBalanceFunction } from "../../services/apiCallings";
+import { BalanceNodeFunction, getBalanceFunction } from "../../services/apiCallings";
 import theme from "../../utils/theme";
 import WinLossPopup from "./WinLossPopup";
 import Wingo10Min from "./component/Wingo10Min";
@@ -45,21 +45,10 @@ function Wingo() {
     setValue(newValue);
   };
   const dispatch = useDispatch();
-  // React.useEffect(() => {
-  //   setTimeout(() => {
-  //     if (isAppliedbet?.split("_")?.[1] === String(true)) {
-  //       setOpenDialogBox(true);
-  //       setTimeout(() => {
-  //         setOpenDialogBox(false);
-  //         localStorage.setItem("betApplied", false);
-  //       }, 5000);
-  //     }
-  //   }, 1000);
-  // }, [dummycounter]);
 
   const { isLoading, data: wallet_amount } = useQuery(
-    ["wallet_amount"],
-    () => getBalanceFunction(setBalance),
+    ["wallet_amount_node"],
+    () => BalanceNodeFunction(),
     {
       // refetchOnMount: false,
       // refetchOnReconnect: false,
@@ -69,14 +58,13 @@ function Wingo() {
     }
   );
 
-  // const wallet_amount_data = wallet_amount?.data?.earning || 0;
 
   React.useEffect(() => {
-    dispatch(wallet_real_balanceFn(wallet_amount?.data?.earning || 0));
-  }, [wallet_amount?.data?.earning]);
+    dispatch(wallet_real_balanceFn(wallet_amount?.data?.data || 0));
+  }, [wallet_amount?.data?.data]);
 
   function refreshFunctionForRotation() {
-    client.refetchQueries("wallet_amount");
+    client.refetchQueries("wallet_amount_node");
     const item = document.getElementsByClassName("rotate_refresh_image")?.[0];
 
     const element = document.getElementById("refresh_button");

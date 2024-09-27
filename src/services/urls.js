@@ -1,32 +1,27 @@
 export const domain = "https://winverse-timer.onrender.com";
-// export const domain = "https://funxplora-timer.onrender.com";
 export const domain1 = "https://admin.winversegame.com";
 export const domain_ovi_node = "https://api.winversegame.com";
-
-// export const domain_ovi_node = "https://api.zupeegame.info";
-// export const domain = "http://192.168.18.183:9002";
 
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
 
-// export const baseUrl = "https://adminew.winversegame.com";
 export const baseUrl = "https://admin.winversegame.com";
+export const OviNodeUrl = "https://winv.nodexnet.com";
 export const front_end_domain = "https://winversegame.com";
 export const download_app_url = "https://api.winversegame.com/ZUPEETER.pdf";
-
 export const domain_ovi_nodee = "https://api.winversegame.com";
 export const usdt_base_url = "https://api.winversegame.com";
-// export const domain_ovi_nodee = "http://192.168.18.183:9002";
-// export const domain_ovi_node = "http://192.168.43.246:9002";
-// export const usdt_base_url = "http://192.168.18.183:9002";
+
 
 export const endpoint = {
   trx_bet_placed_node: `${domain_ovi_nodee}/bid-placed-node`,
   trx_game_history: `${domain_ovi_nodee}/trx_result-node`, //////// done in node js
   trx_my_history_new: `${domain_ovi_nodee}/trx-my-history-node`, /// done  in node js
 
+  
+  wallet_node: `${domain_ovi_node}/api/withdrawal_wallet_node`,
+
   banner_request: `${baseUrl}/api/panel_banner`,
-  // with_request: `${baseUrl}/api/withdrawal_wallet`,
   p2p_history: `${baseUrl}/api/view_fund_transfer_main`,
   p2p_topup_history: `${baseUrl}/view_p2p_topup_history`,
   p2p_tranfer_history: `${baseUrl}/api/view_fund_transfer_p2p`,
@@ -40,7 +35,7 @@ export const endpoint = {
   newlogin: `${baseUrl}/api/newlogin`,
   register_candidate_mobile: `${baseUrl}/api/register_candidate`,
   register_candidate_email: `${baseUrl}/api/register_candidate_new`,
-  my_history: `${baseUrl}/api/one_min_myhistory`,
+  my_history: `${OviNodeUrl}/api/one_min_myhistory`,
   get_balance: `${baseUrl}/api/withdrawal_wallet`,
   total_withdrawal_bet: `${baseUrl}/api/total_withdrawal_bet`,
   my_team_level: `${baseUrl}/api/my_team`,
@@ -72,7 +67,6 @@ export const endpoint = {
 
   bet_placed: `${domain_ovi_node}/bid-placing-wingo`, //////////// done in node js
   trx_my_history: `${baseUrl}/api/trx_one_min_myhistory`, /// done  in node js
-  // trx_my_history_new: `${baseUrl}/api/trx_one_min_myhistory_new`, /// done  in node js
 
   report_income: `${baseUrl}/api/view_income_report`,
   view_bank_details: `${baseUrl}/api/view_bank_details_new`,
@@ -91,6 +85,6 @@ export const endpoint = {
   swnl_pay_in_api: `${baseUrl}/api/insert_fund_request_vapayout`,
 
   ////////////////// wingo api //////////////////
-  game_history: `${domain_ovi_node}/wingo-result`,
+  game_history: `${OviNodeUrl}/wingo-result`,
   win_list_top: `${domain_ovi_node}/top-winners`,
 };

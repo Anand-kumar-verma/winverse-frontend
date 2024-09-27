@@ -135,7 +135,7 @@ function Wingo5Min() {
         // dispatch(dummycounterFun());
         fk.setFieldValue("openTimerDialog", false);
         setTimeout(() => {
-          client.refetchQueries("wallet_amount");
+          client.refetchQueries("wallet_amount_node");
           if (
             localStorage.getItem("betApplied3")?.split("_")?.[1] ===
             String(true)

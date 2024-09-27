@@ -50,19 +50,18 @@ export const MyHistoryFn = async (gid) => {
     console.log(e);
   }
 };
-// export const getBalanceFunction = async (setBalance ) => {
-//   try {
-//     const reqBody = {
-//       userid: deCryptData(localStorage.getItem("user_id")),
-//     };
-//     const response = await axios.post(`${endpoint.get_balance}`, reqBody);
-//     setBalance(response?.data?.earning?.wallet);
-//     return response;
-//   } catch (e) {
-//     toast(e?.message);
-//     console.log(e);
-//   }
-// };
+export const BalanceNodeFunction = async ( ) => {
+  try {
+    const reqBody = {
+      userid: deCryptData(localStorage.getItem("user_id")),
+    };
+    const response = await axios.post(`${endpoint.wallet_node}`, reqBody);
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
 export const getBalanceFunction = async (setBalance) => {
   try {
     if (typeof setBalance !== 'function') {
