@@ -1,7 +1,7 @@
 export const domain = "https://winverse-timer.onrender.com";
 export const domain1 = "https://admin.winversegame.com";
-// export const domain_ovi_node = "https://api.winversegame.com";
-export const domain_ovi_node = "http://192.168.139.150:9002";
+export const domain_ovi_node = "https://api.winversegame.com";
+// export const domain_ovi_node = "http://192.168.139.150:9002";
 
 // export const domain = "http://192.168.18.183:9002";
 
@@ -10,18 +10,17 @@ export const zubgback = "#63BA0E";
 
 export const baseUrl = "https://admin.winversegame.com";
 export const OviNodeUrl = "https://winv.nodexnet.com";
+// export const OviNodeUrl = "http://192.168.18.183:9002";
 export const front_end_domain = "https://winversegame.com";
 export const download_app_url = "https://api.winversegame.com/ZUPEETER.pdf";
 export const domain_ovi_nodee = "https://api.winversegame.com";
 export const usdt_base_url = "https://api.winversegame.com";
-
 
 export const endpoint = {
   trx_bet_placed_node: `${domain_ovi_nodee}/bid-placed-node`,
   trx_game_history: `${domain_ovi_nodee}/trx_result-node`, //////// done in node js
   trx_my_history_new: `${domain_ovi_nodee}/trx-my-history-node`, /// done  in node js
 
-  
   wallet_node: `${domain_ovi_node}/api/withdrawal_wallet_node`,
 
   banner_request: `${baseUrl}/api/panel_banner`,

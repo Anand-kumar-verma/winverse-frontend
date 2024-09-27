@@ -18,7 +18,6 @@ const WinLossPopup = ({ gid }) => {
   const my_history_data = useSelector(
     (state) => state.aviator.trx_my_history_data
   );
-  console.log(my_history_data);
   const MyHistoryFn = async () => {
     setloding(true);
     try {
@@ -138,7 +137,7 @@ const WinLossPopup = ({ gid }) => {
             {(gid === "1" && "One") ||
               (gid === "2" && "Three") ||
               (gid === "3" && "Five")}{" "}
-            Minute {Number(next_step) - 1}
+            Minute {Number(my_history_data?.[0]?.tr_transid)}
           </Typography>
           <Typography variant="body1" color="initial" className="bonuscl">
             Auto Close in 5 sec{" "}

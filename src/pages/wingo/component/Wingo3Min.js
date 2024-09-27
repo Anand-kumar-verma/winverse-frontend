@@ -209,9 +209,9 @@ function Wingo3Min() {
   );
 
   React.useEffect(() => {
-    dispatch(trx_my_history_data_function(my_history?.data?.earning));
+    dispatch(trx_my_history_data_function(my_history?.data?.data));
     // one_min_time >= 58 || (one_min_time === 0 && dispatch(dummycounterFun()));
-  }, [my_history?.data?.earning]);
+  }, [my_history?.data?.data]);
 
   const handlePlaySoundLast = async () => {
     try {
