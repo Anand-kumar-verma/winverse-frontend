@@ -75,7 +75,6 @@ const RegistrationByMobile = () => {
     setisLoding(true);
     try {
       const res = await axios.post(endpoint.register_candidate_mobile, reqBody);
-      console.log(res);
       if (res?.data?.status === true) {
         storeCookies();
         toast(res?.data?.msg);

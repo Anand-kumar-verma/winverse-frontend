@@ -88,5 +88,6 @@ export const endpoint = {
 
   ////////////////// wingo api //////////////////
   game_history: `${OviNodeUrl}/wingo-result`,
+  game_history_3_min: `${OviNodeUrl}/wingo-result-3-min`,
   win_list_top: `${domain_ovi_node}/top-winners`,
 };

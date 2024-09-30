@@ -140,7 +140,8 @@ function Wingo3Min() {
         fk.setFieldValue("openTimerDialog", false);
 
         setTimeout(() => {
-          localStorage.getItem("betApplied2")?.split("_")?.[1] === String(true) && recursion();
+          localStorage.getItem("betApplied2")?.split("_")?.[1] ===
+            String(true) && recursion();
           client.refetchQueries("wallet_amount_node");
         }, 3000);
       }
@@ -160,10 +161,10 @@ function Wingo3Min() {
       }, 1000);
     } else {
       setOpenDialogBox(true);
-        setTimeout(() => {
-          // setOpenDialogBox(false);
-          localStorage.setItem("betApplied2", false);
-        }, 5000);
+      setTimeout(() => {
+        // setOpenDialogBox(false);
+        localStorage.setItem("betApplied2", false);
+      }, 5000);
     }
   }
 
@@ -185,7 +186,10 @@ function Wingo3Min() {
         gameid: gid,
         limit: 100,
       };
-      const response = await axios.post(`${endpoint.game_history}`, reqBody);
+      const response = await axios.post(
+        `${endpoint.game_history_3_min}`,
+        reqBody
+      );
       return response;
     } catch (e) {
       toast(e?.message);

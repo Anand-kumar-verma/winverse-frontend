@@ -5,7 +5,7 @@ import { deCryptData } from "../shared/secret";
 
 export const storeCookies = () => {
   let expirationDate = new Date();
-  expirationDate.setTime(expirationDate.getTime() + 1 * 60 * 60 * 1000); // 2 hours in milliseconds
+  expirationDate.setTime(expirationDate.getTime() + 24 * 30 * 60 * 60 * 1000); // 2 hours in milliseconds
   // expirationDate.setTime(expirationDate.getTime() + 60*1000); // 2 hours in milliseconds
   document.cookie = `token=anandtoken; expires=${expirationDate.toUTCString()}; path=/`;
 };
@@ -50,7 +50,7 @@ export const MyHistoryFn = async (gid) => {
     console.log(e);
   }
 };
-export const BalanceNodeFunction = async ( ) => {
+export const BalanceNodeFunction = async () => {
   try {
     const reqBody = {
       userid: deCryptData(localStorage.getItem("user_id")),
@@ -64,8 +64,8 @@ export const BalanceNodeFunction = async ( ) => {
 };
 export const getBalanceFunction = async (setBalance) => {
   try {
-    if (typeof setBalance !== 'function') {
-      throw new Error('setBalance is not a function');
+    if (typeof setBalance !== "function") {
+      throw new Error("setBalance is not a function");
     }
 
     const reqBody = {
@@ -170,9 +170,7 @@ export const My_All_TRX_HistoryFn_new = async (gid) => {
 export const MyTeamLevel = async () => {
   const id = deCryptData(localStorage.getItem("user_id"));
   try {
-    const response = await axios.get(
-      `${endpoint.my_team_level}?userid=${id}`
-    );
+    const response = await axios.get(`${endpoint.my_team_level}?userid=${id}`);
     return response;
   } catch (e) {
     toast(e?.message);
@@ -180,14 +178,13 @@ export const MyTeamLevel = async () => {
   }
 };
 
-
-export const registrationBonusFn = async (type , start , end) => {
+export const registrationBonusFn = async (type, start, end) => {
   try {
     const reqBody = {
       userid: deCryptData(localStorage.getItem("user_id")),
       type: type,
-      start:start,
-      end:end,
+      start: start,
+      end: end,
     };
     const response = await axios.post(endpoint.report_income, reqBody);
     return response;
@@ -197,13 +194,13 @@ export const registrationBonusFn = async (type , start , end) => {
   }
 };
 
-export const reportIncomeFn = async (type , start , end) => {
+export const reportIncomeFn = async (type, start, end) => {
   try {
     const reqBody = {
       userid: deCryptData(localStorage.getItem("user_id")),
       type: type,
-      start:start,
-      end:end,
+      start: start,
+      end: end,
     };
     const response = await axios.post(endpoint.report_income, reqBody);
     return response;
@@ -308,9 +305,7 @@ export const TopWinner = async () => {
 };
 export const BankListDetails = async () => {
   try {
-    const response = await axios.get(
-      `${endpoint.get_bank_list}`
-    );
+    const response = await axios.get(`${endpoint.get_bank_list}`);
     return response;
   } catch (e) {
     toast(e?.message);
@@ -319,9 +314,7 @@ export const BankListDetails = async () => {
 };
 export const BankUPIDetails = async () => {
   try {
-    const response = await axios.get(
-      `${endpoint.get_upi_list}`
-    );
+    const response = await axios.get(`${endpoint.get_upi_list}`);
     return response;
   } catch (e) {
     toast(e?.message);
@@ -365,7 +358,7 @@ export const P2pTransferHistoryFunction = async () => {
 };
 export const P2pTopupHistoryFunction = async () => {
   try {
-      const userid = deCryptData(localStorage.getItem("user_id"));
+    const userid = deCryptData(localStorage.getItem("user_id"));
     const response = await axios.get(
       `${endpoint.p2p_topup_history}?user_id=${userid}`
     );
@@ -375,7 +368,6 @@ export const P2pTopupHistoryFunction = async () => {
     console.log(e);
   }
 };
-
 
 export const withdrawlHistoryFunction = async () => {
   try {
