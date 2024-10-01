@@ -177,7 +177,7 @@ function Wingo1Min() {
     ["myAllhistory_1"],
     () => My_All_HistoryFn("1"),
     {
-      refetchOnMount: true,
+      refetchOnMount: false,
       refetchOnReconnect: true,
       refetchOnWindowFocus: false,
     }

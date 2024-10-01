@@ -172,7 +172,7 @@ function Wingo3Min() {
     ["gamehistory_2min"],
     () => GameHistoryFn("2"),
     {
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnReconnect: true,
       retry: 3,
       retryOnMount: true,
