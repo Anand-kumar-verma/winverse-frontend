@@ -32,6 +32,7 @@ import ThreeMinCountDown from "./ThreeMinCountDown";
 import WinLossPopup from "../WinLossPopup";
 
 function Wingo5Min() {
+  let preValue =0;
   const [open, setOpen] = useState(false);
   const [timing, setBetNumber] = useState(100);
   const [opendialogbox, setOpenDialogBox] = useState(false);
@@ -69,7 +70,13 @@ function Wingo5Min() {
 
   React.useEffect(() => {
     const handleFiveMin = (onemin) => {
-      let fivemin = `${4 - (new Date()?.getMinutes() % 5)}_${onemin}`;
+      const t = Number(String(onemin)?.split("_")?.[1]);
+      const min = Number(String(onemin)?.split("_")?.[0]);
+      const time_to_be_intro = t > 0 ? 60 - t : t;
+      let fivemin = `${
+        4 - (Number(t === 0 ? preValue : min) % 5)
+      }_${time_to_be_intro}`;
+      preValue = min;
       setOne_min_time(fivemin);
 
       if (fivemin?.split("_")?.[1] === "1" && fivemin?.split("_")?.[0] === "0")

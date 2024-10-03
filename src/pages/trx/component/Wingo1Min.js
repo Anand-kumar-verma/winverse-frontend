@@ -64,29 +64,31 @@ function Wingo1Min() {
   React.useEffect(() => {
 
     const handleOneMin = (onemin) => {
-      setOne_min_time(onemin);
+      const t = Number(String(onemin)?.split("_")?.[1]);
+      const time_to_be_intro = t > 0 ? 60 - t : t;
+      setOne_min_time(time_to_be_intro);
       // fk.setFieldValue("show_this_one_min_time", onemin);
-      if (onemin === 1) handlePlaySoundLast();
-      if ([5, 4, 3, 2].includes(onemin)) {
+      if (time_to_be_intro === 1) handlePlaySoundLast();
+      if ([5, 4, 3, 2].includes(time_to_be_intro)) {
         handlePlaySound();
       }
 
-      if (onemin <= 10) {
+      if (time_to_be_intro <= 10) {
         fk.setFieldValue("openTimerDialog", true);
       } else {
         fk.setFieldValue("openTimerDialog", false);
       }
-      if (onemin === 59) {
+      if (time_to_be_intro === 59) {
         // dispatch(dummycounterFun());
         fk.setFieldValue("openTimerDialog", false);
       }
 
-      if (onemin === 59) {
+      if (time_to_be_intro === 59) {
         client.refetchQueries("wallet_amount");
         client.refetchQueries("myAll_trx_history_new_1");
       }
 
-      if (onemin === 0) {
+      if (time_to_be_intro === 0) {
         client.refetchQueries("trx_gamehistory");
         client.refetchQueries("myAll_trx_history_new_1");
         setTimeout(() => {

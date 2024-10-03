@@ -21,6 +21,8 @@ import TwoMinCountDown from "./TwoMinCountDown";
 
 
 function Wingo3Min() {
+  
+  let preValue = 0;
   const [timing, setBetNumber] = useState(100);
   const [open, setOpen] = useState(false)
   const socket = useSocket();
@@ -59,7 +61,14 @@ function Wingo3Min() {
 
   React.useEffect(() => {
     const handleThreeMin = (onemin) => {
-      let threemin = `${2 - (new Date()?.getMinutes() % 3)}_${onemin}`;
+      const t = Number(String(onemin)?.split("_")?.[1]);
+      const min = Number(String(onemin)?.split("_")?.[0]);
+
+      const time_to_be_intro = t > 0 ? 60 - t : t;
+      let threemin = `${
+        2 - (Number(t === 0 ? preValue : min) % 3)
+      }_${time_to_be_intro}`;
+      preValue = min;
       setThree_min_time(threemin);
       if (
         threemin?.split("_")?.[1] === "1" &&
