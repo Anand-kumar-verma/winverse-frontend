@@ -1,41 +1,30 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  Stack
-} from "@mui/material";
+import { Box, Button, Dialog, DialogActions, Stack } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import countdownfirst from "../../../assets/images/countdownfirst.mp3";
 import countdownlast from "../../../assets/images/countdownlast.mp3";
 import {
-  dummycounterFun,
   gameHistory_trx_one_minFn,
   myHistory_trx_one_minFn,
   trx_game_image_index_function,
-  updateNextCounter
+  updateNextCounter,
 } from "../../../redux/slices/counterSlice";
-import {
-  My_All_TRX_HistoryFn,
-  My_All_TRX_HistoryFn_new,
-} from "../../../services/apiCallings";
+import { My_All_TRX_HistoryFn_new } from "../../../services/apiCallings";
 import { endpoint } from "../../../services/urls";
 import { useSocket } from "../../../shared/socket/SocketContext";
 import BetNumber from "../BetNumber";
 import Chart from "../history/Chart";
 import GameHistory from "../history/GameHistory";
 import MyHistory from "../history/MyHistory";
+import WinLossPopup from "../WinLossPopup";
 import Howtoplay from "./Howtoplay";
 import OneMinCountDown from "./OneminCountDown";
-import WinLossPopup from "../WinLossPopup";
 ////
 function Wingo1Min() {
-
   const [open, setOpen] = useState(false);
   const [timing, setBetNumber] = useState(100);
   const socket = useSocket();
@@ -58,11 +47,10 @@ function Wingo1Min() {
   };
   const fk = useFormik({
     initialValues: initialValue,
-    onSubmit: () => { },
+    onSubmit: () => {},
   });
 
   React.useEffect(() => {
-
     const handleOneMin = (onemin) => {
       const t = Number(String(onemin)?.split("_")?.[1]);
       const time_to_be_intro = t > 0 ? 60 - t : t;
@@ -102,7 +90,8 @@ function Wingo1Min() {
               localStorage.setItem("betApplied1", false);
             }, 5000);
           }
-        }, 1000); }
+        }, 1000);
+      }
     };
     const handleOneMinResult = (result) => {
       localStorage.setItem("anand_re", result);
@@ -181,24 +170,24 @@ function Wingo1Min() {
       console.error("Error during play:", error);
     }
   };
-  const { data: my_history_all_new } =
-    useQuery(["myAll_trx_history_new_1"], 
-      () => My_All_TRX_HistoryFn_new("1"), {
+  const { data: my_history_all_new } = useQuery(
+    ["myAll_trx_history_new_1"],
+    () => My_All_TRX_HistoryFn_new("1"),
+    {
       refetchOnMount: false,
       refetchOnReconnect: false,
       retryOnMount: false,
       refetchOnWindowFocus: false,
-    });
+    }
+  );
 
-    React.useEffect(() => {
-      const newEarnings = my_history_all_new?.data?.data;
-  
-      if (Array.isArray(newEarnings) && newEarnings.length > 0) {
-        dispatch(myHistory_trx_one_minFn(newEarnings));
-      }
-    }, [my_history_all_new?.data?.data, dispatch]); 
+  React.useEffect(() => {
+    const newEarnings = my_history_all_new?.data?.data;
 
-
+    if (Array.isArray(newEarnings) && newEarnings.length > 0) {
+      dispatch(myHistory_trx_one_minFn(newEarnings));
+    }
+  }, [my_history_all_new?.data?.data, dispatch]);
 
   const handlePlaySound = async () => {
     try {
@@ -220,7 +209,7 @@ function Wingo1Min() {
   return (
     <Box>
       {React.useMemo(() => {
-        return <OneMinCountDown  fk={fk} setBetNumber={setBetNumber} />
+        return <OneMinCountDown fk={fk} setBetNumber={setBetNumber} />;
       }, [])}
       {React.useMemo(() => {
         return (
@@ -235,7 +224,6 @@ function Wingo1Min() {
         );
       }, [audioRefMusic, audioRefMusiclast])}
       <Box sx={{ px: 1, mt: 3 }}>
-   
         <div className="relative">
           {<BetNumber timing={show_this_one_min_time} gid={"1"} />}
           {fk.values.openTimerDialog && (
@@ -281,44 +269,44 @@ function Wingo1Min() {
           )}
         </div>
         <Stack direction="row" justifyContent="space-between" mt={2}>
-        {React.useMemo(() => {
-          return (
-            <>
-          <Button
-            className={
-              value === 1 ? " gametableactive gametable" : " gametable"
-            }
-            onClick={() => handleChange(1)}
-          >
-            Game history
-          </Button>
-          <Button
-            className={
-              value === 2 ? " gametableactive gametable" : " gametable"
-            }
-            onClick={() => handleChange(2)}
-          >
-            Chart
-          </Button>
-          
-          <Button
-            className={
-              value === 3 ? " gametableactive gametable" : " gametable"
-            }
-            onClick={() => handleChange(3)}
-          >
-            My history
-          </Button>
-             </>
+          {React.useMemo(() => {
+            return (
+              <>
+                <Button
+                  className={
+                    value === 1 ? " gametableactive gametable" : " gametable"
+                  }
+                  onClick={() => handleChange(1)}
+                >
+                  Game history
+                </Button>
+                <Button
+                  className={
+                    value === 2 ? " gametableactive gametable" : " gametable"
+                  }
+                  onClick={() => handleChange(2)}
+                >
+                  Chart
+                </Button>
+
+                <Button
+                  className={
+                    value === 3 ? " gametableactive gametable" : " gametable"
+                  }
+                  onClick={() => handleChange(3)}
+                >
+                  My history
+                </Button>
+              </>
             );
           }, [value])}
         </Stack>
-        
+
         {value === 1 && <GameHistory gid="1" />}
         {value === 2 && <Chart gid="1" />}
-        {value === 3 &&
+        {value === 3 && (
           <MyHistory gid="1" show_this_one_min_time={show_this_one_min_time} />
-        }
+        )}
       </Box>
       <Dialog
         sx={{
@@ -358,7 +346,7 @@ function Wingo1Min() {
             },
           }}
         >
-            <WinLossPopup gid={"1"} />
+          <WinLossPopup gid={"1"} />
         </Dialog>
       )}
     </Box>

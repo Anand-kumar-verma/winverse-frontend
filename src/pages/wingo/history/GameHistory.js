@@ -9,17 +9,19 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import theme from "../../../utils/theme";
 
 const GameHistory = ({ gid }) => {
-  const isLoading = false
+  const isLoading = false;
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = React.useState(0);
-  const game_history_data = useSelector((state) => state.aviator.gameHistory_trx_one_min);
+  const game_history_data = useSelector(
+    (state) => state.aviator.gameHistory_trx_one_min
+  );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -39,7 +41,6 @@ const GameHistory = ({ gid }) => {
     [page, rowsPerPage, game_history_data]
   );
 
-
   if (isLoading)
     return (
       <div className="!w-full flex justify-center">
@@ -48,7 +49,7 @@ const GameHistory = ({ gid }) => {
     );
   return (
     <Box mt={2}>
-      <TableContainer >
+      <TableContainer>
         <Table sx={{ maxWidth: 400 }} aria-label="simple table">
           <TableHead
             sx={{
@@ -78,37 +79,41 @@ const GameHistory = ({ gid }) => {
             {visibleRows?.map((i, index) => {
               return (
                 <TableRow>
-                  <TableCell align="center" sx={{ color: 'white' }}>{i?.tr_transaction_id}</TableCell>
+                  <TableCell align="center" sx={{ color: "white" }}>
+                    {i?.tr_transaction_id}
+                  </TableCell>
                   <TableCell
                     align="center"
                     sx={{ fontSize: "20px", fontWeight: 900 }}
                     className={`
                         ${(() => {
-                        const slotId = i?.tr41_slot_id - 1;
+                          const slotId = i?.tr41_slot_id - 1;
 
-                        if (slotId === 0) {
-                          return "bg-gradient-to-t from-violet-400 to-red-600";
-                        }
-                        if (slotId === 5) {
-                          return "bg-gradient-to-t from-violet-400 to-green-600";
-                        }
-                        if ([1, 3, 7, 9].includes(slotId)) {
-                          return "bg-green-600";
-                        }
-                        if ([2, 4, 6, 8].includes(slotId)) {
-                          return "bg-red-600";
-                        }
+                          if (slotId === 0) {
+                            return "bg-gradient-to-t from-violet-400 to-red-600";
+                          }
+                          if (slotId === 5) {
+                            return "bg-gradient-to-t from-violet-400 to-green-600";
+                          }
+                          if ([1, 3, 7, 9].includes(slotId)) {
+                            return "bg-green-600";
+                          }
+                          if ([2, 4, 6, 8].includes(slotId)) {
+                            return "bg-red-600";
+                          }
 
-                        return "";
-                      })()}
+                          return "";
+                        })()}
                transparentColor font-bold
   `}
                   >
-                    {i?.tr41_slot_id - 1}
+                    {i?.tr41_slot_id - 1 > 10 ? " " : i?.tr41_slot_id - 1}
                   </TableCell>
 
-                  <TableCell align="center " sx={{ color: 'white' }}>
-                    {i?.tr41_slot_id - 1 > 4 ? "Big" : "Small"}
+                  <TableCell align="center " sx={{ color: "white" }}>
+                    {i?.tr41_slot_id - 1 > 4 && i?.tr41_slot_id - 1 !== 13
+                      ? "Big"
+                      : "Small"}
                   </TableCell>
                   <TableCell
                     align="center"
@@ -118,7 +123,7 @@ const GameHistory = ({ gid }) => {
                       alignItems: "center",
                     }}
                   >
-                    {[1, 3, 7, 9].includes(i?.tr41_slot_id - 1) ? (
+                    {[1, 3, 7, 9, 13].includes(i?.tr41_slot_id - 1) ? (
                       <Typography
                         sx={{
                           width: "10px",
@@ -129,7 +134,7 @@ const GameHistory = ({ gid }) => {
                           background: "green",
                         }}
                       ></Typography>
-                    ) : [2, 4, 6, 8].includes(i?.tr41_slot_id - 1) ? (
+                    ) : [2, 4, 6, 8, 14].includes(i?.tr41_slot_id - 1) ? (
                       <Typography
                         sx={{
                           width: "10px",

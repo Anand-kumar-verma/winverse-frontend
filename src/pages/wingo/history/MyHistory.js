@@ -336,7 +336,7 @@ const MyHistory = ({ gid }) => {
 
                     {i?.tr_status !== "Pending" ? (
                       <div className="flex gap-2 items-center bg-white !bg-opacity-10 py-1 px-2">
-                        <span>{`${i?.tr_win_slot - 1}`}</span>
+                        <span>{`${i?.tr_win_slot - 1>10?' ':i?.tr_win_slot - 1}`}</span>
                         <span
                           className={`
   ${
@@ -381,7 +381,7 @@ const MyHistory = ({ gid }) => {
                               "Red") ||
                             (i?.tr_win_slot?.toString() === "12" && "Red")}
                         </span>
-                        <span>{i?.tr_win_slot - 1 <= 4 ? "Small" : "Big"}</span>
+                        <span>{(i?.tr_win_slot - 1 <= 4)||(i?.tr_win_slot - 1 === 13) ? "Small" : "Big"}</span>
                       </div>
                     ) : (
                       <div></div>

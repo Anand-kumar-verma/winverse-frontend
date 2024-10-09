@@ -12,19 +12,18 @@ import timerbg1 from "../../../assets/images/timerbg.png";
 import timerbg2 from "../../../assets/images/timerbg2.png";
 import trxbg from "../../../assets/images/trxbg.png";
 import { dummycounterFun, gameHistory_trx_one_minFn, myHistory_trx_one_minFn, trx_game_image_index_function, updateNextCounter } from "../../../redux/slices/counterSlice";
-import { My_All_TRX_HistoryFn, My_All_TRX_HistoryFn_new } from "../../../services/apiCallings";
+import { My_All_TRX_HistoryFn_new } from "../../../services/apiCallings";
 import { endpoint } from "../../../services/urls";
-import CustomCircularProgress from "../../../shared/loder/CustomCircularProgress";
 import { useSocket } from "../../../shared/socket/SocketContext";
 import ShowImages from "./ShowImages";
 
 
 function TwoMinCountDown() {
+  let preValue = 0;
   const [open, setOpen] = useState(false);
   const socket = useSocket();
   const client = useQueryClient();
   const [three_min_time, setThree_min_time] = useState("0_0");
-  const [value, setValue] = useState(1);
   const audioRefMusic = React.useRef(null);
   const audioRefMusiclast = React.useRef(null);
   const next_step = useSelector((state) => state.aviator.next_step);
@@ -57,7 +56,14 @@ function TwoMinCountDown() {
 
   React.useEffect(() => {
     const handleThreeMin = (onemin) => {
-      let threemin = `${2 - (new Date()?.getMinutes() % 3)}_${onemin}`;
+      const t = Number(String(onemin)?.split("_")?.[1]);
+      const min = Number(String(onemin)?.split("_")?.[0]);
+
+      const time_to_be_intro = t > 0 ? 60 - t : t;
+      let threemin = `${
+        2 - (Number(t === 0 ? preValue : min) % 3)
+      }_${time_to_be_intro}`;
+      preValue = min;
       setThree_min_time(threemin);
       if (
         threemin?.split("_")?.[1] === "1" &&
