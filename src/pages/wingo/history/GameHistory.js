@@ -123,7 +123,7 @@ const GameHistory = ({ gid }) => {
                       alignItems: "center",
                     }}
                   >
-                    {[1, 3, 7, 9, 13].includes(i?.tr41_slot_id - 1) ? (
+                    {[1, 3, 7, 9].includes(i?.tr41_slot_id - 1) ? (
                       <Typography
                         sx={{
                           width: "10px",
@@ -134,7 +134,7 @@ const GameHistory = ({ gid }) => {
                           background: "green",
                         }}
                       ></Typography>
-                    ) : [2, 4, 6, 8, 14].includes(i?.tr41_slot_id - 1) ? (
+                    ) : [2, 4, 6, 8].includes(i?.tr41_slot_id - 1) ? (
                       <Typography
                         sx={{
                           width: "10px",
