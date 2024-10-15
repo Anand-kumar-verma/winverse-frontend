@@ -87,7 +87,8 @@ function Lottery() {
       </Box>
 
       <Box sx={style.winbox} className="!cursor-pointer"  onClick={() => {
-          status?.aviator_status !== "0" && navigate("/playgame");
+          status?.aviator_status === "0" ? navigate("/comingsoonavaitor"):
+          navigate("/playgame")
         }}>
         <Box
           component="img"
