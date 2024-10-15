@@ -1,9 +1,9 @@
-export const domain = "https://winverse-timer.onrender.com";
+export const domain = "http://192.168.18.183:9003";
 export const domain1 = "https://admin.winversegame.com";
 export const domain_ovi_node = "https://api.winversegame.com";
 // export const domain_ovi_node = "http://192.168.139.150:9002";
 
-// export const domain = "http://192.168.18.183:9002";
+export const dummy_aviator = "http://192.168.18.183:9003";
 
 export const rupees = "₹";
 export const zubgback = "#63BA0E";
@@ -90,4 +90,14 @@ export const endpoint = {
   game_history: `${OviNodeUrl}/wingo-result`,
   game_history_3_min: `${OviNodeUrl}/wingo-result-3-min`,
   win_list_top: `${domain_ovi_node}/top-winners`,
+
+  node_api: {
+    get_leder_data: `${dummy_aviator}/api/v1/get-ledger-data`,
+    my_history: `${dummy_aviator}/api/v1/my-history-by-user-id`,
+    login_with_node: `${dummy_aviator}/api/v1/createuser`,
+    main_wallet: `${dummy_aviator}/main-wallet-to-aviator`,
+    aviator_main: `${dummy_aviator}/aviator-to-main-wallet`,
+    get_top_users: `${dummy_aviator}/api/v1/get-top-users`,
+  },
 };
+

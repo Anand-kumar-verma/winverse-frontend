@@ -330,3 +330,655 @@ svg {
 .rotate_coins {
   animation: rotate 1s linear infinite;
 }
+
+
+/* avaitor csss */
+/* mymove1 */
+@keyframes mymove1 {
+  from {
+    top: 0px;
+  }
+  to {
+    top: 30px;
+  }
+}
+
+.dot-slider-container2 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove2 1s linear infinite running;
+}
+
+@keyframes mymove2 {
+  from {
+    top: 30px;
+  }
+  to {
+    top: 60px;
+  }
+}
+.dot-slider-container3 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove3 1s linear infinite running;
+}
+
+@keyframes mymove3 {
+  from {
+    top: 60px;
+  }
+  to {
+    top: 90px;
+  }
+}
+.dot-slider-container4 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove4 1s linear infinite running;
+}
+
+@keyframes mymove4 {
+  from {
+    top: 90px;
+  }
+  to {
+    top: 120px;
+  }
+}
+.dot-slider-container5 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove5 1s linear infinite running;
+}
+
+@keyframes mymove5 {
+  from {
+    top: 120px;
+  }
+  to {
+    top: 150px;
+  }
+}
+.dot-slider-container6 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove6 1s linear infinite running;
+}
+
+@keyframes mymove6 {
+  from {
+    top: 150px;
+  }
+  to {
+    top: 180px;
+  }
+}
+.dot-slider-container7 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove7 1s linear infinite running;
+}
+
+@keyframes mymove7 {
+  from {
+    top: 180px;
+  }
+  to {
+    top: 210px;
+  }
+}
+
+.dot-slider-container8 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove8 1s linear infinite running;
+}
+
+@keyframes mymove8 {
+  from {
+    top: 210px;
+  }
+  to {
+    top: 240px;
+  }
+}
+.dot-slider-container9 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove9 1s linear infinite running;
+}
+
+@keyframes mymove9 {
+  from {
+    top: 240px;
+  }
+  to {
+    top: 270px;
+  }
+}
+.dot-slider-container10 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove10 1s linear infinite running;
+}
+
+@keyframes mymove10 {
+  from {
+    top: 270px;
+  }
+  to {
+    top: 310px;
+  }
+}
+.dot-slider-container11 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove11 1s linear infinite running;
+}
+
+@keyframes mymove11 {
+  from {
+    top: 310px;
+  }
+  to {
+    top: 340px;
+  }
+}
+.dot-slider-container12 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove12 1s linear infinite running;
+}
+
+@keyframes mymove12 {
+  from {
+    top: 340px;
+  }
+  to {
+    top: 370px;
+  }
+}
+
+.dot-slider-container13 {
+  background: #267bad;
+  width: 5px;
+  height: 5px;
+  position: relative;
+  animation-delay: 5s;
+  animation: mymove13 1s linear infinite running;
+}
+
+@keyframes mymove13 {
+  from {
+    top: 370px;
+  }
+  to {
+    top: 400px;
+  }
+}
+/* bottom dot slide */
+.dot-slider-container_bottom1 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom1 3s linear infinite running;
+}
+
+@keyframes mymove_bottom1 {
+  from {
+    right: 0px;
+  }
+  to {
+    right: 80px;
+  }
+}
+
+.dot-slider-container_bottom2 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom2 3s linear infinite running;
+}
+
+@keyframes mymove_bottom2 {
+  from {
+    right: 80px;
+  }
+  to {
+    right: 160px;
+  }
+}
+.dot-slider-container_bottom3 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom3 3s linear infinite running;
+}
+
+@keyframes mymove_bottom3 {
+  from {
+    right: 160px;
+  }
+  to {
+    right: 240px;
+  }
+}
+.dot-slider-container_bottom4 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom4 3s linear infinite running;
+}
+
+@keyframes mymove_bottom4 {
+  from {
+    right: 240px;
+  }
+  to {
+    right: 320px;
+  }
+}
+.dot-slider-container_bottom5 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom5 3s linear infinite running;
+}
+
+@keyframes mymove_bottom5 {
+  from {
+    right: 320px;
+  }
+  to {
+    right: 400px;
+  }
+}
+.dot-slider-container_bottom6 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom6 3s linear infinite running;
+}
+
+@keyframes mymove_bottom6 {
+  from {
+    right: 400px;
+  }
+  to {
+    right: 480px;
+  }
+}
+.dot-slider-container_bottom7 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom7 3s linear infinite running;
+}
+
+@keyframes mymove_bottom7 {
+  from {
+    right: 480px;
+  }
+  to {
+    right: 560px;
+  }
+}
+.dot-slider-container_bottom8 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom8 3s linear infinite running;
+}
+
+@keyframes mymove_bottom8 {
+  from {
+    right: 560px;
+  }
+  to {
+    right: 640px;
+  }
+}
+.dot-slider-container_bottom9 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom9 3s linear infinite running;
+}
+
+@keyframes mymove_bottom9 {
+  from {
+    right: 640px;
+  }
+  to {
+    right: 720px;
+  }
+}
+.dot-slider-container_bottom10 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom10 3s linear infinite running;
+}
+
+@keyframes mymove_bottom10 {
+  from {
+    right: 720px;
+  }
+  to {
+    right: 800px;
+  }
+}
+.dot-slider-container_bottom11 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom11 3s linear infinite running;
+}
+
+@keyframes mymove_bottom11 {
+  from {
+    right: 800px;
+  }
+  to {
+    right: 880px;
+  }
+}
+.dot-slider-container_bottom12 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom12 3s linear infinite running;
+}
+
+@keyframes mymove_bottom12 {
+  from {
+    right: 880px;
+  }
+  to {
+    right: 960px;
+  }
+}
+.dot-slider-container_bottom13 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom13 3s linear infinite running;
+}
+
+@keyframes mymove_bottom13 {
+  from {
+    right: 960px;
+  }
+  to {
+    right: 1040px;
+  }
+}
+.dot-slider-container_bottom14 {
+  background: white;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  animation-delay: 5s;
+  animation: mymove_bottom14 3s linear infinite running;
+}
+
+@keyframes mymove_bottom14 {
+  from {
+    right: 1040px;
+  }
+  to {
+    right: 1120px;
+  }
+}
+/* //////////////////////? */
+
+.no-underline {
+  display: none;
+}
+.selected-tab {
+  background-color: red;
+}
+
+/* //////////////////waiting for next round  */
+.loder-waiting-for-next-round {
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  width: 0;
+  background-color: #3c3b3b; /* Set the background color you want */
+  border-radius: inherit; /* Make sure the child div has the same border-radius as the parent */
+  animation: widthAnimation 20s ease-in-out infinite; /* Adjust the animation duration as needed */
+}
+
+@keyframes widthAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.loder-waiting-for-next-round-start {
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  width: 0;
+  background-color: #3c3b3b; /* Set the background color you want */
+  border-radius: inherit; /* Make sure the child div has the same border-radius as the parent */
+  animation: widthAnimation 2s ease-in-out infinite; /* Adjust the animation duration as needed */
+}
+
+/* //  rotate image */
+.rotate-animation {
+  animation: rotate 2s linear infinite; /* Adjust the animation duration as needed */
+}
+.rotate-animation-bg {
+  animation: rotate 20s linear infinite; /* Adjust the animation duration as needed */
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.smoke {
+  transform: rotate(-110deg);
+}
+
+/* @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  } */
+
+.custom-tab-indicator {
+  background: "blue" !important;
+  height: 5px;
+}
+
+/* //////////// win slider */
+.winslider {
+  position: absolute;
+  /* background-image: url("./assets/win.png"); */
+  animation: winsliderimage 2s linear infinite running;
+}
+
+@keyframes winsliderimage {
+  0% {
+    top: 0px;
+    left: 0px;
+  }
+  100% {
+    top: 100%; /* Change 'bottom' to 'top' for smooth sliding towards the bottom */
+    left: -100%;
+  }
+}
+
+.rotate-div {
+  transform: rotate(-45deg); /* Adjust the angle as needed */
+  transform-origin: bottom left;
+}
+
+.shadow {
+  animation: identifier 1s linear forwards running;
+}
+@keyframes identifier {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 15%;
+  }
+}
+
+.bgimagedynamic {
+  transform: perspective(-900px) translateZ(-200px);
+  animation: bgimagedynamic_ 50s linear infinite running;
+}
+@keyframes bgimagedynamic_ {
+  0% {
+    transform: scaleZ(10) scaleX(1.5);
+  }
+  50% {
+    transform: scaleZ(5) scaleX(1);
+  }
+  100% {
+    transform: scaleZ(10) scaleX(1.5);
+  }
+}
+
+.rotate_background_image {
+  animation: rotateAnimation 20s linear infinite running;
+}
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animateTextFromTopToButtom_class {
+  animation: animateTextFromTopToButtom 2s linear infinite running;
+}
+
+@keyframes animateTextFromTopToButtom {
+  from {
+    bottom: 0;
+  }
+  to {
+    top: 0;
+  }
+}
+
+.scrollable-text {
+  height: 10px; /* Set the desired height */
+  overflow: hidden;
+  animation: scroll 5s linear infinite; /* Adjust the animation duration as needed */
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.waiting_for_next_round {
+  animation: waiting_for_next_round_text 1s infinite alternate;
+  text-shadow: 2px 2px 4px rgba(250, 247, 247, 0.5);
+}
+
+@keyframes waiting_for_next_round_text {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animation_div {
+  animation: animation_div_text 2.5s infinite forwards;
+}
+
+@keyframes animation_div_text {
+  from {
+    height: 0px;
+    opacity: 0;
+  }
+  to {
+    height: 90px;
+    opacity: 1;
+  }
+}

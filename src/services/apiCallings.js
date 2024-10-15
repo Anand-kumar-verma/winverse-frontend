@@ -1,6 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import { endpoint } from "./urls";
+import { dummy_aviator, endpoint } from "./urls";
 import { deCryptData } from "../shared/secret";
 
 export const storeCookies = () => {
@@ -553,4 +553,28 @@ export const showRank = (num) => {
   else if (Number(num) === 3) return "Crown Club";
   else if (Number(num) === 4) return "Ambassador Club";
   else if (Number(num) === 5) return "Director Club";
+};
+export const walletamountAviator = async () => {
+
+  try {
+    const user = deCryptData(localStorage.getItem("user_id"));
+
+    const response = await axios.post(
+      `${dummy_aviator}/api/v1/get-wallet-amount-by-id`,
+      { id: user }
+    );
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+}
+export const GetTopFn = async () => {
+  try {
+    const response = await axios.get(endpoint.node_api.get_top_users);
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
 };
